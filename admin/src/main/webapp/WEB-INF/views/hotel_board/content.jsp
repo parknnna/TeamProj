@@ -228,8 +228,8 @@
 </head>
 
 <body>
-	<div align="center"style="margin-top:62px">
-			<fieldset style="width: 600;">
+	<div align="center"style="margin-top:70px">
+			<fieldset style="width: 900;">
 				<div>
 					<table border="1">
 						<tr>

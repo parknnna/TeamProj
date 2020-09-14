@@ -2,13 +2,14 @@
 <!-- memberAll.jsp -->
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>
+<%@ include file="../top2.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 th {
     text-align: center;
 }
 </style>
-<div align="center" style="margin-top:62px">
+<div align="center"style="margin-top:70px">
 	<table width="100%" class="outline">
 		<tr>
 			<th class="m3">번호</th>

@@ -5,12 +5,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>
+<%@ include file="../top2.jsp" %> 
 <%
 Calendar cal = Calendar.getInstance();
 int month = cal.get(Calendar.MONTH);
 int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 %>
-<div align="center"style="margin-top:62px" >
+<div align="center"style="margin-top:70px">
 	<table width="100%">
 		<tr align="right">
 			<td colspan="9"><a href="ADhotel_insert.do">추가</a></td>
@@ -26,6 +27,7 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 			<td>이미지</td>
 			<td>방정보</td>
 			<td>호텔 예약보기</td>
+			<td>호텔 게시판 보기</td>
 			<td>수정/삭제</td>
 		</tr>
 		<c:if test="${empty list}">
@@ -56,6 +58,9 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 				</td>
 				<td>
 					<a href="ADresv_list.do?hnum=${dto.hotel_no}">호텔예약 보기</a>
+				</td>
+				<td>
+					<a href="hotel_board_list.do?hnum=${dto.hotel_no}">호텔 게시판 보기</a>
 				</td>
 				<td>
 					<a href="ADhotel_update.do?hnum=${dto.hotel_no}">수정</a> | <a

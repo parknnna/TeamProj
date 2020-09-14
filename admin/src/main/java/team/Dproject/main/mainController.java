@@ -51,7 +51,7 @@ public class mainController {
 	
 	@RequestMapping(value="/board_write.do", method=RequestMethod.GET)
 	public String writeForm() {
-		return "writeForm";
+		return "Forum/writeForm";
 	}
 	
 	@RequestMapping(value="/board_write.do", method=RequestMethod.POST)

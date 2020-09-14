@@ -229,6 +229,7 @@ public class HADController {
 			endRow=count;
 		}
 		List<hotel_boardDTO> list = hotel_boardMapper.listHotel_board2(startRow, endRow, dto.getRe_group());
+		List<hotel_boardDTO> list2 = hotel_boardMapper.listHotel_board2(startRow, endRow, dto.getRe_group());
 		for(hotel_boardDTO dto2 :list) {
 			MemberDTO mdto=memberMapper.getMember2(String.valueOf(dto2.getMember_no()));
 			dto2.setMember_no(mdto.getName()); 
@@ -243,6 +244,7 @@ public class HADController {
 		req.setAttribute("page_name", "Hotel Board");
 		mav.setViewName("hotel_board/content");
 		mav.addObject("listBoard", list);
+		mav.addObject("listBoard2", list2);
 		mav.addObject("count",count);
 		mav.addObject("startNum",startNum);
 		mav.addObject("pageCount",pageCount);
