@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject">
+    <select id="listHotel_resv"  resultType="resvDTO" parameterType="int">
+    	select * from hotel_resv where hotel_no=#{hnum}
+    </select>
+    <insert id="insertHotel_resv" parameterType="resvDTO">
+    	insert into hotel_resv values(hotel_resv_seq.nextval,#{member_no},#{hotel_no},#{room_no},#{use_point},#{save_point},#{start_resv_date},#{end_resv_date})
+    </insert>
+    <delete id="deleteHotel_resv" parameterType="String">
+    	delete from hotel_resv where hotel_resv_no=#{no}
+    </delete>
+    <select id="getHotel_resv" parameterType="String" resultType="resvDTO">
+    	select * from hotel_resv where hotel_resv_no=#{no}
+    </select>
+    <update id="updateHotel_resv" parameterType="resvDTO">
+    	update hotel_resv set member_no=#{member_no}, hotel_no=#{hotel_no}, room_no=#{room_no}, use_point=#{use_point}, save_point=#{save_point}, start_resv_date=#{start_resv_date}, end_resv_date=#{end_resv_date} where hotel_resv_no=#{hotel_resv_no}
+    </update>
+
+    
+</mapper>

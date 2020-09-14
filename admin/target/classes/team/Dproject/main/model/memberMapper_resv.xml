@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.Dproject.member.memberMapper">
+	<select id = "checkMember_resv" parameterType = "java.util.Map" resultType = "Integer">
+		select count(*) from member where ssn1 = #{ssn1} and ssn2 = #{ssn2}
+	</select>
+	<select id = "checkId_resv" parameterType = "String" resultType = "Integer">
+		select count(*) from member where id = #{id}
+	</select>
+	<select id = "memberList_resv" resultType = "memberDTO_resv">
+		select * from member order by member_no
+	</select>
+	<select id = "getMemberPasswd_resv" parameterType = "String" resultType = "String">
+		select passwd from member where id = #{id}
+	</select>
+	<select id = "findMemberId_resv" parameterType = "String" resultType = "memberDTO_resv">
+		select * from member where id = #{searchString}
+	</select>
+	<select id = "findMemberName_resv" parameterType = "String" resultType = "memberDTO_resv">
+		select * from member where name = #{searchString}
+	</select>
+	<select id = "getMember_resv" parameterType = "String" resultType ="memberDTO_resv">
+		select * from member where id = #{id}
+	</select>
+	<select id = "searchMemberId_resv" parameterType = "java.util.Map" resultType = "memberDTO_resv">
+		select * from member where name = #{searchString} and ssn1 = #{ssn1} and ssn2 = #{ssn2}
+	</select>
+	<select id = "searchMemberPasswd_resv" parameterType = "java.util.Map" resultType = "memberDTO_resv">
+		select * from member where id = #{searchString} and ssn1 = #{ssn1} and ssn2 = #{ssn2}
+	</select>
+
+	<insert id = "insertMember_resv" parameterType = "memberDTO_resv">
+		insert into member values (member_seq.nextval, #{name}, #{id}, #{passwd},
+		#{ssn1}, #{ssn2}, #{email}, #{hp1}, #{hp2}, #{hp3}, 3, #{sex}, 0, sysdate)
+	</insert>
+	<update id = "editMember_resv" parameterType = "memberDTO_resv">
+		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
+		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position}, point = #{point},
+		sex = #{sex} where member_no= #{member_no}
+	</update>
+	<delete id = "deleteMember_resv" parameterType = "Integer">
+		delete from member where member_no = #{member_no}
+	</delete>
+	
+	<update id = "Member_buspoint_update_resv" parameterType = "memberDTO_resv">
+		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
+		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position}, point = #{point},
+		sex = #{sex} where member_no= #{member_no}
+	</update>
+	
+	
+</mapper>

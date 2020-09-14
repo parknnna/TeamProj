@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.bus.busRoadMapper">
+	<select id="listBus_road_resv"  resultType="BusRoadDTO_resv">
+    	select * from bus_road order by road_no
+    </select>
+    <insert id="insertBus_road_resv" parameterType="BusRoadDTO_resv">
+    	insert into bus_road values(bus_road_seq.nextval,#{bus_no},#{member_no},#{arrival},#{departure},#{price},#{arr_time},#{tot_time})
+    </insert>
+    <delete id="deleteBus_road_resv" parameterType="String">
+    	delete from bus_road where road_no=#{no}
+    </delete>
+    <select id="getBus_road_resv" parameterType="String" resultType="BusRoadDTO_resv">
+    	select * from bus_road where road_no=#{no}
+    </select>
+    <select id="getBus_road_plus_resv" parameterType="String" resultType="BusRoadDTO_resv">
+    	select bus_no from bus_road where road_no=#{no}
+    </select>
+    <update id="updateBus_road_resv" parameterType="BusRoadDTO_resv">
+    	update bus_road set bus_no=#{bus_no},member_no=#{member_no},arrival=#{arrival}, departure=#{departure}, price=#{price}, arr_time=#{arr_time}, tot_time=#{tot_time} where road_no=#{road_no}
+    </update>
+    
+    <select id="bus_no_list_null_resv" resultType="Bus_BusRoadDTO"> <!-- 사용중인 bus_no 값제외하고 출력 -->
+    	select A.bus_no,grade from bus A left outer join bus_road B on A.bus_no=B.bus_no where B.bus_no is null
+    </select>
+     <select id="bus_no_null_rownum_resv" resultType="Bus_BusRoadDTO"> <!-- 사용중이지 않은 bus_no 첫번쨰값만-->
+    	select  A.bus_no from bus A left outer join bus_road B on A.bus_no=B.bus_no where B.bus_no is null and rownum=1
+    </select>
+    <select id="bus_no_list_null_count_resv" resultType="int"><!-- 사용중이지 않은 bus_no 숫자 출력 -->
+    	select count(A.bus_no) from bus A left outer join bus_road B on A.bus_no=B.bus_no where B.bus_no is null
+    </select>
+    <select id="bus_road_member_list_resv" resultType="Member_BusRoadDTO"><!--노선 만든사람 한글로 표시하기위해 -->
+		select * from member inner join bus_road on member.member_no=bus_road.member_no order by road_no
+	</select>
+	<select id="bus_road_member_count_resv" resultType="int"><!-- 행의개수 파악 -->
+		select count(*) from bus_road
+	</select>
+	<select id="bus_road_member_list_count_resv" parameterType="java.util.Map" resultType="Member_BusRoadDTO"><!-- 노선만든사람 한글로 표시하고  5개씩 분할하여 출력-->
+		select * from (select rownum rn,A.* from (select * from member inner join bus_road on member.member_no=bus_road.member_no order by road_no)A) where rn between #{start} and #{end}
+	</select>
+
+</mapper>
+
+    

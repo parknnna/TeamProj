@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.Dproject.main.model">
+	<select id = "checkMember" parameterType = "java.util.Map" resultType = "Integer">
+		select count(*) from member where ssn1 = #{ssn1} and ssn2 = #{ssn2}
+	</select>
+	<select id = "checkId" parameterType = "String" resultType = "Integer">
+		select count(*) from member where id = #{id}
+	</select>
+	<select id = "memberList" resultType = "memberDTO">
+		select * from member order by member_no
+	</select>
+	<select id = "findMember" parameterType = "java.util.Map" resultType = "memberDTO">
+		select * from member where #{search} = #{searchString}
+	</select>
+	<select id = "getMember" parameterType = "String" resultType ="memberDTO">
+		select * from member where id = #{id}
+	</select>
+	<select id = "getMember2" parameterType = "String" resultType ="memberDTO">
+		select * from member where member_no = #{member_no}
+	</select>
+	<select id = "getMemberPasswd" parameterType = "String" resultType = "String">
+		select passwd from member where id = #{id}
+	</select>
+	<select id = "searchMember" parameterType = "java.util.Map" resultType = "memberDTO">
+		select * from member where #{search} = #{searchString} and ssn1 = #{ssn1} and ssn2 = #{ssn2}
+	</select>
+	<insert id = "insertMember" parameterType = "memberDTO">
+		insert into member values (member_seq.nextval, #{name}, #{id}, #{passwd},
+		#{ssn1}, #{ssn2}, #{email}, #{hp1}, #{hp2}, #{hp3}, #{position}, #{sex}, 0, sysdate)
+	</insert>
+	<update id = "editMember" parameterType = "memberDTO">
+		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
+		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position} where member_no= #{member_no}
+	</update>
+	
+	<select id = "getPosition" parameterType = "int" resultType = "memberDTO">
+		select * from member where position=#{position}
+	</select>
+	
+	<update id = "Member_buspoint_update" parameterType = "memberDTO">
+		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
+		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position}, point = #{point},
+		sex = #{sex} where member_no= #{member_no}
+	</update>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.adminBus.bus_resvMapper">
+	
+	<select id="listBus_resv_resv" resultType="BusResvDTO_resv">
+		select * from bus_resv
+	</select>
+	<insert id="insertBus_resv_resv" parameterType="BusResvDTO_resv">
+		insert into bus_resv values(bus_resv_seq.nextval,#{member_no},#{bus_no},#{road_no},#{seat},#{use_point},#{save_point},#{resv_date})
+	</insert>
+	<delete id="deleteBus_resv_resv" parameterType="int">
+		delete from bus_resv where bus_resv_no=#{no}
+	</delete>
+	<select id="getBus_resv_resv" parameterType="String" resultType="BusResvDTO_resv">
+		select * from bus_resv where resv_no=#{no}
+	</select>
+	<update id="updateBus_resv_resv" parameterType="BusResvDTO_resv">
+		update bus_resv set member_no=#{member_no}, bus_no=#{bus_no}, road_no=#{road_no}, seat=#{seat}, use_point=#{use_point}, save_point=#{save_point}, resv_date=#{resv_date} where resv_no=#{resv_no}
+	</update>
+	<select id="resvlist_resv" parameterType="int" resultType="BusResv_BusRoadDTO"><!-- 예약내역에 결제한 내용표시 -->
+		select bus_resv_no,bus_resv.member_no,bus_resv.bus_no,seat,use_point,save_point,resv_date,bus_resv.price,arrival,departure,arr_time,tot_time,bus_resv.road_no from bus_resv inner join bus_road on bus_resv.road_no=bus_road.road_no where bus_resv.member_no=#{member_no}
+	</select>
+	<select id="listDispatch_resv_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO"><!--listDispatch_resv_count 만 쓰게 되면 삭제 -->
+		select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure} and grade=#{grade}
+		
+	</select>
+	
+	<select id="listDispatch_resv_count_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO"><!--5개씩 list 출력하기위해 일반,우등 둘중에하나(출발시간 빠른순으로)  -->
+		select * from (select rownum rn,A.* from (select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure} and grade=#{grade} order by arr_time asc)A) where rn between #{start} and #{end}
+	</select>
+	
+	<select id="listDispatch_resv_reverse_count_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO"><!--5개씩 list 출력하기위해 일반,우등 둘중에하나(출발시간 빠른순으로) 출발지 도착지 반대로 -->
+		select * from (select rownum rn,A.* from (select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{departure} and departure=#{arrival} and grade=#{grade} order by arr_time asc)A) where rn between #{start} and #{end}
+	</select>
+	
+	
+	
+	<select id="listDispatch_resv_reverse_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO">
+		select road_no,grade,arrival,departure,grade,price,arr_time,tot_time,seat from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{departure} and departure=#{arrival} and grade=#{grade}
+		
+	</select>
+	<select id="listDispatch_resv_all_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO">
+		select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure}
+		
+	</select>
+	
+	<select id="listDispatch_resv_all_count_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO"><!--5개씩 list 출력하기위해 일반 우등 둘다 (출발시간 빠른순으로)  -->
+		select * from (select rownum rn,A.* from (select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure} order by arr_time asc)A) where rn between #{start} and #{end}
+	</select>
+	
+
+	<select id="listDispatch_resv_all_reverse_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO">
+		select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{departure} and departure=#{arrival}
+		
+	</select>
+
+	<select id="listDispatch_resv_all_reverse_count_resv"  parameterType="java.util.Map" resultType="Bus_BusRoadDTO"><!--5개씩 list 출력하기위해 일반 우등 둘다 (출발시간 빠른순으로) 출발지 도착지 반대로  -->
+		select * from (select rownum rn,A.* from (select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{departure} and departure=#{arrival} order by arr_time asc)A) where rn between #{start} and #{end}
+	</select>
+	
+	<select id="resv_user_seat_select_resv"  parameterType="int" resultType="Bus_BusRoadDTO">
+		select * from bus inner join bus_road on bus.bus_no=bus_road.bus_no where road_no=#{road_no}
+	</select>
+	
+	<insert id="insertBus_resv_user_resv" parameterType="java.util.Map">
+		insert into bus_resv values(bus_resv_seq.nextval,#{member_no},#{bus_no},#{road_no},#{seat},#{use_point},#{save_point},#{resv_date},#{price})
+	</insert>
+	<select id="list_seat_resv_user_resv" parameterType="java.util.Map" resultType="BusResvDTO_resv">
+		select *from bus_resv where resv_date=#{resv_date} and road_no=#{road_no}
+	</select>
+	  <select id="bus_busroad_resv_count_resv"  resultType="int"><!-- bus 와 bus_road join 한테이블(출발지 도착지 등급 에 맞추어 )행의개수 파악 -->
+		select count(*) from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure} and grade=#{grade}
+	</select>
+	<select id="bus_busroad_resv_resverse_count_resv"  resultType="int" parameterType="java.util.Map"><!-- bus 와 bus_road join 한테이블(출발지 도착지 등급 에 맞추어 )행의개수 파악(출발지 도착지 바꾸어서) -->
+		select count(*) from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{departure} and departure=#{arrival} and grade=#{grade}
+	</select>
+	<select id="bus_busroad_resv_resverse_all_count_resv"  resultType="int"  parameterType="java.util.Map"><!-- bus 와 bus_road join 한테이블(출발지 도착지 모든등급 에 맞추어 )행의개수 파악(출발지 도착지 바꾸어서) -->
+		select count(*) from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{departure} and departure=#{arrival}
+	</select>
+	<select id="bus_busroad_resv_all_count_resv"  resultType="int"><!-- bus 와 bus_road join 한테이블(출발지 도착지 모든등급 에 맞추어 )행의개수 파악 -->
+		select count(*) from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure} 
+	</select>
+	
+</mapper>

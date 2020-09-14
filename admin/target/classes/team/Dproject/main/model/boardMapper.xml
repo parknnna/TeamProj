@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.Dproject.test.model">
+	<select id="board_list" resultType="BoardDTO">
+		select * from main_board
+	</select>
+	
+	<insert id="board_insert" parameterType="BoardDTO">
+		insert into main_board values(main_board_seq.nextval, #{member_no}, #{location_no}, #{title}, #{content}, #{filename}, #{filesize}, #{ip}, 0, sysdate, #{re_group}, #{re_step}, #{re_level})
+	</insert>
+	
+	<select id="getBoard" parameterType="int" resultType="BoardDTO">
+		select * from main_board where main_board_no=#{main_board_no}
+	</select>
+	
+	<select id="getUser" parameterType="String" resultType="MemberDTO">
+		select * from member where member_no=#{member_no}
+	</select>
+	
+	<select id="getList" parameterType="int" resultType="BoardDTO">
+		select * from main_board where locaion_no=#{location_no}
+	</select>
+</mapper>

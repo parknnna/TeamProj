@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.bus.busStationMapper">
+	<select id="listBus_station_resv" resultType="BusStationDTO_resv">
+		select * from bus_station order by station_no
+	</select>
+	<insert id="insertBus_station_resv" parameterType="BusStationDTO_resv">
+		insert into bus_station values(bus_station_seq.nextval,#{station_name},#{filename},#{filesize},#{address})
+	</insert>
+	<delete id="deleteBus_station_resv" parameterType="String">
+		delete from bus_station where station_no=#{no}
+	</delete>
+	<select id="getBus_station_resv" parameterType="String" resultType="BusStationDTO_resv">
+		select * from bus_station where station_no=#{no}
+	</select>
+	
+	<select id="getBus_station_name_resv" parameterType="String" resultType="BusStationDTO_resv">
+		select * from bus_station where station_name=#{name}
+	</select>
+	<update id="updateBus_station_resv" parameterType="BusStationDTO_resv">
+		update bus_station set station_name=#{station_name},filename=#{filename},filesize=#{filesize}, address=#{address} where station_no=#{station_no}
+	</update>
+	<select id="getBus_number_resv" parameterType="String" resultType="BusStationDTO_resv">
+		select * from bus_station where station_name=#{name}
+	</select>
+	<select id="find_station_resv" parameterType="String" resultType="BusStationDTO_resv">
+		select * from bus_station where station_name like '%'||#{searchString}||'%'  
+	</select>
+ 	
+</mapper>
