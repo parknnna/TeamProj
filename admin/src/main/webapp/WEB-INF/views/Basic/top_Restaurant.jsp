@@ -18,7 +18,7 @@
          </ul>
       </div>
       
-      <%MemberDTO member=(MemberDTO)session.getAttribute("sedto");%>
+     <%MemberDTO member=(MemberDTO)session.getAttribute("sedto");%>
       <div class="header-btns" id="ftco-nav">
       	<ul class="navbar-nav">
       	<%if(member==null){%>
@@ -45,6 +45,7 @@
       		</ul>
       	</li>
       	</ul>
+      </div>
       </div>
   </nav>
   
