@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.adminBus.bus_resvMapper">
+
+	<select id="listBus_resv1" resultType="bus_resvDTO">
+		select * from bus_resv
+	</select>
+	<insert id="insertBus_resv1" parameterType="bus_resvDTO">
+		insert into bus_resv values(bus_resv_seq.nextval,#{member_no},#{bus_no},#{road_no},#{seat},#{use_point},#{save_point},#{resv_date})
+	</insert>
+	<delete id="deleteBus_resv1" parameterType="String">
+		delete from bus_resv where resv_no=#{no}
+	</delete>
+	<select id="getBus_resv1" parameterType="String" resultType="bus_resvDTO">
+		select * from bus_resv where resv_no=#{no}
+	</select>
+	<update id="updateBus_resv1" parameterType="bus_resvDTO">
+		update bus_resv set member_no=#{member_no}, bus_no=#{bus_no}, road_no=#{road_no}, seat=#{seat}, use_point=#{use_point}, save_point=#{save_point}, resv_date=#{resv_date} where resv_no=#{resv_no}
+	</update>
+
+</mapper>

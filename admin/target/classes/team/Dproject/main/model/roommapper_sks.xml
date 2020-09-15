@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.main.model">
+	<insert id="insertRoom_sks" parameterType="roomDTO_sks">
+		insert into room values(#{room_no},
+		#{hotel_no},#{name},#{roomsize}, #{sleeps}, 
+		#{item}, #{filename}, #{filesize},  #{rooms}, #{price}, #{grade})
+	</insert>
+	<select id="listRoom_sks" resultType="roomDTO_sks">
+		select * from room order by room_no desc
+	</select>
+	<select id="listRoom2_sks" resultType="roomDTO_sks" parameterType="int">
+		select * from room where hotel_no = #{hotel_no} order by room_no desc
+	</select>
+	<select id="getRoom_sks" parameterType="String" resultType="roomDTO_sks">
+		select * from room where room_no = #{room_no}
+	</select>
+	<select id="getRoom1_sks" resultType="roomDTO_sks" parameterType="String">
+		select * from room where room_name = #{room_name}
+	</select>
+	<select id="getRoom2_sks" resultType="roomDTO_sks" parameterType="java.util.Map">
+		select * from room where hotel_no=#{hotel_no} and grade=#{grade} and room_no like '%-1'
+	</select>
+	<!-- <select id="getRoomNo" parameterType="java.util.map" resultType="String">
+		select room_no from room a,hotel b where a.sleeps=#{sleeps} and b.address like #{address} and a.hotel_no=b.hotel_no 
+	</select> -->
+	<delete id="deleteRoom_sks" parameterType="String">
+    	delete from room where room_no=#{no}
+    </delete>
+    
+    <update id="updateRoom_sks" parameterType="roomDTO_sks">
+    	update room set hotel_no=#{hotel_no}, name=#{name}, roomsize=#{roomsize}, sleeps=#{sleeps}, item=#{item}, filename=#{filename}, filesize=#{filesize} where room_no=#{room_no}
+    </update>
+    <insert id="seqUP_sks" >
+    	insert into seq values(room_seq.nextval)
+    </insert>
+    <select id="seqGET_sks" resultType="int">
+    	select MAX(seq) from seq
+    </select>
+</mapper>

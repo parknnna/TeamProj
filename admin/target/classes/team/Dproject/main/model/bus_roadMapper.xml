@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.adminBus.busMapper">
+	<select id="listBus_load1"  resultType="bus_loadDTO">
+    	select * from bus_road order by road_no
+    </select>
+    <insert id="insertBus_load1" parameterType="bus_loadDTO">
+    	insert into bus_road values(bus_road_seq.nextval,#{bus_no},${member_no},#{arrival},#{departure},#{price},#{arr_time},#{tot_time})
+    </insert>
+    <delete id="deleteBus_load1" parameterType="String">
+    	delete from bus_road where road_no=#{no}
+    </delete>
+    <select id="getBus_load1" parameterType="String" resultType="bus_loadDTO">
+    	select * from bus_road where road_no=#{no}
+    </select>
+    <update id="updateBus_load1" parameterType="bus_loadDTO">
+    	update bus_road set bus_no=#{bus_no}, member_no=#{member_no}, arrival=#{arrival}, departure=#{departure}, price=#{price}, arr_time=#{arr_time}, tot_time=#{tot_time} where road_no=#{road_no}
+    </update>
+</mapper> 
