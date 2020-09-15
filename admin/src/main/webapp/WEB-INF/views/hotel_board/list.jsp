@@ -71,13 +71,13 @@
 	<c:set var="pageBlock" value="${pageBlock}"/>
 	<c:set var="pageCount" value="${pageCount}"/>
 	<c:if test="${startPage>pageBlock}">
-			[<a href="hotel_board_list.do?pageNum=${startPage-1}">이전</a>]		
+			[<a href="hotel_board_list.do?hotel_no=<%=hdto.getHotel_no()%>&pageNum=${startPage-1}">이전</a>]		
 	</c:if>
 	<c:forEach var="i" begin="${startPage}" end="${endPage }" step="1">
-		[<a href="hotel_board_list.do?pageNum=${i}">${i}</a>]
+		[<a href="hotel_board_list.do?hotel_no=<%=hdto.getHotel_no()%>&pageNum=${i}">${i}</a>]
 	</c:forEach>
 		<c:if test="${endPage<pageCount}">
-			[<a href="hotel_board_list.do?pageNum=${endPage+1}">다음</a>]		
+			[<a href="hotel_board_list.do?hotel_no=<%=hdto.getHotel_no()%>&pageNum=${endPage+1}">다음</a>]		
 		</c:if>
 	</c:if>		
 	</div>

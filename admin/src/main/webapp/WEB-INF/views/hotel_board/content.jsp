@@ -19,23 +19,19 @@
 		margin-left: auto;
 	 	margin-right: auto;
 	}
-
 	#slider .slides {
 		margin:0;
 		padding: 0;
 	}
-
 	#slider .slide {
 		float: left;
 		list-style-type: none;
 	}
-
 	.slide1 {background: red;}
 	.slide2 {background: blue;}
 	.slide3 {background: green;}
 	.slide4 {background: purple;}
 	.slide5 {background: pink;}
-
 	#slider-nav {
 	position:absolute;
 	height:2em;
@@ -43,7 +39,6 @@
 	width:100%;
 	cursor:default;
 	}
-
 	#slider-nav-prv {
 	height:1.5em;
 	line-height:1.5em;
@@ -53,7 +48,6 @@
 	left:0.5em;
 	background:white;
 	}
-
 	#slider-nav-nxt {
 	height:1.5em;
 	line-height:1.5em;
@@ -63,16 +57,13 @@
 	right:0.5em;
 	background:white;
 	}
-
 	#slider-nav-prv:hover, #slider-nav-nxt:hover {
 	color:white;
 	background:black;
 	}
-
 	#slider-nav-dot-con {
 	text-align:center;
 	}
-
 	.slider-nav-dot {
 	list-style:none;
 	border: 0.15em solid white;
@@ -83,31 +74,25 @@
 	border-radius:50%;
 	vertical-align:middle;
 	}
-
 	.slider-nav-dot:hover {
 	background:white;
 	}
-
 </style>
 
 <script>
 	'use strict';
-
 	$(function() {
-
 		//이 부분을 자신의 상황에 맞게 수정
 		var width = 300; //슬라이드 한 개의 폭
 		var height = 150; //슬라이드 높이
 		var animationSpeed = 1000; //화면전환 속도
 		var pause = 3000; //화면전환 후 일시 정지 속도
 		var totalSlides = 7; //복제 슬라이드를 포함한 전체 슬라이드 개수
-
 		var currentSlide = 2; //이 항목은 수정하지 않음
 		var interval;
 		var action;
 		var dotNum;
 		var dMinusC;
-
 		//cache DOM elements
 		var $slideCon = $('#slider');
 		var $slideUl = $('.slides');
@@ -115,7 +100,6 @@
 		var $dots = $('.slider-nav-dot');
 		var $sliderNavPrv = $('#slider-nav-prv');
 		var $sliderNavNxt = $('#slider-nav-nxt');
-
 		function initSlider(){
 			$slideCon.css('width',width);
 			$slideCon.css('height',height);
@@ -124,16 +108,13 @@
 			$slides.css('width',width);
 			$slides.css('height',height);
 		}
-
 		function startSlider(action, dotNum) {
-
 			if(action == 'prv'){
 				$slideUl.animate({'margin-left': '+='+width}, animationSpeed, function() {
 					if (--currentSlide === 1) {
 						currentSlide = $slides.length-1;
 						$slideUl.css('margin-left', -($slides.length-2)*width);
 					}else{}
-
 					for(var i=0; i<$dots.length; i++){$dots[i].style.background = "";}
 					$dots[currentSlide-2].style.background = "white";
 				});
@@ -143,100 +124,98 @@
 						currentSlide = 2;
 						$slideUl.css('margin-left', -width);
 					}else{}
-
 					for(var i=0; i<$dots.length; i++){$dots[i].style.background = "";}
 					$dots[currentSlide-2].style.background = "white";
 				});
 			} else if(action == 'dot') {
 				dMinusC = dotNum-currentSlide;
 				currentSlide = dotNum;
-
 				for(var i=0; i<$dots.length; i++){$dots[i].style.background = "";}
 				$dots[currentSlide-2].style.background = "white";
-
 				$slideUl.animate({'margin-left': '-='+(dMinusC*width)}, animationSpeed);
-
 			} else {
 				// setInterval(function,milliseconds)
 				// 지정한 시간에 한번씩 함수를 실행
 				// 3초 마다 $slideUl 의 왼쪽 마진을 -width 함. 에니메이션 속도는 1초.
 				interval = setInterval(function() {
-
 					//.animate( CSS properties [, duration ] [, complete ] )
 					$slideUl.animate({'margin-left': '-='+width}, animationSpeed, function() {
 						if (++currentSlide === $slides.length) { // $slides.length == 7
 							currentSlide = 2;
 							$slideUl.css('margin-left', -width);
 						}
-
 						for(var i=0; i<$dots.length; i++){$dots[i].style.background = "";}
 						$dots[currentSlide-2].style.background = "white";
 					});	
-
 				}, pause);
 			}
-
 		}
-
-
 		function pauseSlider() {
 			clearInterval(interval);
 		}
-
 		function prvSlide(){
 			startSlider('prv');
 		}
-
 		function nxtSlide(){
 			startSlider('nxt');
 		}
-
 		function dotSelected(){
 			dotNum = $(this).attr('id');
 			dotNum = parseInt(dotNum.substring(7))+1;
 			startSlider('dot', dotNum);
 		}
-
-
 		$slideUl
 			.on('mouseenter', pauseSlider)
 			.on('mouseleave', startSlider);
-
 		$sliderNavPrv
 			.on('click',prvSlide)
 			.on('mouseenter', pauseSlider)
 			.on('mouseleave', startSlider);
-
 		$sliderNavNxt
 			.on('click',nxtSlide)
 			.on('mouseenter', pauseSlider)
 			.on('mouseleave', startSlider);
-
 		$dots
 			.on('click', dotSelected)
 			.on('mouseenter', pauseSlider)
 			.on('mouseleave', startSlider);		
-
 		
 		initSlider();
 		startSlider();
-
 	});
-
 </script>
 
 </head>
 
 <body>
-	<div align="center"style="margin-top:70px">
-			<fieldset style="width: 900;">
+<%
+	MemberDTO sedto=(MemberDTO)session.getAttribute("sedto");
+	hotel_boardDTO boarddto2=(hotel_boardDTO)request.getAttribute("getBoard2");
+	int memberno=-1;
+	if(sedto!=null){
+		memberno=sedto.getMember_no();
+	}
+	int boardno=-2;
+	if(boarddto2!=null){
+		String s=boarddto2.getMember_no();
+		boardno=Integer.parseInt(s);
+	}
+%>
+	<div align="center"style="margin-top:62px">
 				<div>
 					<table border="1">
 						<tr>
 							<td align="left" width="60%">제목 : ${getBoard.title }</td>
 							<td width="28%">글쓴이 : ${getBoard.member_no}</td>
-							<td width="12%"><a href="hotel_board_list.do?hnum=${getBoard.hotel_no}">뒤로가기</a></td>
+							<td width="12%"><a href="hotel_board_list.do?hotel_no=${getBoard.hotel_no}">뒤로가기</a></td>
 						</tr>
+						<%if(boardno==memberno){%>
+						<tr>
+							<td>
+								수정 삭제
+							</td>
+						</tr>
+						<%} %>
 						
 						
 						
@@ -328,26 +307,29 @@
 							</tr>
 						</c:if>
 						<%
-							List<hotel_boardDTO> list2=(List)request.getAttribute("listBoard2");
 							List<hotel_boardDTO> list=(List)request.getAttribute("listBoard");
+							List<hotel_boardDTO> list2=(List)request.getAttribute("listBoard2");
 							hotel_boardDTO boarddto=(hotel_boardDTO)request.getAttribute("getBoard");
-							int hotelmember=(int)request.getAttribute("member");
-							String sedto=(String) session.getAttribute("MNUM");
-							int member_no=Integer.parseInt(sedto);
+							int Hmember=(Integer)request.getAttribute("member");
 							for(int i=0;i<list.size();i++){
 						%>
 							<tr align="center">
-								<%if(list.get(i).getMember_no().equals(boarddto.getMember_no())) {%>
-								<td width="10%">＊글쓴이＊<%=list.get(i).getMember_no() %></td>
-								<%}else if(Integer.parseInt(list2.get(i).getMember_no())==hotelmember){ %>
-								<td width="10%">☆관리자☆<%=list.get(i).getMember_no() %></td>
+								<%
+								String temp=list2.get(i).getMember_no();
+								int lmember=Integer.parseInt(temp);
+								if(list.get(i).getMember_no().equals(boarddto.getMember_no())) {%>
+								<td width="20%">☆글쓴이☆<%=list.get(i).getMember_no() %></td>
+								<%}else if(lmember==Hmember){%>
+								<td width="20%">★호텔 관리자★<%=list.get(i).getMember_no() %></td>
 								<%}else{ %>
-								<td width="10%"><%=list.get(i).getMember_no() %></td>
+								<td width="20%"><%=list.get(i).getMember_no() %></td>
 								<%} %>
-								<td width="70%" align="left"><%=list.get(i).getContent() %></td>
+								<td width="60%" align="left"><%=list.get(i).getContent() %></td>
 								<td width="10%"><%=list.get(i).getReg_date() %></td>
-								<%if(member_no==Integer.parseInt(list2.get(i).getMember_no())) {%>
-									<td>수정|삭제</td>
+								<%
+								int listno=Integer.parseInt(list2.get(i).getMember_no());
+								if(listno==memberno) {%>
+								<td>삭제</td>
 								<%} %>
 							</tr>
 						<%} %>
@@ -371,8 +353,7 @@
 		<c:if test="${endPage<pageCount}">
 			[<a href="hotel_board_list.do?pageNum=${endPage+1}">다음</a>]		
 		</c:if>
-	</c:if>	
-			</fieldset>
+	</c:if>		
 	</div>
 </body>
-<%@ include file="../Basic/bottom_nav.jsp" %>
+<%@ include file="../Basic/bottom_nav.jsp" %> 

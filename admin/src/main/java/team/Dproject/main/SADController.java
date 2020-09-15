@@ -10,15 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import team.Dproject.main.model.MemberDTO;
+import team.Dproject.main.model.MemberDTO_sm;
 import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.service.HotelMapper;
 import team.Dproject.main.service.MemberMapper;
-import team.Dproject.main.service.ResvMapper;
-import team.Dproject.main.service.RoomMapper;
 
 @Controller
 public class SADController {
@@ -229,7 +227,7 @@ public class SADController {
 
 	@RequestMapping(value = "/ADmember_show.do")
 	public ModelAndView Member_show(HttpServletRequest req) {
-		MemberDTO dto = memberMapper.getMember2(req.getParameter("no")); 
+		MemberDTO_sm dto = memberMapper.getMember2(req.getParameter("no")); 
 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("SuperAD/member/member_show");

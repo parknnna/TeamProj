@@ -17,7 +17,7 @@
 	<select id = "getMember" parameterType = "String" resultType ="memberDTO">
 		select * from member where id = #{id}
 	</select>
-	<select id = "getMember2" parameterType = "String" resultType ="memberDTO">
+	<select id = "getMember2" parameterType = "String" resultType ="memberDTO_sm">
 		select * from member where member_no = #{member_no}
 	</select>
 	<select id = "getMemberPasswd" parameterType = "String" resultType = "String">

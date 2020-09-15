@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import team.Dproject.main.model.MemberDTO;
+import team.Dproject.main.model.MemberDTO_sm;
 import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.model.hotel_boardDTO;
 import team.Dproject.main.model.resvDTO;
@@ -67,7 +67,7 @@ public class HADController {
 	
 	@RequestMapping(value="/hotel_board_list.do")
 	public ModelAndView listBoard(HttpServletRequest req) {
-		String no=req.getParameter("hnum");
+		String no=req.getParameter("hotel_no");
 		hotelDTO hdto=hotelMapper.getHotel(no);
 		int hotel_no=Integer.parseInt(no);
 		int pageSize=5;
@@ -85,7 +85,7 @@ public class HADController {
 		}
 		List<hotel_boardDTO> list = hotel_boardMapper.listHotel_board(startRow,endRow,hotel_no);
 		for(hotel_boardDTO dto :list) {
-			MemberDTO mdto=memberMapper.getMember2(String.valueOf(dto.getMember_no()));
+			MemberDTO_sm mdto=memberMapper.getMember2(String.valueOf(dto.getMember_no()));
 			dto.setMember_no(mdto.getName()); 
 			dto.setRe_step(hotel_boardMapper.hotel_board_count2(dto.getRe_group()));
 		}
@@ -212,7 +212,8 @@ public class HADController {
 	public ModelAndView getBoard(@RequestParam int hotel_board_no ,HttpServletRequest req) {
 		hotel_boardMapper.read_count(hotel_board_no);
 		hotel_boardDTO dto = hotel_boardMapper.getHotel_board(String.valueOf(hotel_board_no));
-		MemberDTO mdto2=memberMapper.getMember2(String.valueOf(dto.getMember_no()));
+		hotel_boardDTO dto2 = hotel_boardMapper.getHotel_board(String.valueOf(hotel_board_no));
+		MemberDTO_sm mdto2=memberMapper.getMember2(String.valueOf(dto.getMember_no()));
 		dto.setMember_no(mdto2.getName()); 
 		
 		int pageSize=5;
@@ -229,10 +230,12 @@ public class HADController {
 			endRow=count;
 		}
 		List<hotel_boardDTO> list = hotel_boardMapper.listHotel_board2(startRow, endRow, dto.getRe_group());
-		for(hotel_boardDTO dto2 :list) {
-			MemberDTO mdto=memberMapper.getMember2(String.valueOf(dto2.getMember_no()));
-			dto2.setMember_no(mdto.getName()); 
+		List<hotel_boardDTO> list2 = hotel_boardMapper.listHotel_board2(startRow, endRow, dto.getRe_group());
+		for(hotel_boardDTO dto3 :list) {
+			MemberDTO_sm mdto=memberMapper.getMember2(String.valueOf(dto3.getMember_no()));
+			dto3.setMember_no(mdto.getName()); 
 		}
+		int hotel_member_no=hotelMapper.getHotel(String.valueOf(dto.getHotel_no())).getMember_num();
 		int startNum = count-((currentPage-1)*pageSize);
 		int pageCount = count/pageSize + (count%pageSize == 0 ? 0 : 1);
 		int pageBlock = 5;
@@ -243,6 +246,7 @@ public class HADController {
 		req.setAttribute("page_name", "Hotel Board");
 		mav.setViewName("hotel_board/content");
 		mav.addObject("listBoard", list);
+		mav.addObject("listBoard2", list2);
 		mav.addObject("count",count);
 		mav.addObject("startNum",startNum);
 		mav.addObject("pageCount",pageCount);
@@ -250,7 +254,8 @@ public class HADController {
 		mav.addObject("startPage",startPage);
 		mav.addObject("endPage",endPage);
 		mav.addObject("getBoard",dto);
-
+		mav.addObject("getBoard2",dto2);
+		mav.addObject("member",hotel_member_no);
 		return mav;
 	}
 	
@@ -616,7 +621,7 @@ public class HADController {
 		int MNO = dto.getMember_no();
 		String RNO = dto.getRoom_no();
 
-		MemberDTO MDTO = memberMapper.getMember2(String.valueOf(MNO));
+		MemberDTO_sm MDTO = memberMapper.getMember2(String.valueOf(MNO));
 		hotelDTO HDTO = hotelMapper.getHotel(String.valueOf(HNO));
 		roomDTO RDTO = roomMapper.getRoom(RNO);
 

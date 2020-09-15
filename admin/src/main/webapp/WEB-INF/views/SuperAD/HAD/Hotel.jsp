@@ -60,7 +60,7 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 					<a href="ADresv_list.do?hnum=${dto.hotel_no}">호텔예약 보기</a>
 				</td>
 				<td>
-					<a href="hotel_board_list.do?hnum=${dto.hotel_no}">호텔 게시판 보기</a>
+					<a href="hotel_board_list.do?hotel_no=${dto.hotel_no}">호텔 게시판 보기</a>
 				</td>
 				<td>
 					<a href="ADhotel_update.do?hnum=${dto.hotel_no}">수정</a> | <a

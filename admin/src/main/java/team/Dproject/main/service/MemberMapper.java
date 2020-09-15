@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team.Dproject.main.model.MemberDTO;
+import team.Dproject.main.model.MemberDTO_sm;
 import team.Dproject.main.model.hotelDTO;
 
 @Service
@@ -133,8 +134,8 @@ public class MemberMapper {
 		
 	}
 	
-	public MemberDTO getMember2(String member_no) {
-		MemberDTO dto = sqlSession.selectOne("getMember2", member_no);
+	public MemberDTO_sm getMember2(String member_no) {
+		MemberDTO_sm dto = sqlSession.selectOne("getMember2", member_no);
 		return dto;	
 	}
 	
