@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
 <style>
 	table{
 		margin:auto;
@@ -19,7 +21,7 @@
 		document.f.submit()
 	}
 </script>
-	<div align="center">
+	<div align="center"style="margin-top:62px">
 		<form name="f" action="ADbus_update.do" method="post">
 		<input type="hidden" name="bus_no" value="${bus.bus_no }">
 			<table width="30%" text-align="center">
@@ -33,5 +35,4 @@
 			</table>
 		</form>
 	</div>
-
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

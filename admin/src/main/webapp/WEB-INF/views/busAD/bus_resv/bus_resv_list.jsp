@@ -3,13 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
 <%
 List<bus_resvDTO> list=(List)request.getAttribute("list");
 List<bus_loadDTO> llist=(List)request.getAttribute("llist");
 int temp=0;
 %>
-	<div align="center">
+	<div align="center"style="margin-top:62px"  >
 		<table width="70%">
 			<tr>
 				<td>예약번호</td>
@@ -51,4 +53,4 @@ int temp=0;
 			%>
 		</table>	
 	</div>
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

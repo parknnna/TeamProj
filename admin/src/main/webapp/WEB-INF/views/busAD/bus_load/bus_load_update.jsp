@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
 <%
 List<BusDTO> list=(List)request.getAttribute("bus_list");
 List<bus_stationDTO> list2=(List)request.getAttribute("bus_station_list");
@@ -31,7 +33,7 @@ bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 		document.f.submit()
 	}
 </script>
-	<div align="center">
+	<div align="center"style="margin-top:62px"  >
 		<form name="f" action="ADbus_load_update.do" method="post">
 		<input type="hidden" name="road_no" value="${bus.road_no }">
 			<table width="100%">
@@ -89,5 +91,4 @@ bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 			</table>
 		</form>
 	</div>
-
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

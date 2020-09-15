@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="team.Dproject.main.model.*"%>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -226,7 +227,7 @@ roomDTO dto =(roomDTO)request.getAttribute("dto");
 String img=dto.getFilename();
 if(img!=null){
 %>
-<div id="slider">
+<div id="slider"style="margin-top:62px">
 	<ul class="slides">
 		<%
 		String cla="slide slide";
@@ -285,4 +286,4 @@ if(img!=null){
 </div></body>
 
 </html>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

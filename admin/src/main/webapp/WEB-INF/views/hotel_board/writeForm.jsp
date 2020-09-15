@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="top.jsp"%>
+<%@ include file="../Basic/head.jsp" %>   
+<%@ include file="../Basic/nav_Hotel.jsp" %>
 <body>
-<div align="center" width="80%">
+<div align="center" width="80%"style="margin-top:62px">
 	<form name="f" action="hotel_board_write.do" method="post" onsubmit="return check()" enctype="multipart/form-data">
 		<input type="hidden" value="<%=request.getParameter("hotel_no") %>" name="hotel_no">
 		<fieldset align="center" style="margin-top:100px;">
@@ -24,4 +25,4 @@
 </div>
   </body>
 </html>
-<%@ include file="bottom.jsp"%>
+<%@ include file="../Basic/bottom_nav.jsp" %>

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>
 <script type="text/javascript">
 		function check(){
 			if (f.name.value==""){
@@ -61,6 +62,7 @@
 			
 		}
 	</script>
+<%@include file="../top2.jsp"%>
 <body>
 	<div align="center">
 		<form name="f" action="ADmember_input_ok.do" method="post">
@@ -126,4 +128,4 @@
 		</form>
 	</div>
 </body>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

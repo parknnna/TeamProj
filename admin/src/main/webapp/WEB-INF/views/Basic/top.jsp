@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="head.jsp" %>
-<%
-	MemberDTO member=(MemberDTO)session.getAttribute("sedto");
-%>
+
   <body>
     
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -21,7 +19,7 @@
           <li class="nav-item"><a href="board_list.do" class="nav-link">Forum</a></li>
          </ul>
       </div>
-      
+      <%MemberDTO member=(MemberDTO)session.getAttribute("sedto");%>
       <div class="header-btns" id="ftco-nav">
       	<ul class="navbar-nav">
       	<%if(member==null){%>

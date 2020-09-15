@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>  
 <%@page import="team.Dproject.main.model.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@include file="../top2.jsp"%>
 	<table align="center" border="1">
 		<%MemberDTO dto =(MemberDTO) request.getAttribute("dto"); %>
 		<tr><td>회원 번호 : </td><td> <%=dto.getMember_no()%></td></tr>
@@ -28,4 +30,4 @@
 	</table>
 </body>
 </html>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
 <script>
 	function check(){
 		if (f.name.value == "") {
@@ -44,7 +45,7 @@
 		img=request.getParameter("img");
 	} 
 %>
-	<div align="center">
+	<div align="center"style="margin-top:62px">
 		<form action="ADroom_update.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="member_num" value="2">
 		<input type="hidden" name="room_no" value="${dto.room_no}">
@@ -76,4 +77,4 @@
 	</form>
 	</div>
 
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- member_edit.jsp -->
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>
 <script type="text/javascript">
 		function check(){
 			if (f.name.value==""){
@@ -60,6 +61,7 @@
 			
 		}
 	</script>
+<%@include file="../top2.jsp"%>	
 <form name="f" method="post" action="ADmember_edit_ok.do">
 	<input type="hidden" name="member_no" value="${dto.member_no}"/>
 	<table width="600" align="center" class="outline">
@@ -127,4 +129,4 @@
   		</tr>
   	</table>
 </form>	
-<%@ include file="../bottom.jsp" %>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

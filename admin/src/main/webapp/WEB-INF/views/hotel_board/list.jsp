@@ -21,8 +21,9 @@
 <%
 	hotelDTO hdto=(hotelDTO)request.getAttribute("hdto");
 %>
-<%@ include file="top.jsp"%>
-<div align="center">
+<%@ include file="../Basic/head.jsp" %>   
+<%@ include file="../Basic/nav_Hotel.jsp" %>
+<div align="center"style="margin-top:62px">
 		<br>
 		<font style="font-weight:700">☆<%=hdto.getName()%> 호텔게시판☆</font>
 		<table bgcolor="white" width="80%" style="border-inline:1px solid #adadad">
@@ -82,4 +83,4 @@
 	</div>
   </body>
 </html>
-<%@ include file="bottom.jsp"%>
+<%@ include file="../Basic/bottom_nav.jsp" %>

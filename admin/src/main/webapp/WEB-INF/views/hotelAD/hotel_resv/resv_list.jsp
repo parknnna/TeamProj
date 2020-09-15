@@ -62,8 +62,9 @@
 		  -o-transform: scale(1.4);
 	}
 </style>
-<%@ include file="../top.jsp"%>
-<DIV width="80%" height="40">
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
+<DIV width="80%" height="40"style="margin-top:62px">
 	<table width="100%" height="40">
 		<tr>
 			<td height="60">
@@ -252,4 +253,4 @@
 	</TABLE>
 </DIV>
 
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

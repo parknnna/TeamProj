@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
 <script>
 	function check(){
 		if (f.name.value == "") {
@@ -27,11 +28,11 @@
 		document.f.submit()
 	}
 </script>
-	<div align="center">
-		<form name="f" action="ADhotel_update.do" method="post" enctype="multipart/form-data">
+	<div align="center" style="margin-top:62px">
+		<form name="f" action="ADhotel_update.do" method="post" enctype="multipart/form-data" align="center">
 		<input type="hidden" name="member_num" value="0">
 		<input type="hidden" name="hotel_no" value="${dto.hotel_no}">
-		<table width="100%">
+		<table width="30%" align="center">
 			<tr>
 				<td>호텔이름 : <input type="text" name="name" value="${dto.name}"></td>
 			</tr>
@@ -39,8 +40,8 @@
 				<td>호텔주소 : <input type="text" name="address" value="${dto.address}"></td>
 			</tr>
 			<tr>
-				<td>전화번호 : <input type="text" name="hp1" value="${dto.hp1}"> - <input
-					type="text" name="hp2" value="${dto.hp2}"> - <input type="text" name="hp3" value="${dto.hp3}">
+				<td>전화번호 : <input type="text" name="hp1" value="${dto.hp1}" size="3"> - <input
+					type="text" name="hp2" value="${dto.hp2}"size="3"> - <input type="text" name="hp3" value="${dto.hp3}"size="3">
 				</td>
 			</tr>
 			<tr>
@@ -67,4 +68,4 @@
 	</form>
 	</div>
 
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

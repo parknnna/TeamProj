@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../top.jsp" %>
-	<div align="center" width="70%" align="center">
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
+	<div align="center" width="70%" align="center" style="margin-top:62px" >
 		<table width="50%" align="center">
 			<tr align="right">
 				<td colspan="4">
@@ -33,4 +35,4 @@
 			</c:forEach>
 		</table>	
 	</div>
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

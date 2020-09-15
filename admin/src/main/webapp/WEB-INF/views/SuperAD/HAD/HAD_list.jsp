@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- memberAll.jsp -->
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>
+<%@ include file="../top2.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 th {
     text-align: center;
 }
 </style>
-<div align="center">
+<div align="center"style="margin-top:70px">
 	<table width="100%" class="outline">
 		<tr>
 			<th class="m3">번호</th>
@@ -46,4 +48,4 @@ th {
 		</c:choose>
 	</table>
 </div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

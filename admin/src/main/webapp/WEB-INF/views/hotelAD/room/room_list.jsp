@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="team.Dproject.main.model.*"%>
 <%@page import="java.util.*"%>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
+
 <script type="text/javascript">
 	function show(inum,rooms){
 		for(var i=2;i<=rooms;i++){
@@ -19,7 +21,7 @@
 <%
 List<roomDTO> list = (List) request.getAttribute("list");
 %>
-<div align="center">
+<div align="center"style="margin-top:62px" >
 	<table width="70%" border="1">
 		<tr align="right">
 			<td colspan="7"><a href="ADroom_insert.do?hnum=<%=request.getParameter("hnum")%>">추가&nbsp;&nbsp;</a><a href="ADhotel_list.do">뒤로가기</a>
@@ -78,4 +80,4 @@ List<roomDTO> list = (List) request.getAttribute("list");
 		%>		
 	</table>
 </div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

@@ -5,7 +5,8 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -223,7 +224,7 @@
 </script>
 </head>
 <div>
-<div id="slider">
+<div id="slider"style="margin-top:62px">
 	<%
 	roomDTO dto=(roomDTO)request.getAttribute("RDTO");
 	String img=dto.getFilename();  
@@ -299,5 +300,5 @@
 </table>
 </div>
 </div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>
  

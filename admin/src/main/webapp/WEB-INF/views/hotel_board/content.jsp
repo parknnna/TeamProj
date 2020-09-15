@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="team.Dproject.main.model.*"%>
 <%@page import="java.util.*" %>
-<%@ include file="top.jsp"%>
+<%@ include file="../Basic/head.jsp" %>   
+<%@ include file="../Basic/nav_Hotel.jsp" %> 
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -227,8 +228,8 @@
 </head>
 
 <body>
-	<div align="center">
-			<fieldset style="width: 600;">
+	<div align="center"style="margin-top:70px">
+			<fieldset style="width: 900;">
 				<div>
 					<table border="1">
 						<tr>
@@ -327,18 +328,27 @@
 							</tr>
 						</c:if>
 						<%
+							List<hotel_boardDTO> list2=(List)request.getAttribute("listBoard2");
 							List<hotel_boardDTO> list=(List)request.getAttribute("listBoard");
 							hotel_boardDTO boarddto=(hotel_boardDTO)request.getAttribute("getBoard");
-							for(hotel_boardDTO re_dto : list){
+							int hotelmember=(int)request.getAttribute("member");
+							String sedto=(String) session.getAttribute("MNUM");
+							int member_no=Integer.parseInt(sedto);
+							for(int i=0;i<list.size();i++){
 						%>
 							<tr align="center">
-								<%if(re_dto.getMember_no().equals(boarddto.getMember_no())) {%>
-								<td width="10%">☆관리자☆<%=re_dto.getMember_no() %></td>
+								<%if(list.get(i).getMember_no().equals(boarddto.getMember_no())) {%>
+								<td width="10%">＊글쓴이＊<%=list.get(i).getMember_no() %></td>
+								<%}else if(Integer.parseInt(list2.get(i).getMember_no())==hotelmember){ %>
+								<td width="10%">☆관리자☆<%=list.get(i).getMember_no() %></td>
 								<%}else{ %>
-								<td width="10%"><%=re_dto.getMember_no() %></td>
+								<td width="10%"><%=list.get(i).getMember_no() %></td>
 								<%} %>
-								<td width="70%" align="left"><%=re_dto.getContent() %></td>
-								<td width="10%"><%=re_dto.getReg_date() %></td>
+								<td width="70%" align="left"><%=list.get(i).getContent() %></td>
+								<td width="10%"><%=list.get(i).getReg_date() %></td>
+								<%if(member_no==Integer.parseInt(list2.get(i).getMember_no())) {%>
+									<td>수정|삭제</td>
+								<%} %>
 							</tr>
 						<%} %>
 						</table></td>
@@ -365,4 +375,4 @@
 			</fieldset>
 	</div>
 </body>
-<%@ include file="bottom.jsp"%>
+<%@ include file="../Basic/bottom_nav.jsp" %>

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
 <%
@@ -36,7 +38,7 @@ bus_resvDTO rdto=(bus_resvDTO)request.getAttribute("rdto");
 		document.f.submit()
 	}
 </script>
-	<div align="center">
+	<div align="center"style="margin-top:62px"     >
 		<form action="ADbus_resv_update.do" method="post">
 		<input type="hidden" name="resv_no" value="${bus.resv_no }">
 			<table width="100%">
@@ -85,4 +87,4 @@ bus_resvDTO rdto=(bus_resvDTO)request.getAttribute("rdto");
 		</form>
 	</div>
 
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

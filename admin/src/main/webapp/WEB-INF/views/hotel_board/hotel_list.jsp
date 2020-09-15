@@ -4,8 +4,9 @@
 <%@page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%@ include file="top.jsp"%>
-<div align="center">
+<%@ include file="../Basic/head.jsp" %>   
+<%@ include file="../Basic/nav_Hotel.jsp" %>
+<div align="center"style="margin-top:62px">
 	<table width="100%">
 		<tr>
 			<td>호텔번호</td>
@@ -50,4 +51,4 @@
 		</c:forEach>
 	</table>
 </div>
-<%@ include file="bottom.jsp"%>
+<%@ include file="../Basic/bottom_nav.jsp" %>
