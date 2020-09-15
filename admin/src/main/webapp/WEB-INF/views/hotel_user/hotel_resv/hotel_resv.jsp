@@ -1,17 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<%@ include file="../../Basic/head.jsp" %>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>호텔검색</title>
-</head>
-<body>
+<%@ include file="../../Basic/top_Hotel.jsp" %>
 	<div align="right">
 		<c:choose>
 			<c:when test="${empty sedto}">
@@ -84,5 +79,4 @@
 			</table>
 		</form>
 	</div>
-</body>
-</html>
+<%@ include file="../../Basic/bottom_top.jsp" %>

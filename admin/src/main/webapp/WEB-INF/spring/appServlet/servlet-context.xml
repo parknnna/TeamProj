@@ -31,6 +31,4 @@
 	<beans:bean id="upLoadPath" class="java.lang.String">
 		<beans:constructor-arg value="C:\Users\ookkj\git\Dproject_sumin\admin\src\main\webapp\resources\img" />
 	</beans:bean>
-	
-	
 </beans:beans>

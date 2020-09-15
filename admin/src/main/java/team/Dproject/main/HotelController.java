@@ -76,12 +76,17 @@ public class HotelController {
 //	
 	@RequestMapping("/CSS")
 	public String css(){
-		return "CSS";
+		return "hotel_user/CSS";
 	}
 	
-	@RequestMapping("/main")
+	/*@RequestMapping("/main")
 	public String main(){
-		return "home";
+		return "hotel_user/home";
+	}
+	*/
+	@RequestMapping("/hotel_main.do")
+	public String main(){
+		return "hotel_user/hotel_resv/hotel_resv";
 	}
 	
 	/*
@@ -101,7 +106,7 @@ public class HotelController {
 	
 	@RequestMapping("/membercheckpage")
 	public String chekpage(){
-		return "member/membercheck";
+		return "hotel_user/member/membercheck";
 	}
 	
 	@RequestMapping(value="/membercheck", method=RequestMethod.POST)
@@ -126,7 +131,7 @@ public class HotelController {
 			req.setAttribute("ssn1",ssn1);
 			req.setAttribute("ssn2",ssn2);
 	
-	        return "member/member";
+	        return "hotel_user/member/member";
 		}
 	}
 	
@@ -151,7 +156,7 @@ public class HotelController {
 	public String memberlist(HttpServletRequest req){
 		List<MemberDTO_sks> list = memberMapper.listMember_sks();
 		req.setAttribute("memberlist", list);
-		return "member/memberlist";
+		return "hotel_user/member/memberlist";
 	}
 	
 	@RequestMapping("/memberlogin")
@@ -171,7 +176,7 @@ public class HotelController {
 			
 		}
 		req.setAttribute("value", value);
-		return "member/login";
+		return "hotel_user/member/login";
 	}
 	
 	@RequestMapping(value = "/loginok")
@@ -232,12 +237,12 @@ public class HotelController {
 	
 	@RequestMapping("/hotelcheck")
 	public String hotelcheck(){
-		return "hotel/hotelmain";
+		return "hotel_user/hotel/hotelmain";
 	}
 	
 	@RequestMapping("/hoteladmin")
 	public String hoteladmin(){
-		return "hotel/hotelinsert";
+		return "hotel_user/hotel/hotelinsert";
 	}
 	
 	@RequestMapping("/hotelinsertok")
@@ -275,7 +280,7 @@ public class HotelController {
 	public String hotelmember(HttpServletRequest req){
 		List<HotelDTO_sks> list = hotelMapper.listHotel_sks();
 		req.setAttribute("hotelList", list);
-		return "hotel/hotellist";
+		return "hotel_user/hotel/hotellist";
 	}
 	
 	@RequestMapping("/hotelupdate")
@@ -283,7 +288,7 @@ public class HotelController {
 		int hotel_no = Integer.parseInt(req.getParameter("hotel_no"));
 		HotelDTO_sks dto = hotelMapper.getHotel_sks(hotel_no);
 		req.setAttribute("dto", dto);
-		return "hotel/hotelupdate";
+		return "hotel_user/hotel/hotelupdate";
 	}
 	
 	@RequestMapping("/hotelupdateok")
@@ -333,19 +338,19 @@ public class HotelController {
 		
 		req.setAttribute("hoteloner", name);
 		req.setAttribute("getHotel", dto);
-		return "hotel/hotelcontent";
+		return "hotel_user/hotel/hotelcontent";
 	}
 	
 	@RequestMapping("/hotellist")
 	public String hotellist(HttpServletRequest req){
 		List<HotelDTO_sks> list = hotelMapper.listHotel_sks();
 		req.setAttribute("hotelList", list);
-		return "hotel/hotellist";
+		return "hotel_user/hotel/hotellist";
 	}
 	
 	@RequestMapping("/hoteldelete")
 	public String hoteldelete(){
-		return "hotel/hoteldelete";
+		return "hotel_user/hotel/hoteldelete";
 	}
 	
 	/*
@@ -356,7 +361,7 @@ public class HotelController {
 	public String roominsert(HttpServletRequest req){
 		int hotel_no = Integer.parseInt(req.getParameter("hotel_no"));
 		req.setAttribute("hotel_no", hotel_no);
-		return "room/roominsert";
+		return "hotel_user/room/roominsert";
 	}
 	
 	@RequestMapping("/roominsertok")
@@ -401,7 +406,7 @@ public class HotelController {
 		}
 		
 
-		return "room/roomlist";
+		return "hotel_user/room/roomlist";
 	}
 	
 	@RequestMapping("/roomlist")
@@ -412,7 +417,7 @@ public class HotelController {
 			req.setAttribute("roomList", list);	
 		}
 		
-		return "room/roomlist";
+		return "hotel_user/room/roomlist";
 	}
 	
 	@RequestMapping("/roomcontent")
@@ -427,7 +432,7 @@ public class HotelController {
 		req.setAttribute("filearr", filearr);
 		req.setAttribute("getRoom", dto);
 		
-		return "room/roomcontent";
+		return "hotel_user/room/roomcontent";
 	}
 	
 	/*
@@ -436,7 +441,7 @@ public class HotelController {
 	
 	@RequestMapping("/hotel_resv")
 	public String hotel_resvselect(){
-		return "hotel_resv/hotel_resv";
+		return "hotel_user/hotel_resv/hotel_resv";
 	}
 	
 	@RequestMapping("/hotel_resvlist")
@@ -499,7 +504,7 @@ public class HotelController {
 		req.setAttribute("end_resv_date", req.getParameter("end_resv_date"));
 		req.setAttribute("rlist", rlist);
 		req.setAttribute("hlist", hlist);
-		return "hotel_resv/hotel_resvlist";
+		return "hotel_user/hotel_resv/hotel_resvlist";
 	}
 	
 	@RequestMapping("/hotel_resvcontent")
@@ -557,7 +562,7 @@ public class HotelController {
 		req.setAttribute("getHotel", hdto);
 		req.setAttribute("hotel_no", req.getParameter("hotel_no"));
 		req.setAttribute("room_no", req.getParameter("room_no"));
-		return "hotel_resv/hotel_resvcontent";
+		return "hotel_user/hotel_resv/hotel_resvcontent";
 	}
 	
 	@RequestMapping("/hotel_resvroomcontent")
@@ -565,7 +570,7 @@ public class HotelController {
 		RoomDTO_sks rdto = roomMapper.getRoom2_sks(Integer.parseInt(req.getParameter("hotel_no")),Integer.parseInt(req.getParameter("grade")));
 		
 		req.setAttribute("rdto", rdto);
-		return "hotel_resv/hotel_resvroomcontent";
+		return "hotel_user/hotel_resv/hotel_resvroomcontent";
 	}
 	
 	@RequestMapping("/hotel_resvfinal")
@@ -576,7 +581,7 @@ public class HotelController {
 		
 		
 		
-		return "hotel_resv/hotel_resvfinal";
+		return "hotel_user/hotel_resv/hotel_resvfinal";
 	}
 	
 	//예약하기 버튼 클릭 후 로그인 창,로그인창 닫기
@@ -597,12 +602,12 @@ public class HotelController {
 			
 		}
 		req.setAttribute("value", value);
-		return "member/loginclear";
+		return "hotel_user/member/loginclear";
 	}
 	
 	@RequestMapping("/popup")
 	public String popup(){
-		return "hotel_resv/popup";
+		return "hotel_user/hotel_resv/popup";
 	}
 	
 	@RequestMapping("/loginclearok")
