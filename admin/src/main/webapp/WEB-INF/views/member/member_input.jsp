@@ -55,8 +55,8 @@
 								
 				<div class="form-group">
 					<label class="reg_form">Identification Nr</label>
-					<input type = "text" class="form-control" name = "ssn1" value= "${ssn1}" style="width:200px">
-	 				<input type = "password" class="form-control" name = "ssn2" value = "${ssn2}" style="width:240px">
+					<input type = "text" class="form-control" name = "ssn1" value= "${ssn1}" maxlength ="6" style="width:200px">
+	 				<input type = "password" class="form-control" name = "ssn2" value = "${ssn2}"  maxlength ="7" style="width:240px">
 				</div>
 				
 				<div class="form-group">
@@ -106,10 +106,9 @@
 					Acceptance of an order by us is dependent on our suppliers ability to provide the product. (Paragraph 13.5.6)
 				</p>
 			</div> -->
-				<button type="submit" class="btn btn-primary">Register</button>
-				<input type="button" value="확인" onclick="javascript:check()">
-	 			<input type = "button" value = "다시쓰기" onclick = "javascript:reset()">
-	 			<input type = "button" value = "취소" onclick = "window.location='main.do'">
+				<button type="submit" class="btn btn-primary" onclick="javascript:check()">Register</button>
+				<button type="reset" class="btn btn-primary" onclick="javascript:reset()">Reset</button>
+				<button type="back" class="btn btn-primary" onclick="window.location='main.do'">Cancel</button>
 			</div>
 	</section>
 </div>

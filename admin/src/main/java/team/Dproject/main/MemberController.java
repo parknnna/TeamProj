@@ -78,17 +78,17 @@ public class MemberController {
 	         resp.addCookie(ck);
 	         session.setAttribute("sedto", dto);
 	         session.setAttribute("MNUM", dto.getMember_no());
-	         msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
+	         msg = dto.getName() + "님 환영합니다. 가입이 완료되었습니다.";
 	         url = "index.do";
 	         break;
 	         
 	      case 1 :
-	         msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요";
+	         msg = "鍮꾨�踰덊샇瑜� �옒紐� �엯�젰�븯�뀲�뒿�땲�떎. �떎�떆 �엯�젰�빐 二쇱꽭�슂";
 	         url = "member_login.do";
 	         break;
 	         
 	      case 2 :
-	         msg = "없는 아이디 입니다. 다시 확인하시고 입력해 주세요";
+	         msg = "�뾾�뒗 �븘�씠�뵒 �엯�땲�떎. �떎�떆 �솗�씤�븯�떆怨� �엯�젰�빐 二쇱꽭�슂";
 	         url = "member_login.do";
 	         break;
 	      
@@ -103,7 +103,7 @@ public class MemberController {
 	   public String MemberLogout(HttpServletRequest req){
 	      HttpSession session = req.getSession();
 	      session.removeAttribute("sedto");
-	      req.setAttribute("msg", "로그아웃 되었습니다. 메인페이지로 이동합니다.");
+	      req.setAttribute("msg", "濡쒓렇�븘�썐 �릺�뿀�뒿�땲�떎. 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.");
 	      req.setAttribute("url", "index.do");
 	      return "message";
 	      
@@ -123,24 +123,24 @@ public class MemberController {
 	         if(isId){
 	            int res = memberMapper.insertMember(dto);
 	            if(res > 0){
-	               msg = "회원가입성공! 로그인 페이지로 이동합니다.";
+	               msg = "�쉶�썝媛��엯�꽦怨�! 濡쒓렇�씤 �럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 	               url = "member_login.do";
 	               
 	            }else{
-	               msg = "회원가입실패! 메인페이지로 이동합니다.";
+	               msg = "�쉶�썝媛��엯�떎�뙣! 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 	               url = "index.do";
 	               
 	            }
 	            
 	         }else{
-	            msg = "중복된 아이디가 있습니다. 다른 아이디로 가입해 주세요";
+	            msg = "以묐났�맂 �븘�씠�뵒媛� �엳�뒿�땲�떎. �떎瑜� �븘�씠�뵒濡� 媛��엯�빐 二쇱꽭�슂";
 	            url = "member_input.do";
 	            
 	         }
 	         
 	         
 	      }else{
-	         msg = "아이디가 너무 많습니다. 로그인 해주세요.";
+	         msg = "�븘�씠�뵒媛� �꼫臾� 留롮뒿�땲�떎. 濡쒓렇�씤 �빐二쇱꽭�슂.";
 	         url = "member_login.do";
 	         
 	      }
@@ -200,22 +200,22 @@ public class MemberController {
 	         session.removeAttribute("sedto");
 	         session.setAttribute("sedto", dto);
 	         if(mode.equals("mypage")){
-	            msg = "회원수정성공! 마이페이지로 이동합니다.";
+	            msg = "�쉶�썝�닔�젙�꽦怨�! 留덉씠�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 	            url = "member_mypage.do";
 	            
 	         }else{
-	            msg = "회원수정성공! 회원목록으로 이동합니다.";
+	            msg = "�쉶�썝�닔�젙�꽦怨�! �쉶�썝紐⑸줉�쑝濡� �씠�룞�빀�땲�떎.";
 	            url = "member_list.do";
 	            
 	         }
 	         
 	      }else{
 	         if(mode.equals("mypage")){
-	            msg = "회원수정실패! 마이페이지로 이동합니다.";
+	            msg = "�쉶�썝�닔�젙�떎�뙣! 留덉씠�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 	            url = "member_mypage.do";
 	            
 	         }else{
-	            msg = "회원수정실패! 회원수정페이지로 이동합니다.";
+	            msg = "�쉶�썝�닔�젙�떎�뙣! �쉶�썝�닔�젙�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 	            url = "member_edit.do?id=" + dto.getId();
 	            
 	         }
@@ -227,7 +227,7 @@ public class MemberController {
 	      
 	   }
 	   
-	   //마이페이지 이동
+	   //留덉씠�럹�씠吏� �씠�룞
 	   @RequestMapping(value = "/member_mypage.do")
 	public String MemberMypage(HttpServletRequest req){
 	      return "member/mypage";
@@ -273,11 +273,11 @@ public class MemberController {
 		String msg = null, url = null;
 		if(res > 0){
 			session.removeAttribute("sedto");
-			msg = "ȸ��Ż�𼺰�! ������������ �̵��մϴ�.";
+			msg = "회占쏙옙탈占쏜성곤옙! 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占싱듸옙占쌌니댐옙.";
 			url = "index.do";
 			
 		}else{
-			msg = "ȸ��Ż�����! ������������ �̵��մϴ�.";
+			msg = "회占쏙옙탈占쏙옙占쏙옙占�! 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占싱듸옙占쌌니댐옙.";
 			url = "index.do";
 			
 		}

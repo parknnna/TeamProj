@@ -5,9 +5,9 @@
 <%@ include file="../Basic/head.jsp" %>
 <body>
 <%@ include file="../Basic/nav_Forum.jsp" %>
-<div align="center" width="80%">
+<div align="center">
 	<form name="f" action="board_write.do" method="post" onsubmit="return check()">
-		<div align="center" style="margin-top:100px;">
+		<div align="center" style="margin-top:100px;width:80%">
 		
 			<label class="forumLoc">
 				<div class="labelText" align="left">LOCATION</div>

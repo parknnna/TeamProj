@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="team.Dproject.main.model.*"%>
+<%
+	MemberDTO member=(MemberDTO)session.getAttribute("sedto");
+	int a=-1;
+	if(member!=null){			
+		a=member.getMember_no();
+	}
+%>
 <html>
 <%@ page import="team.Dproject.main.model.*" %>
 <%@ page import="java.util.*" %>
@@ -99,21 +107,33 @@
 </style>
 
 <%@ include file="../Basic/head.jsp" %>
+<script type="text/javascript">
+	function check(a){
+		if (a<0) {
+		    alert("로그인을 하셔야 게시글 작성이 가능합니다.");
+		    window.location = "member_login.do";
+		    return;
+		}else {
+			window.location = "board_write.do";
+			return;	
+		}
+		
+	};
+</script>
 <body>
 <%@ include file="../Basic/top_Forum.jsp" %>
 	
 	<!-- body 전체 div -->
 	<div class="BoxContainer" align="center">
 	<!-- 리뷰작성 버튼 -->
-
 	<div class="writeBoardBtn">
 		<div class="writeBoardForm">
 			<div class="writeBoardIn">
-				<a href="board_write.do">
+				<!-- <a href="board_write.do"> -->
 					<div align="center">
-						<button class="writeBtn">Write Board</button>
+						<button class="writeBtn" onclick="javascript:check(<%=a%>)">Write Board</button>
 					</div>
-				</a>
+				<!-- </a> -->
 			</div>
 		</div>
 	</div>
