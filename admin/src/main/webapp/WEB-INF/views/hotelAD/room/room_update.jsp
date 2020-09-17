@@ -45,32 +45,50 @@
 		img=request.getParameter("img");
 	} 
 %>
-	<div align="center"style="margin-top:62px">
+<style>
+	td{
+		vertical-align:top;
+		    padding: 5px;
+		    align:left;
+	}
+	th{
+		align:right;
+	}
+</style>
+<a href="#" onclick="goBack()">Back</a>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+<div align="center"style="margin-top:90px" width="50%" >
 		<form action="ADroom_update.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="member_num" value="2">
 		<input type="hidden" name="room_no" value="${dto.room_no}">
-		<table width="100%">
-			
+		<table width="40%" align="center">
+			<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr>
-				<td><input multiple="multiple" type="file" name="file" /></td>	
+				<td align="right" width="30%">방이름 : </td><td width="50%"><input type="text" name="name" value="${dto.name }"></td>
 			</tr>
 			<tr>
-				<td>방이름 : <input type="text" name="name" value="${dto.name }"></td>
+				<td align="right">방 평수 : </td><td><input type="text" name="roomsize" value="${dto.roomsize}"></td>
 			</tr>
 			<tr>
-				<td>방 평수 : <input type="text" name="roomsize" value="${dto.roomsize}"></td>
+				<td align="right">인원수 : </td><td><input type="text" name="sleeps" value="${dto.sleeps }"></td>
 			</tr>
 			<tr>
-				<td>인원수 : <input type="text" name="sleeps" value="${dto.sleeps }"></td>
+				<td align="right">구비 물품 : </td><td><input type="text" name="item" value="${dto.item }"></td>
 			</tr>
 			<tr>
-				<td>구비 물품 : <input type="text" name="item" value="${dto.item }"></td>
+				<td align="right">방가격 : </td><td><input type="text" name="price" value="${dto.price }"></td>
 			</tr>
 			<tr>
-				<td>방가격 : <input type="text" name="price" value="${dto.price }"></td>
+				<td align="right">이미지 : </td><td><input multiple="multiple" type="file" name="file" /></td>	
 			</tr>
 			<tr>
-			<td><input type="button" value="수정" onclick="javascript:check()">
+			<td colspan="2" align="center"><input type="button" value="수정" onclick="javascript:check()">
 			<input type="reset" value="다시쓰기"></td>
 			</tr>
 		</table>

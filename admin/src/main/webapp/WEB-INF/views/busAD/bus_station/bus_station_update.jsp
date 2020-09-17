@@ -4,6 +4,7 @@
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
+<%@ include file="../sm.jsp" %>
 <script>
 	function check(){
 		if (f.station_name.value == "") {
@@ -20,10 +21,12 @@
 		document.f.submit()
 	}
 </script>
+
 	<div align="center"style="margin-top:62px"    >
 		<form name="f" action="ADbus_station_update.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="station_no" value="${station.station_no}">
-			<table width="100%">
+			<table width="50%">
+			<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 				<tr>
 					<td>터미널이름 : <input type="text" name="station_name" value="${station.station_name}"></td>
 				</tr>

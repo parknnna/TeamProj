@@ -6,6 +6,8 @@
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
+
+<%@ include file="../sm.jsp" %>
 <%
 List<bus_resvDTO> list=(List)request.getAttribute("list");
 List<bus_loadDTO> llist=(List)request.getAttribute("llist");
@@ -13,6 +15,7 @@ int temp=0;
 %>
 	<div align="center"style="margin-top:62px"  >
 		<table width="70%">
+			<tr><td align="right" colspan="10"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr>
 				<td>예약번호</td>
 				<td>예약한 사람</td>

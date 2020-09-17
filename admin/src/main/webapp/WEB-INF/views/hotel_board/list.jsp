@@ -42,8 +42,11 @@
 			<!-- 제목 -->
 			<th width="40%">Title</th> 
 			
+			<th>LIKE</th>
+			
 			<!-- 조회수 -->
 			<th>View</th>
+			
 			
 			<!-- 작성일 -->
 			<th>Date</th>
@@ -65,6 +68,7 @@
 					<img src="${pageContext.request.contextPath}/resources/images/crown.svg" width="30px" height="30px">
 				<%} %>
 				<a class="ss" href="hotel_content.do?hotel_board_no=${dto.hotel_board_no}&hotel_no=<%=hdto.getHotel_no()%>">${dto.title}&nbsp;&nbsp;[${dto.re_step }]</a></td>
+				<td style="border-right:1px solid #ebebeb;border-left:1px solid #ebebeb;border-bottom:1px solid #ebebeb">${dto.up}</td>
 				<td style="border-right:1px solid #ebebeb;border-left:1px solid #ebebeb;border-bottom:1px solid #ebebeb">${dto.readcount}</td>
 				<td style="border-bottom:1px solid #ebebeb">${dto.reg_date}</td>
 			</tr>

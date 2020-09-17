@@ -6,6 +6,8 @@
 <%@ include file="../top2.jsp" %>
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
+
+<%@ include file="../sm.jsp" %>
 <%
 List<MemberDTO> mlist=(List)request.getAttribute("mlist");
 List<bus_loadDTO> llist=(List)request.getAttribute("llist");
@@ -41,7 +43,8 @@ bus_resvDTO rdto=(bus_resvDTO)request.getAttribute("rdto");
 	<div align="center"style="margin-top:62px"     >
 		<form action="ADbus_resv_update.do" method="post">
 		<input type="hidden" name="resv_no" value="${bus.resv_no }">
-			<table width="100%">
+			<table width="50%">
+				<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 				<tr>
 					<td>회원 번호 : 
 					<select name="member_no">

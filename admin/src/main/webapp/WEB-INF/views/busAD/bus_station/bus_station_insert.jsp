@@ -21,9 +21,11 @@
 	}
 </script>
 
+<%@ include file="../sm.jsp" %>
 	<div align="center"style="margin-top:62px"    >
 		<form name="f" action="ADbus_station_insert.do" method="post" enctype="multipart/form-data">
-			<table width="100%">
+			<table width="50%">
+				<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 				<tr>
 					<td>터미널이름 : <input type="text" name="station_name"></td>
 				</tr>

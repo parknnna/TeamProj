@@ -27,12 +27,17 @@
         }
 		document.f.submit()
 	}
+
+	function goBack() {
+	  window.history.back();
+	}
 </script>
-	<div align="center" style="margin-top:62px">
+	<div align="center" style="margin-top:90px">
 		<form name="f" action="ADhotel_update.do" method="post" enctype="multipart/form-data" align="center">
 		<input type="hidden" name="member_num" value="0">
 		<input type="hidden" name="hotel_no" value="${dto.hotel_no}">
 		<table width="30%" align="center">
+		<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr>
 				<td>호텔이름 : <input type="text" name="name" value="${dto.name}"></td>
 			</tr>

@@ -4,11 +4,15 @@
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
-	<div align="center" width="70%" align="center" style="margin-top:62px" >
+
+<%@ include file="../sm.jsp" %>
+	<div align="center" width="70%" align="center" >
+		<h3>버스리스트</h3>
 		<table width="50%" align="center">
 			<tr align="right">
 				<td colspan="4">
-					<a href="ADbus_insert.do">추가</a>
+					<a href="ADbus_insert.do">추가</a> | 
+				<a href="#" onclick="goBack()">뒤로가기</a>
 				</td>
 			</tr>
 			<tr>

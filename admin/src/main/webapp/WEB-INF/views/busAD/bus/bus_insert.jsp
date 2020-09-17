@@ -15,7 +15,15 @@
 		document.f.submit()
 	}
 </script>
-	<div align="center"style="margin-top:62px">
+<style>
+
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+</style>
+
+	<div width="50%" align="center">
 		<form name="f" action="ADbus_insert.do" method="post">
 			<table width="50%" align="center">
 				<tr align="center">

@@ -187,9 +187,11 @@
 	
 	function check(a){
 		if (a<0) {
-		    alert("로그인을 하셔야 게시글 작성이 가능합니다.");
+		    alert("로그인을 하셔야 댓글 작성이 가능합니다.");
 		    window.location = "member_login.do";
 		    return;
+		}else if(document.getElementById("re").value.length>50){
+			 alert("50자 이하만 입력가능합니다");
 		}else {
 			f.submit();
 			return;	
@@ -365,7 +367,7 @@
 									<input type="hidden" name="re_step" value="${getBoard.re_step}"> 
 									<input type="hidden" name="re_group" value="${getBoard.re_group}">
 									<input type="hidden" name="re_step" value="${getBoard.re_level}"> 
-									<input type="text" size="77" name="content">
+									<input type="text" size="77" name="content" id="re">
 									<input type="button" onclick="javascript:check(<%=a%>)" value="댓글달기">
 								</form>
 							</td>
@@ -397,15 +399,15 @@
 								<%}else{ %>
 								<td width="18%"><%=list.get(i).getMember_no() %></td>
 								<%} %>
-								<td width="59%" align="left"><%=list.get(i).getContent() %></td>
+								<td width="58%" align="left"><%=list.get(i).getContent() %></td>
 								<td width="9%" ><%=list.get(i).getReg_date() %></td>
 								<%
 								int listno=Integer.parseInt(list2.get(i).getMember_no());
 								
 								if(listno==memberno||memberno==Hmember||pos==0) {%>
-								<td width="14%"><a href="hotel_board_delete.do?hotel_board_no=<%=list.get(i).getHotel_board_no()%>">삭제</a></td>
+								<td width="15%"><a href="hotel_board_delete3.do?re=<%=getbod %>&hotel_board_no=<%=list.get(i).getHotel_board_no()%>">삭제</a></td>
 								<%} else{%>
-								<td width="14%"></td>
+								<td width="15%"></td>
 								<%} %>
 							</tr>
 						<%} %>
@@ -416,20 +418,20 @@
 				</div>
 
 				<c:if test="${count>0}">
-	<c:set var="startPage" value="${startPage}"/>
-	<c:set var="endPage" value="${endPage}"/>
-	<c:set var="pageBlock" value="${pageBlock}"/>
-	<c:set var="pageCount" value="${pageCount}"/>
-	<c:if test="${startPage>pageBlock}">
-			[<a href="hotel_content.do?pageNum=${startPage-1}">이전</a>]		
-	</c:if>
-	<c:forEach var="i" begin="${startPage}" end="${endPage }" step="1">
-		[<a href="hotel_content.do?pageNum=${i}&hotel_board_no=<%=getbod %>&hotel_no=<%=hotelNO%>">${i}</a>]
-	</c:forEach>
-		<c:if test="${endPage<pageCount}">
-			[<a href="hotel_content.do?pageNum=${endPage+1}">다음</a>]		
-		</c:if>
-	</c:if>		
+				<c:set var="startPage" value="${startPage}"/>
+				<c:set var="endPage" value="${endPage}"/>
+				<c:set var="pageBlock" value="${pageBlock}"/>
+				<c:set var="pageCount" value="${pageCount}"/>
+				<c:if test="${startPage>pageBlock}">
+						[<a href="hotel_content.do?pageNum=${startPage-1}">이전</a>]		
+				</c:if>
+				<c:forEach var="i" begin="${startPage}" end="${endPage }" step="1">
+					[<a href="hotel_content.do?pageNum=${i}&hotel_board_no=<%=getbod %>&hotel_no=<%=hotelNO%>">${i}</a>]
+				</c:forEach>
+					<c:if test="${endPage<pageCount}">
+						[<a href="hotel_content.do?pageNum=${endPage+1}">다음</a>]		
+					</c:if>
+				</c:if>		
 	</div>
 </body>
 <%@ include file="../Basic/bottom_nav.jsp" %> 

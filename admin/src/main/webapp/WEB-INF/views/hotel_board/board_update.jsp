@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../Basic/head.jsp" %>   
 <%@ include file="../Basic/nav_Hotel.jsp" %>
+<style>
+	td{
+		vertical-align:top;
+		    padding: 5px;
+	}
+</style>
 <body>
 <div align="center" width="80%"style="margin-top:62px">
 	<form name="f" action="hotel_board_update.do" method="post" onsubmit="return check()" enctype="multipart/form-data">
@@ -17,17 +23,22 @@
 		<input type="hidden" value="<%=dto.getRe_level() %>" name="re_level">
 		<fieldset align="center" style="margin-top:100px;">
 			<legend>게시글 수정</legend>
-			<label>TITLE</label>
-			<input type="text" name="title" class="box">
-			<br>
-			<label>CONTENT</label>
-			<textarea name="content" rows="12" cols="60" class="box"></textarea>
-			<br>
-			<label>FILE</label>
-			<input multiple="multiple" type="file" name="file" />	
-			<br>
-			<input type="reset" value="CANCEL">
-			<input type="submit" value="SUMBIT">
+			<table align="center">
+				<tr>
+					<td >TITLE</td>
+					<td><input type="text" name="title" class="box"></td>
+				</tr>
+				<tr>
+					<td >CONTENT</td>
+					<td><textarea name="content" rows="12" cols="60" class="box"></textarea></td>
+				</tr>
+				<tr>
+					<td>FILE</td>
+					<td><input multiple="multiple" type="file" name="file" />	</td>
+				</tr>
+				<tr><td colspan="2" align="center"><input type="reset" value="CANCEL">
+			<input type="submit" value="SUMBIT"></td></tr>
+			</table>
 		</fieldset>
 	</form>
 </div>

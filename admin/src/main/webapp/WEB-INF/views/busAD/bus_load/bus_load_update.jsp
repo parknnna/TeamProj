@@ -11,6 +11,8 @@ List<BusDTO> list=(List)request.getAttribute("bus_list");
 List<bus_stationDTO> list2=(List)request.getAttribute("bus_station_list");
 bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 %>
+
+<%@ include file="../sm.jsp" %>
 <script>
 	function check(){
 		if (f.price.value == "") {
@@ -36,7 +38,8 @@ bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 	<div align="center"style="margin-top:62px"  >
 		<form name="f" action="ADbus_load_update.do" method="post">
 		<input type="hidden" name="road_no" value="${bus.road_no }">
-			<table width="100%">
+			<table width="50%">
+				<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 				<tr>
 					<td>버스번호 : 
 						<select name="bus_no">

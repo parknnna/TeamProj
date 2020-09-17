@@ -8,8 +8,20 @@
 th {
     text-align: center;
 }
+
 </style>
-<div align="center"style="margin-top:70px">
+<style>
+	table { border-collapse: separate; }
+	.m3{ border: solid 1px #c94dff; 
+		border-radius: 10px;
+		background-color:#F7ACFC;
+		padding:1px; 
+	}
+</style>
+<div align="center">
+
+	<h2>호텔관리자 목 록 보 기</h2>
+
 	<table width="100%" class="outline">
 		<tr>
 			<th class="m3">번호</th>
@@ -30,14 +42,14 @@ th {
 			<c:otherwise>
 				<c:forEach var="dto" items="${list}">
 					<tr align = "center">
-						<td>${dto.member_no}</td>
-						<td>${dto.id}</td>
-						<td><a href="ADmember_show.do?no=${dto.member_no }">${dto.name}</a></td>
-						<td>${dto.email}</td>
-						<td>${dto.allHp}</td>
-						<td>${dto.joindate}</td>
-						<td>${dto.position}</td>
-						<td>
+						<td class="m2">${dto.member_no}</td>
+						<td class="m2">${dto.id}</td>
+						<td class="m2"><a href="ADmember_show.do?no=${dto.member_no }">${dto.name}</a></td>
+						<td class="m2">${dto.email}</td>
+						<td class="m2">${dto.allHp}</td>
+						<td class="m2">${dto.joindate}</td>
+						<td class="m2">${dto.position}</td>
+						<td class="m2">
 							<a href = "ADHADhotel_list.do?no=${dto.member_no }">관리중인 호텔</a> |
 							<a href = "ADmember_edit.do?id=${dto.id}">수정</a> |
 							<a href = "ADmember_delete.do?id=${dto.id}">삭제</a>

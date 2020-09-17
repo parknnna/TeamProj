@@ -4,10 +4,14 @@
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
+
+<%@ include file="../sm.jsp" %>
 	<div align="center"style="margin-top:62px"   >
-		<table width="70%">
+		<table width="80%">
+	
 			<tr align="right">
 				<td colspan="8">
+				<td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a>
 					<a href="ADbus_load_insert.do">추가</a>
 				</td>
 			</tr>
@@ -20,6 +24,7 @@
 				<td>가격</td>
 				<td>출발시간</td>
 				<td>도착시간</td>
+				<td>예약하기 | 수정 | 삭제</td>
 			</tr> 
 			<c:if test="${empty bus_load_list}">
 				<tr>

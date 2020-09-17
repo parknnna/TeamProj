@@ -38,35 +38,49 @@
 		
 		document.f.submit()
 	}
-</script>
+	function goBack() {
+		  window.history.back();
+		}
 
-<div align="center"style="margin-top:90px" >
-	<form name="f" action="ADroom_insert.do" method="post" enctype="multipart/form-data">
+</script>
+<style>
+	td{
+		vertical-align:top;
+		    padding: 5px;
+	}
+	th{
+		align:left;
+	}
+</style>
+
+<div align="center"style="margin-top:90px" width="50%" >
+	<form name="f" action="ADroom_insert.do" method="post" enctype="multipart/form-data" width="50%">
 		<input type="hidden" name="hotel_no" value="<%=request.getParameter("hnum")%>">
-		<table width="100%" >
+		<table width="60%" >
+		<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr align="center">
-				<td>방이름 : <input type="text" name="name"></td>
+				<td align="right">방이름 : </td><td align="left"><input type="text" name="name"></td>
 			</tr>
 			<tr align="center">
-				<td>방 평수 : <input type="text" name="roomsize"></td>
+				<td align="right">방 평수 : </td><td align="left"><input type="text" name="roomsize"></td>
 			</tr>
 			<tr align="center">
-				<td>인원수 : <input type="text" name="sleeps"></td>
+				<td align="right">인원수 : </td><td align="left"><input type="text" name="sleeps"></td>
 			</tr>
 			<tr align="center">
-				<td>구비 물품 : <input type="text" name="item"></td>
+				<td align="right">구비 물품 : </td><td align="left"><input type="text" name="item"></td>
 			</tr >
 			<tr align="center">
-				<td>방가격 : <input type="text" name="price" size="30"></td>
+				<td align="right">방가격 : </td><td align="left"><input type="text" name="price" size="30"></td>
 			</tr>
 			<tr align="center">
-				<td>방의 수 : <input type="text" name="rooms" size="30"></td>
+				<td align="right">방의 수 : </td><td align="left"><input type="text" name="rooms" size="30"></td>
 			</tr>
 			<tr align="center">
-				<td><input multiple="multiple" type="file" name="file" /></td>	
+				<td align="right">방이미지 : </td><td align="left"><input multiple="multiple" type="file" name="file" /></td>	
 			</tr>
 			<tr align="center">
-			<td><input type="button" value="추가" onclick="javascript:check()">
+			<td colspan="2"><input type="button" value="추가" onclick="javascript:check()">
 			<input type="reset" value="다시쓰기"></td>
 			</tr>
 

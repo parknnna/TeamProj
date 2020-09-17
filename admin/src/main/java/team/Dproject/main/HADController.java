@@ -279,6 +279,23 @@ public class HADController {
 		req.setAttribute("url", url);
 		return "message";
 	}
+	@RequestMapping(value="/hotel_board_delete3.do", method=RequestMethod.GET)//삭제
+	public String hotel_board_delete3(HttpServletRequest req) {
+		hotel_boardDTO dto = hotel_boardMapper.getHotel_board(req.getParameter("hotel_board_no"));
+		int res=hotel_boardMapper.deleteHotel_board(req.getParameter("hotel_board_no"));
+		String msg = null, url = null;
+		if(res>0) {
+			msg = "댓글삭제";
+			url = "hotel_content.do?hotel_board_no="+req.getParameter("re")+"&hotel_no="+dto.getHotel_no();
+		}else {
+			msg = "댓글삭제실패";
+			url = "hotel_content.do?hotel_board_no="+dto.getHotel_board_no()+"&hotel_no="+dto.getHotel_no();
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
 	@RequestMapping(value="/hotel_board_delete2.do", method=RequestMethod.GET)//삭제
 	public String hotel_board_delete2(HttpServletRequest req) {
 		hotel_boardDTO dto = hotel_boardMapper.getHotel_board(req.getParameter("hotel_board_no"));

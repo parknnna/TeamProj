@@ -29,27 +29,41 @@
         }
 		document.f.submit()
 	}
-</script>
+	function goBack() {
+		  window.history.back();
+		}
 
-<div align="center"style="margin-top:62px">
+</script>
+<style>
+	td{
+		vertical-align:top;
+		    padding: 5px;
+	}
+	th{
+		align:left;
+	}
+</style>
+
+<div align="center"style="margin-top:90px">
 	<form name="f" action="ADhotel_insert.do" method="post" enctype="multipart/form-data">
-		<table width="100%">
+		<table width="30%">
+		<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr>
-				<td>호텔이름 : <input type="text" name="name"></td>
+				<td>호텔이름 : </td><td> <input type="text" name="name"></td>
 			</tr>
 			<tr>
-				<td>호텔주소 : <input type="text" name="address"></td>
+				<td>호텔주소 : </td><td> <input type="text" name="address"></td>
 			</tr>
 			<tr>
-				<td>전화번호 : <input type="tel" name="hp1" maxlength="3"> - <input
-					type="tel" name="hp2"maxlength="4"> - <input type="tel" name="hp3"maxlength="4">
+				<td>전화번호 : </td><td> <input type="tel" name="hp1" maxlength="3" size="3"> - <input
+					type="tel" name="hp2"maxlength="4"size="5"> - <input type="tel" name="hp3"maxlength="4"size="5">
 				</td>
 			</tr>
 			<tr>
-				<td>호텔 소개 : <input type="text" name="hotel_info"></td>
+				<td>호텔 소개 : </td><td> <input type="text" name="hotel_info"></td>
 			</tr>
 			<tr>
-				<td>호텔 성급 : <select name="star">
+				<td>호텔 성급 : </td><td> <select name="star">
 						<option value="1">1성급</option>
 						<option value="2">2성급</option>
 						<option value="3">3성급</option>
@@ -60,9 +74,9 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td>호텔이미지 : <input type="file" name="filename" size="30"></td>
+				<td>호텔이미지 :</td><td> <input type="file" name="filename" size="30"></td>
 			</tr>
-			<tr><td><input type="button" value="추가" onclick="javascript:check()">
+			<tr><td colspan="2"><input type="button" value="추가" onclick="javascript:check()">
 				<input type="reset" value="다시쓰기"></td></tr>
 
 		</table>

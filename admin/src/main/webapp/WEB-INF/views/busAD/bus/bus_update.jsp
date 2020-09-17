@@ -21,10 +21,14 @@
 		document.f.submit()
 	}
 </script>
-	<div align="center"style="margin-top:62px">
+
+<%@ include file="../sm.jsp" %>
+
+	<div align="center">
 		<form name="f" action="ADbus_update.do" method="post">
 		<input type="hidden" name="bus_no" value="${bus.bus_no }">
 			<table width="30%" text-align="center">
+			<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 				<tr>
 					<td align="right">버스등급 : </td><td><input type="text" name="grade" value="${bus.grade}"></td>
 				</tr>
