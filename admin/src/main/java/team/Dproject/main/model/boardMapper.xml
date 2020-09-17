@@ -7,7 +7,7 @@
 	</select>
 	
 	<insert id="board_insert" parameterType="BoardDTO">
-		insert into main_board values(main_board_seq.nextval, #{member_no}, #{location_no}, #{title}, #{content}, #{filename}, #{filesize}, #{ip}, 0, sysdate, #{re_group}, #{re_step}, #{re_level})
+		insert into main_board values(main_board_no_seq.nextval, #{member_no}, #{location_no}, #{title}, #{content}, #{filename}, #{filesize}, #{ip}, 0, sysdate, #{re_group}, #{re_step}, #{re_level})
 	</insert>
 	
 	<select id="getBoard" parameterType="int" resultType="BoardDTO">
@@ -21,4 +21,8 @@
 	<select id="getList" parameterType="int" resultType="BoardDTO">
 		select * from main_board where locaion_no=#{location_no}
 	</select>
+	
+	<update id="getCount" parameterType="int">
+		update main_board set readcount = readcount+1 where main_board_no=#{main_board_no}
+	</update>
 </mapper>

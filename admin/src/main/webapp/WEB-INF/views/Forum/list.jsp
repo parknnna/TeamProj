@@ -10,7 +10,6 @@
 	}
 %>
 <html>
-<%@ page import="team.Dproject.main.model.*" %>
 <%@ page import="java.util.*" %>
 
 <style>
@@ -154,13 +153,16 @@
 				<div class="memberId">
 					<div>${dto.member_no}</div>
 				</div>
+				<div class="count">
+					<div>${dto.readcount }</div>
+				</div>
 			</div>
 		</div>
 		
 		<div class="is-9">
 			<span>${dto.reg_date}</span>
 			<div class="revTitle">
-				<span><a href="board_content.do?main_board_no=${dto.main_board_no}">${dto.title}</a></span>
+				<span><a href="board_content.do?main_board_no=${dto.main_board_no}"><font style='font-weight:800'>${dto.title}</font></a></span>
 			</div>
 			
 			<div class="revContent" style="display: table;">
@@ -189,6 +191,7 @@
 					<% }cnt++; %>
 				</span>
 			</div>
+			<div>${dto.filename }</div>
 		</div>
 	</div>
 	</div>

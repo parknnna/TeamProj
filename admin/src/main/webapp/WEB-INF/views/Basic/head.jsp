@@ -1,6 +1,9 @@
 <head>
     <title>DProject</title>
     <meta charset="utf-8">
+    <script type= "text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">

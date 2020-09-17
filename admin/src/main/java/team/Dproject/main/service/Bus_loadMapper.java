@@ -31,6 +31,6 @@ public class Bus_loadMapper {
    public int updateBus_load(bus_loadDTO dto){
 	      return sqlSession.insert("updateBus_load1",dto);
    }
-    
+   
 
 }

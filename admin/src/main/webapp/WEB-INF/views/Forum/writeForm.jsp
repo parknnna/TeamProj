@@ -6,7 +6,7 @@
 <body>
 <%@ include file="../Basic/nav_Forum.jsp" %>
 <div align="center">
-	<form name="f" action="board_write.do" method="post" onsubmit="return check()">
+	<form name="f" action="board_write.do" method="post" onsubmit="return check()" enctype="multipart/form-data">
 		<div align="center" style="margin-top:100px;width:80%">
 		
 			<label class="forumLoc">
@@ -31,13 +31,13 @@
 			
 			<label class="forumContent">
 				<div class="labelText" align="left">CONTENT</div>
-				<textarea name="content" rows="10" cols="105" class="box" placeholder="  내용을 입력해주세요"></textarea>
+				<textarea name="content" rows="10" cols="105" class="box" style="padding:10px"placeholder="내용을 입력해주세요"></textarea>
 			</label>
 			<br>
 			
 			<label class="forumFile" style="margin-right:460px;">
 				<div class="labelText" align="left">FILE</div>
-				<input type="file" name="filename" class="box" size="90">
+				<input type="file" multiple="multiple" name="file" class="box" size="90">
 			</label>
 			
 			<hr style="width:60%;border:1px solid #dddddd;">

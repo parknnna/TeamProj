@@ -30,4 +30,8 @@ public class BoardMapper {
 	public MemberDTO getUser(int member_no) {
 		return sqlSession.selectOne("getUser", member_no);
 	}
+	
+	public int getCount(int main_board_no) {
+		return sqlSession.update("getCount", main_board_no);
+	}
 }
