@@ -13,10 +13,13 @@
     
     
     <insert id="insertHotel_board" parameterType="hotel_boardDTO">
-    	insert into hotel_board values(hotel_board_seq.nextval, #{member_no}, #{hotel_no}, 0, #{filename}, #{filesize},#{content}, sysdate, #{re_group}, #{re_step}, #{re_level}, #{title})
+    	insert into hotel_board values(hotel_board_seq.nextval, #{member_no}, #{hotel_no}, 0, #{filename}, #{filesize},#{content}, sysdate, #{re_group}, #{re_step}, #{re_level}, #{title},0)
     </insert> 
     <delete id="deleteHotel_board" parameterType="String">
     	delete from hotel_board where hotel_board_no=#{hotel_board_no}
+    </delete>
+    <delete id="deleteHotel_board2" parameterType="String">
+    	delete from hotel_board where re_group=#{re_group}
     </delete>
     <select id="getHotel_board" parameterType="String" resultType="hotel_boardDTO">
     	select * from hotel_board where hotel_board_no=#{hotel_board_no}
@@ -40,10 +43,13 @@
 		update hotel_board set readcount = readcount + 1 where hotel_board_no = #{hotel_board_no}
 	</update>
 	
-    <!-- 업데이트
+	<update id="upUpdate" parameterType="java.util.Map">
+		update hotel_board set up=#{size} where hotel_board_no=#{hotel_board_no}
+	</update>
+   
     <update id="updateHotel_board" parameterType="hotel_boardDTO">
-    	update hotel_board set name=#{name},address=#{address}, hp1=#{hp1}, hp2=#{hp2}, hp3=#{hp3}, hotel_info=#{hotel_info}, star=#{star}, filename=#{filename}, filesize=#{filesize} where hotel_no=#{hotel_no}
-    </update> -->
+    	update hotel_board set title=#{title}, content=#{content} , filename=#{filename}, filesize=#{filesize} where hotel_board_no=#{hotel_board_no}
+    </update> 
 
     
 </mapper>

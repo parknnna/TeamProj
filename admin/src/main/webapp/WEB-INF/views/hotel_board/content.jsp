@@ -83,8 +83,8 @@
 	'use strict';
 	$(function() {
 		//이 부분을 자신의 상황에 맞게 수정
-		var width = 300; //슬라이드 한 개의 폭
-		var height = 150; //슬라이드 높이
+		var width = 681; //슬라이드 한 개의 폭
+		var height = 300; //슬라이드 높이
 		var animationSpeed = 1000; //화면전환 속도
 		var pause = 3000; //화면전환 후 일시 정지 속도
 		var totalSlides = 7; //복제 슬라이드를 포함한 전체 슬라이드 개수
@@ -183,6 +183,30 @@
 		initSlider();
 		startSlider();
 	});
+	
+	
+	function check(a){
+		if (a<0) {
+		    alert("로그인을 하셔야 게시글 작성이 가능합니다.");
+		    window.location = "member_login.do";
+		    return;
+		}else {
+			f.submit();
+			return;	
+		}	
+	};
+	
+	function check2(a,link){
+		if (a<0) {
+		    alert("로그인을 하셔야 가능합니다.");
+		    window.location = "member_login.do";
+		    return;
+		}else {
+			window.location = link;
+			return;	
+		}	
+	};
+
 </script>
 
 </head>
@@ -192,31 +216,65 @@
 	MemberDTO sedto=(MemberDTO)session.getAttribute("sedto");
 	hotel_boardDTO boarddto2=(hotel_boardDTO)request.getAttribute("getBoard2");
 	int memberno=-1;
+	int pos=-1;
 	if(sedto!=null){
 		memberno=sedto.getMember_no();
+		pos=sedto.getPosition();
 	}
 	int boardno=-2;
+	int hotelNO=-1;
+	int getbod=-1;
 	if(boarddto2!=null){
 		String s=boarddto2.getMember_no();
 		boardno=Integer.parseInt(s);
+		hotelNO=boarddto2.getHotel_no();
+		getbod=boarddto2.getHotel_board_no();
 	}
+	List<hotel_boardDTO> list=(List)request.getAttribute("listBoard");
+	List<hotel_boardDTO> list2=(List)request.getAttribute("listBoard2");
+	hotel_boardDTO boarddto=(hotel_boardDTO)request.getAttribute("getBoard");
+	int Hmember=(Integer)request.getAttribute("member");
+
+	List<upDTO> ulist=(List)request.getAttribute("ulist");
+	List<upDTO> dlist=(List)request.getAttribute("dlist");
+	
+	
+	MemberDTO member2=(MemberDTO)session.getAttribute("sedto");
+	int a=-1;
+	if(member2!=null){			
+		a=member2.getMember_no();
+	}
+
 %>
-	<div align="center"style="margin-top:62px">
-				<div>
-					<table border="1">
+	<div align="center"style="margin-top:90px">
+				<div class="tableContainer" style="width:60%">
+					
+					<table width="45%" border="1px">
 						<tr>
-							<td align="left" width="60%">제목 : ${getBoard.title }</td>
+							<td align="left" width="50%">제목 : ${getBoard.title }</td>
 							<td width="28%">글쓴이 : ${getBoard.member_no}</td>
-							<td width="12%"><a href="hotel_board_list.do?hotel_no=${getBoard.hotel_no}">뒤로가기</a></td>
+						<%if(boardno==memberno||memberno==Hmember||pos==0){%>
+							<td width="12%" align="right"><a href="hotel_board_list.do?hotel_no=${getBoard.hotel_no}">뒤로가기</a></td>
 						</tr>
-						<%if(boardno==memberno){%>
 						<tr>
-							<td>
-								수정 삭제
+							<td width="10%" colspan="3" align="right">
+								<a href="hotel_board_update.do?hotel_board_no=<%=getbod%>">수정</a> |
+								<a href="hotel_board_delete2.do?hotel_board_no=<%=getbod%>">삭제</a>
+							</td>
+						<%}else{ %>
+							<td width="12%">
+								<a href="hotel_board_list.do?hotel_no=${getBoard.hotel_no}">뒤로가기</a>
 							</td>
 						</tr>
+						<tr>
+							
 						<%} %>
-						
+						</tr>
+						<tr align="center">
+							<td colspan="4">
+								좋아요수 : <%=ulist.size() %>  싫어요수 : <%=dlist.size() %>
+							</td>
+						</tr>	
 						
 						
 						<!-- ------------------------------------------------------------------------- -->
@@ -237,18 +295,18 @@
 								if(img!=null){
 									SPimg=img.split("/");
 									cla=cla+SPimg.length;
-									%><li class="<%=cla%>"><img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[SPimg.length-1] %>" width="300" height="150"></li><%
+									%><li class="<%=cla%>"><img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[SPimg.length-1] %>" width="681" height="300"></li><%
 									for(int i=0;i<SPimg.length;i++){
 										cla="slide slide";
 										int temp=i+1;
 										cla=cla+temp;
 										%>
 										<li class="<%=cla%>">
-										<img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[i] %>" width="300" height="150">
+										<img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[i] %>" width="681" height="300">
 										</li>
 										<% 
 									}
-									%><li class="slide slide1"><img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[0] %>" width="300" height="150"></li><%
+									%><li class="slide slide1"><img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[0] %>" width="681" height="300"></li><%
 								}else{
 									%><li>이미지 없음</li><%
 								}
@@ -277,9 +335,27 @@
 						<%}%>
 						
 						<!-- ------------------------------------------------------------------------- -->
-											
+										
 						<tr>
-							<td colspan="3"><textarea rows="20" cols="90" readOnly style="resize: none;">${getBoard.content}</textarea></td>
+							<td colspan="3"><textarea rows="15" cols="92" readOnly style="resize: none;">${getBoard.content}</textarea></td>
+						</tr>
+						<%
+						boolean up=(boolean)request.getAttribute("up");
+						boolean down=(boolean)request.getAttribute("down");
+						%>
+						<tr align="center">
+							<td colspan="4">
+								<%if(up){ %>
+									<a href="javascript:check2(<%=a %>,'hotel_board_up.do?hotel_board_no=<%=dto.getHotel_board_no()%>&hotel_no=<%=Integer.parseInt(request.getParameter("hotel_no")) %>')"><i class="far fa-laugh-squint fa-3x"></i></a>
+								<%}else{ %>
+									<a href="hotel_board_up_re.do?hotel_board_no=<%=dto.getHotel_board_no()%>&hotel_no=<%=Integer.parseInt(request.getParameter("hotel_no")) %>"><i class="fas fa-laugh-squint fa-3x"></i></a>
+								<%} %>
+								<%if(down){ %>
+									<a href="javascript:check2(<%=a %>,'hotel_board_down.do?hotel_board_no=<%=dto.getHotel_board_no()%>&hotel_no=<%=Integer.parseInt(request.getParameter("hotel_no")) %>')"><i class="far fa-frown fa-3x"></i></a>
+								<%}else{ %>
+									<a href="hotel_board_down_re.do?hotel_board_no=<%=dto.getHotel_board_no()%>&hotel_no=<%=Integer.parseInt(request.getParameter("hotel_no")) %>"><i class="fas fa-frown fa-3x"></i></a>
+								<%} %>
+							</td>
 						</tr>
 						<tr>
 							<td colspan="3">
@@ -289,17 +365,18 @@
 									<input type="hidden" name="re_step" value="${getBoard.re_step}"> 
 									<input type="hidden" name="re_group" value="${getBoard.re_group}">
 									<input type="hidden" name="re_step" value="${getBoard.re_level}"> 
-									<input type="text" size="75" name="content">
-									<input type="submit" value="댓글달기">
+									<input type="text" size="77" name="content">
+									<input type="button" onclick="javascript:check(<%=a%>)" value="댓글달기">
 								</form>
 							</td>
 						</tr>
 						<tr><td colspan="3">
-						<table style="border:1px solid red" width="100%" border="1">
-						<tr>
+						<table  width="100%" >
+						<tr align="center" style="border-bottom: 1px solid;">
 							<td width="13%">댓글쓴사람</td>
 							<td width="67%" align="left">댓글</td>
 							<td width="10%">날짜</td>
+							<td></td>
 						</tr>
 						<c:if test="${empty listBoard}">
 							<tr>
@@ -307,29 +384,28 @@
 							</tr>
 						</c:if>
 						<%
-							List<hotel_boardDTO> list=(List)request.getAttribute("listBoard");
-							List<hotel_boardDTO> list2=(List)request.getAttribute("listBoard2");
-							hotel_boardDTO boarddto=(hotel_boardDTO)request.getAttribute("getBoard");
-							int Hmember=(Integer)request.getAttribute("member");
 							for(int i=0;i<list.size();i++){
 						%>
-							<tr align="center">
+							<tr align="center" style="border-bottom: 1px solid;">
 								<%
 								String temp=list2.get(i).getMember_no();
 								int lmember=Integer.parseInt(temp);
 								if(list.get(i).getMember_no().equals(boarddto.getMember_no())) {%>
-								<td width="20%">☆글쓴이☆<%=list.get(i).getMember_no() %></td>
+								<td width="18%">☆글쓴이☆<%=list.get(i).getMember_no() %></td>
 								<%}else if(lmember==Hmember){%>
-								<td width="20%">★호텔 관리자★<%=list.get(i).getMember_no() %></td>
+								<td width="18%">★호텔 관리자★<%=list.get(i).getMember_no() %></td>
 								<%}else{ %>
-								<td width="20%"><%=list.get(i).getMember_no() %></td>
+								<td width="18%"><%=list.get(i).getMember_no() %></td>
 								<%} %>
-								<td width="60%" align="left"><%=list.get(i).getContent() %></td>
-								<td width="10%"><%=list.get(i).getReg_date() %></td>
+								<td width="59%" align="left"><%=list.get(i).getContent() %></td>
+								<td width="9%" ><%=list.get(i).getReg_date() %></td>
 								<%
 								int listno=Integer.parseInt(list2.get(i).getMember_no());
-								if(listno==memberno) {%>
-								<td>삭제</td>
+								
+								if(listno==memberno||memberno==Hmember||pos==0) {%>
+								<td width="14%"><a href="hotel_board_delete.do?hotel_board_no=<%=list.get(i).getHotel_board_no()%>">삭제</a></td>
+								<%} else{%>
+								<td width="14%"></td>
 								<%} %>
 							</tr>
 						<%} %>
@@ -345,13 +421,13 @@
 	<c:set var="pageBlock" value="${pageBlock}"/>
 	<c:set var="pageCount" value="${pageCount}"/>
 	<c:if test="${startPage>pageBlock}">
-			[<a href="hotel_board_list.do?pageNum=${startPage-1}">이전</a>]		
+			[<a href="hotel_content.do?pageNum=${startPage-1}">이전</a>]		
 	</c:if>
 	<c:forEach var="i" begin="${startPage}" end="${endPage }" step="1">
-		[<a href="hotel_board_list.do?pageNum=${i}">${i}</a>]
+		[<a href="hotel_content.do?pageNum=${i}&hotel_board_no=<%=getbod %>&hotel_no=<%=hotelNO%>">${i}</a>]
 	</c:forEach>
 		<c:if test="${endPage<pageCount}">
-			[<a href="hotel_board_list.do?pageNum=${endPage+1}">다음</a>]		
+			[<a href="hotel_content.do?pageNum=${endPage+1}">다음</a>]		
 		</c:if>
 	</c:if>		
 	</div>

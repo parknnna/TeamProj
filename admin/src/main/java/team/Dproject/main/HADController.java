@@ -5,17 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +22,19 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import team.Dproject.main.model.MemberDTO_sm;
+import team.Dproject.main.model.downDTO;
 import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.model.hotel_boardDTO;
 import team.Dproject.main.model.resvDTO;
 import team.Dproject.main.model.roomDTO;
+import team.Dproject.main.model.upDTO;
+import team.Dproject.main.service.DownMapper;
 import team.Dproject.main.service.HotelMapper;
 import team.Dproject.main.service.Hotel_boardMapper;
 import team.Dproject.main.service.MemberMapper;
 import team.Dproject.main.service.ResvMapper;
 import team.Dproject.main.service.RoomMapper;
+import team.Dproject.main.service.UpMapper;
 
 /**
  * Handles requests for the application home page.
@@ -52,6 +52,10 @@ public class HADController {
 	private MemberMapper memberMapper;
 	@Autowired
 	private Hotel_boardMapper hotel_boardMapper;
+	@Autowired
+	private UpMapper upMapper;
+	@Autowired
+	private DownMapper downMapper;
 
 	private int memNUM;
 
@@ -64,6 +68,96 @@ public class HADController {
 
 	
 	//======================================================================================
+	@RequestMapping(value="/hotel_board_up.do")
+	public String up(HttpServletRequest req, HttpSession session) {
+		int hotel_board_no=Integer.parseInt(req.getParameter("hotel_board_no"));
+		int member_no=(Integer)session.getAttribute("MNUM");
+		List<upDTO> ulist=upMapper.up_list(member_no,hotel_board_no);
+		List<downDTO> dlist=downMapper.down_list(member_no,hotel_board_no);
+		String msg = null, url = null;
+		if(dlist.size()!=0){
+			msg = "이미 싫어요";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}else if(ulist.size()==0){//싫어요 체크
+			upMapper.up_insert(member_no, hotel_board_no);
+			List<upDTO> ulist2=upMapper.up_list2(member_no,hotel_board_no);
+			hotel_boardMapper.upUpdate(ulist2.size(), hotel_board_no);
+			msg = "좋아요.";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}else{
+			msg = "이미 좋아요";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
+	@RequestMapping(value="/hotel_board_up_re.do")
+	public String up_re(HttpServletRequest req, HttpSession session) {
+		int hotel_board_no=Integer.parseInt(req.getParameter("hotel_board_no"));
+		int member_no=(Integer)session.getAttribute("MNUM");
+		String msg = null, url = null;
+		int res=upMapper.up_delete(member_no, hotel_board_no);
+		List<upDTO> ulist2=upMapper.up_list2(member_no,hotel_board_no);
+		if(res>0){
+			hotel_boardMapper.upUpdate(ulist2.size(), hotel_board_no);
+			msg = "좋아요 취소.";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}else{
+			msg = "취소 실패";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
+	@RequestMapping(value="/hotel_board_down_re.do")
+	public String down_re(HttpServletRequest req, HttpSession session) {
+		int hotel_board_no=Integer.parseInt(req.getParameter("hotel_board_no"));
+		int member_no=(Integer)session.getAttribute("MNUM");
+		String msg = null, url = null;
+		int res=downMapper.down_delete(member_no, hotel_board_no);
+		if(res>0){
+			msg = "싫어요 취소.";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}else{
+			msg = "취소 실패";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
+	
+	@RequestMapping(value="/hotel_board_down.do")
+	public String down(HttpServletRequest req, HttpSession session) {
+		int hotel_board_no=Integer.parseInt(req.getParameter("hotel_board_no"));
+		int member_no=(Integer)session.getAttribute("MNUM");
+		List<upDTO> ulist=upMapper.up_list(member_no,hotel_board_no);
+		List<downDTO> dlist=downMapper.down_list(member_no,hotel_board_no);
+		String msg = null, url = null;
+		if(ulist.size()!=0){
+			msg = "이미 좋아요.";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}else if(dlist.size()==0){//싫어요 체크
+			downMapper.down_insert(member_no, hotel_board_no);
+			msg = "싫어요.";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}else{
+			msg = "이미 좋아요";
+			url = "hotel_content.do?hotel_board_no="+hotel_board_no+"&hotel_no="+req.getParameter("hotel_no");
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
 	
 	@RequestMapping(value="/hotel_board_list.do")
 	public ModelAndView listBoard(HttpServletRequest req) {
@@ -95,7 +189,7 @@ public class HADController {
 		int startPage = (currentPage-1)/pageBlock * pageBlock + 1;
 		int endPage = startPage + pageBlock - 1;
 		if (endPage>pageCount) endPage = pageCount;
-		//List<BusDTO> list = busMapper.listBus();
+
 		ModelAndView mav = new ModelAndView();
 		req.setAttribute("page_name", "Hotel Board");
 		mav.setViewName("hotel_board/list");
@@ -168,6 +262,90 @@ public class HADController {
 		req.setAttribute("url", url);
 		return "message";
 	}
+	@RequestMapping(value="/hotel_board_delete.do", method=RequestMethod.GET)//삭제
+	public String hotel_board_delete(HttpServletRequest req) {
+		hotel_boardDTO dto = hotel_boardMapper.getHotel_board(req.getParameter("hotel_board_no"));
+		int res=hotel_boardMapper.deleteHotel_board(req.getParameter("hotel_board_no"));
+		String msg = null, url = null;
+		if(res>0) {
+			msg = "글이 삭제되었습니다. 게시글 목록으로 이동합니다.";
+			url = "hotel_board_list.do?hotel_no="+dto.getHotel_no()+"&page_name=Hotel Board";
+		}else {
+			msg = "글이 삭제되지 않았습니다. 다시 작성해주세요.";
+			url = "hotel_board_list.do?hotel_no="+dto.getHotel_no()+"&page_name=Hotel Board";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	@RequestMapping(value="/hotel_board_delete2.do", method=RequestMethod.GET)//삭제
+	public String hotel_board_delete2(HttpServletRequest req) {
+		hotel_boardDTO dto = hotel_boardMapper.getHotel_board(req.getParameter("hotel_board_no"));
+		hotel_boardMapper.deleteHotel_board2(String.valueOf(dto.getRe_group()));
+		int res=hotel_boardMapper.deleteHotel_board(req.getParameter("hotel_board_no"));
+		String msg = null, url = null;
+		if(res>0) {
+			msg = "글이 삭제되었습니다. 게시글 목록으로 이동합니다.";
+			url = "hotel_board_list.do?hotel_no="+dto.getHotel_no()+"&page_name=Hotel Board";
+		}else {
+			msg = "글이 삭제되었습니다. 게시글 목록으로 이동합니다.";
+			url = "hotel_board_list.do?hotel_no="+dto.getHotel_no()+"&page_name=Hotel Board";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
+	@RequestMapping(value="/hotel_board_update.do", method=RequestMethod.GET)//수정
+	public String hotel_board_update(HttpServletRequest req) {
+		hotel_boardDTO dto = hotel_boardMapper.getHotel_board(req.getParameter("hotel_board_no"));
+		System.out.println(dto.getHotel_board_no());
+		req.setAttribute("dto", dto);
+		return "hotel_board/board_update";
+	}
+	
+	@RequestMapping(value="/hotel_board_update.do", method=RequestMethod.POST)
+	public String hotel_board_update2(MultipartHttpServletRequest mtfRequest,HttpServletRequest req, hotel_boardDTO dto,HttpSession session) {
+		List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		
+		String filename = "";
+		int filesize = 0; 	
+		for (MultipartFile mf : fileList) {
+			String tempname = mf.getOriginalFilename();
+			long tempsize = mf.getSize(); 	
+			try {
+				mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
+				filename+=tempname+"/";
+				filesize+=tempsize;
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		dto.setFilename(filename);
+		dto.setFilesize(filesize);
+		int res = hotel_boardMapper.updateHotel_board(dto);
+
+		String msg = null, url = null;
+		if(res>0) {
+			msg = "글 수정완료. 게시글 목록으로 이동합니다.";
+			url = "hotel_board_list.do?hotel_no="+dto.getHotel_no()+"&page_name=Hotel Board";
+		}else {
+			msg = "새 글 작성이 완료되지 않았습니다. 다시 작성해주세요.";
+			url = "hotel_board_list.do?hotel_no="+dto.getHotel_no()+"&page_name=Hotel Board";
+		}
+		
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
+	
+	
 	
 	@RequestMapping(value="/re_insert.do", method=RequestMethod.POST)
 	public String insertBoard2(HttpServletRequest req, hotel_boardDTO dto,HttpSession session) {
@@ -209,12 +387,16 @@ public class HADController {
 	}
 	
 	@RequestMapping(value="/hotel_content.do")
-	public ModelAndView getBoard(@RequestParam int hotel_board_no ,HttpServletRequest req) {
+	public ModelAndView getBoard(@RequestParam int hotel_board_no ,HttpServletRequest req,HttpSession session) {
 		hotel_boardMapper.read_count(hotel_board_no);
 		hotel_boardDTO dto = hotel_boardMapper.getHotel_board(String.valueOf(hotel_board_no));
 		hotel_boardDTO dto2 = hotel_boardMapper.getHotel_board(String.valueOf(hotel_board_no));
 		MemberDTO_sm mdto2=memberMapper.getMember2(String.valueOf(dto.getMember_no()));
 		dto.setMember_no(mdto2.getName()); 
+		int member_no=-1;
+		if(session.getAttribute("MNUM")!=null){
+			member_no=(Integer)session.getAttribute("MNUM");
+		}
 		
 		int pageSize=5;
 		String pageNum=req.getParameter("pageNum");
@@ -235,7 +417,8 @@ public class HADController {
 			MemberDTO_sm mdto=memberMapper.getMember2(String.valueOf(dto3.getMember_no()));
 			dto3.setMember_no(mdto.getName()); 
 		}
-		int hotel_member_no=hotelMapper.getHotel(String.valueOf(dto.getHotel_no())).getMember_num();
+		hotelDTO gethotel=hotelMapper.getHotel(String.valueOf(dto.getHotel_no()));
+		int hotel_member_no=gethotel.getMember_num();
 		int startNum = count-((currentPage-1)*pageSize);
 		int pageCount = count/pageSize + (count%pageSize == 0 ? 0 : 1);
 		int pageBlock = 5;
@@ -243,8 +426,23 @@ public class HADController {
 		int endPage = startPage + pageBlock - 1; 
 		if (endPage>pageCount) endPage = pageCount;
 		ModelAndView mav = new ModelAndView();
-		req.setAttribute("page_name", "Hotel Board");
+		List<upDTO> ulist=upMapper.up_list(member_no,hotel_board_no);
+		List<downDTO> dlist=downMapper.down_list(member_no,hotel_board_no);
+		List<upDTO> ulist2=upMapper.up_list2(member_no,hotel_board_no);
+		List<downDTO> dlist2=downMapper.down_list2(member_no,hotel_board_no);
+		boolean up=false;
+		boolean down=false;
+		if(ulist.size()==0){
+			up=true;
+		}
+		if(dlist.size()==0){
+			down=true;
+		}
 		mav.setViewName("hotel_board/content");
+		mav.addObject("ulist",ulist2);
+		mav.addObject("dlist",dlist2);
+		mav.addObject("up",up);
+		mav.addObject("down",down);
 		mav.addObject("listBoard", list);
 		mav.addObject("listBoard2", list2);
 		mav.addObject("count",count);
@@ -256,6 +454,9 @@ public class HADController {
 		mav.addObject("getBoard",dto);
 		mav.addObject("getBoard2",dto2);
 		mav.addObject("member",hotel_member_no);
+		mav.addObject("gethotel",gethotel);
+		
+		
 		return mav;
 	}
 	

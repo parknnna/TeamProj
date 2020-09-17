@@ -33,9 +33,11 @@ public class Hotel_boardMapper {
 	public int insertHotel_board(hotel_boardDTO dto) {
 		return sqlSession.insert("insertHotel_board", dto);
 	}
-
 	public int deleteHotel_board(String no) {
 		return sqlSession.delete("deleteHotel_board", no);
+	}
+	public int deleteHotel_board2(String no) {
+		return sqlSession.delete("deleteHotel_board2", no);
 	}
 
 	public hotel_boardDTO getHotel_board(String no) {
@@ -55,6 +57,13 @@ public class Hotel_boardMapper {
 
 	public int hotel_board_MAX() {
 		return sqlSession.selectOne("hotel_board_MAX");
+	}
+	
+	public int upUpdate(int size, int hotel_board_no){
+		java.util.Map<String, Object> map = new java.util.Hashtable<String, Object>();
+		map.put("size", size);
+		map.put("hotel_board_no", hotel_board_no);
+		return sqlSession.update("upUpdate",map);
 	}
 
 	public int hotel_board_re_UP(int re_step,int re_group) {

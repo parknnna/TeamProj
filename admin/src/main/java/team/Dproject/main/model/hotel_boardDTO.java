@@ -13,8 +13,15 @@ public class hotel_boardDTO {
 	private int re_step;
 	private int re_level;
 	private String title;
+	private int up;
 	
 	
+	public int getUp() {
+		return up;
+	}
+	public void setUp(int up) {
+		this.up = up;
+	}
 	public String getTitle() {
 		return title;
 	}

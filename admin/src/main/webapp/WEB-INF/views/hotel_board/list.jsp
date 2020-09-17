@@ -20,6 +20,7 @@
 <body>
 <%
 	hotelDTO hdto=(hotelDTO)request.getAttribute("hdto");
+	List<hotel_boardDTO> hotel_list=(List)request.getAttribute("listBoard");
 %>
 <%@ include file="../Basic/head.jsp" %>   
 <%@ include file="../Basic/nav_Hotel.jsp" %>
@@ -54,14 +55,20 @@
 				</td>
 			</tr>
 			</c:if>
+			<%int i=0; %>
 			<c:forEach var="dto" items="${listBoard}">
 			<tr align="center">
 				<td style="border-bottom:1px solid #ebebeb"><c:out value="${dto.hotel_board_no}"/></td>
-				<td style="border-right:1px solid #ebebeb;border-left:1px solid #ebebeb;border-bottom:1px solid #ebebeb">${dto.member_no}</td>
-				<td style="border-right:1px solid #ebebeb;border-left:1px solid #ebebeb;border-bottom:1px solid #ebebeb"><a class="ss" href="hotel_content.do?hotel_board_no=${dto.hotel_board_no}&hotel_no=<%=hdto.getHotel_no()%>">${dto.title}&nbsp;&nbsp;[${dto.re_step }]</a></td>
+				<td style="border-right:1px solid #ebebeb;border-left:1px solid #ebebeb;border-bottom:1px solid #ebebeb">${dto.member_no}</td>				
+				<td style="border-right:1px solid #ebebeb;border-left:1px solid #ebebeb;border-bottom:1px solid #ebebeb">
+				<%if(hotel_list.get(i).getUp()>=10){%>
+					<img src="${pageContext.request.contextPath}/resources/images/crown.svg" width="30px" height="30px">
+				<%} %>
+				<a class="ss" href="hotel_content.do?hotel_board_no=${dto.hotel_board_no}&hotel_no=<%=hdto.getHotel_no()%>">${dto.title}&nbsp;&nbsp;[${dto.re_step }]</a></td>
 				<td style="border-right:1px solid #ebebeb;border-left:1px solid #ebebeb;border-bottom:1px solid #ebebeb">${dto.readcount}</td>
 				<td style="border-bottom:1px solid #ebebeb">${dto.reg_date}</td>
 			</tr>
+			<%i++; %>
 			</c:forEach>
 		</table>
 	<!-- 페이지 이전? 다음? -->

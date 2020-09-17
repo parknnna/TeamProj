@@ -21,7 +21,7 @@
 <%
 List<roomDTO> list = (List) request.getAttribute("list");
 %>
-<div align="center"style="margin-top:62px" >
+<div align="center"style="margin-top:90px" >
 	<table width="70%" border="1">
 		<tr align="right">
 			<td colspan="7"><a href="ADroom_insert.do?hnum=<%=request.getParameter("hnum")%>">추가&nbsp;&nbsp;</a><a href="ADhotel_list.do">뒤로가기</a>
