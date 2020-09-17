@@ -21,7 +21,7 @@ public class MemberMapper {
 	}
 
 	public boolean checkMember(MemberDTO dto) {
-		java.util.Map<String, Integer> map = new java.util.Hashtable<String, Integer>();
+		java.util.Map<String, String> map = new java.util.Hashtable<String, String>();
 		map.put("ssn1", dto.getSsn1());
 		map.put("ssn2", dto.getSsn2());
 		int res = sqlSession.selectOne("checkMember", map);
@@ -87,18 +87,17 @@ public class MemberMapper {
 	}
 
 	public List<MemberDTO> findMember(String search, String searchString) {
-		java.util.Map<String, String> map = new java.util.Hashtable<String, String>();
-		if(search == null){
-			search = "";
+		List<MemberDTO> list = null;
+		if(search.equals("id")){
+			list = sqlSession.selectList("findMemberId", searchString);
+			
+		}else if(search.equals("name")){
+			list = sqlSession.selectList("findMemberName", searchString);
+			
+		}else{
+			list = null;
 			
 		}
-		if(searchString == null){
-			searchString = "id";
-			
-		}
-		map.put("search", search);
-		map.put("searchString", searchString);
-		List<MemberDTO> list = sqlSession.selectList("findMember", map);
 		return list;
 		
 	}
@@ -112,14 +111,14 @@ public class MemberMapper {
 	public int memberLogin(String id, String passwd) {
 		String dbPasswd = sqlSession.selectOne("getMemberPasswd", id);
 		if(dbPasswd == null){
-			return 2; //�ش��ϴ� ���̵� ����
+			return 2; //占쌔댐옙占싹댐옙 占쏙옙占싱듸옙 占쏙옙占쏙옙
 			
 		}else{
 			if(dbPasswd.trim().equals(passwd)){
-				return 0; // �α��� ����
+				return 0; // 占싸깍옙占쏙옙 占쏙옙占쏙옙
 				
 			}else{
-				return 1; // ��й�ȣ�� Ʋ��
+				return 1; // 占쏙옙橘占싫ｏ옙占� 틀占쏙옙
 				
 			}
 			

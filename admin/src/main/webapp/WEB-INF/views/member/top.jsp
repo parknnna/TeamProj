@@ -11,7 +11,7 @@
 	<table border="1" width="800" height="600">
 		<tr height="10%">
 			<td align="center">
-				<a href = "main.do">홈으로</a> |
+				<a href = "index.do">홈으로</a> |
 				<c:if test="${empty sedto}">
 					<a href = "member_login.do">로그인</a> |
 					<a href = "member_input.do">회원가입</a> |

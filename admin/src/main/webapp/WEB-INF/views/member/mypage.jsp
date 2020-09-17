@@ -20,28 +20,42 @@
 	}
 </script>
 <div align = "center">
-	<form name = "f" action = "member_edit_ok.do?mode=mypage" method = "post">
+	<form name = "f" action = "member_edit_ok.do?mode=mypage" method = "post" enctype="multipart/form-data">
 		<input type="hidden" name="member_no" value="${sedto.member_no}">
+		<input type = "hidden" name = "id" value = "${sedto.id}">
+		<input type=  "hidden" name = "ssn1" value = "${sedto.ssn1}">
+		<input type=  "hidden" name = "ssn2" value = "${sedto.ssn2}">
 		<input type = "hidden" name = "name" value = "${sedto.name}">
 		<input type = "hidden" name = "sex" value = "${sedto.sex}">
 		<input type = "hidden" name = "position" value = "${sedto.position}" >
+		<input type = "hidden" name = "point" value = "${sedto.point}">
+		<input type = "hidden" name = "joindate" value = "${sedto.joindate}">
+		<input type = "hidden" name = "filename" value = "${sedto.filename }">
 		<table class = "outline" border = "1">
-			<caption>마 이 페 이 지</caption>
+			<tr>
+				<td rowspan = "4"><img src="${pageContext.request.contextPath}/resources/img/${sedto.filename}" width = "80" height = "80"></td>
+			</tr>
 			<tr>
 				<th align = "center">이름</th>
-				<td colspan = "3">${sedto.name}</td>
+				<td><input type = "text" value = "${sedto.name}" size = "10" disabled></td>
 			</tr>
 			<tr>
 				<th align = "center">아이디</th>
-				<td><input type = "text" name = "id" value = "${sedto.id}" size = "10" readOnly></td>
+				<td><input type = "text" name = "id" value = "${sedto.id}" size = "10" disabled></td>
+			</tr>
+			<tr>
 				<th align = "center">비밀번호</th>
 				<td><input type = "password" name = "passwd" size = "10"></td>
 			</tr>
 			<tr>
+				<th align = "center">이미지 수정</th>
+				<td colspan = "3"><input type = "file" name = "new_filename"></td>
+			</tr>
+			<tr>
 				<th align = "center">주민번호</th>
 				<td colspan = "3">
-					<input type = "text" name = "ssn1" value = "${sedto.ssn1}" size = "10" readOnly> - 
-					<input type = "password" name = "ssn2" value = "${sedto.ssn2}" size = "10" readOnly>
+					<input type = "text" name = "ssn1" value = "${sedto.ssn1}" size = "10" disabled> - 
+					<input type = "password" name = "ssn2" value = "${sedto.ssn2}" size = "10" disabled>
 				</td>
 			</tr>
 			<tr>
@@ -60,11 +74,11 @@
 			</tr>
 			<tr>
 				<th align = "center">포인트</th>
-				<td colspan = "3"><input type = "text" name = "point" value = "${sedto.point}" size = "5" readOnly>점</td>
+				<td colspan = "3"><input type = "text" name = "point" value = "${sedto.point}" size = "5" disabled>점</td>
 			</tr>
 			<tr>
 				<th align = "center">가입일</th>
-				<td colspan = "3"><input type = "text" name = "joindate" value = "${sedto.joindate}" size = "10" readOnly></td>
+				<td colspan = "3"><input type = "text" name = "joindate" value = "${sedto.joindate}" size = "10" disabled></td>
 			</tr>
 			<tr>
 				<td colspan = "4" align = "center">
