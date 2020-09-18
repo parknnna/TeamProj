@@ -34,6 +34,20 @@ public class RoomMapper_sks {
 		return sqlSession.selectList("getRoom1_sks", room_name);
 	}
 	
+	public List<RoomDTO_sks> getResvRoom_sks(int hotel_no,int grade){
+		java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+		map.put("hotel_no", hotel_no);
+		map.put("grade", grade);
+		return sqlSession.selectList("getResvRoom_sks",map);
+	}
+	
+	public List<String> getResvRoomno_sks(int hotel_no,int grade){
+		java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+		map.put("hotel_no", hotel_no);
+		map.put("grade", grade);
+		return sqlSession.selectList("getResvRoomno_sks",map);
+	}
+	
 	public RoomDTO_sks getRoom2_sks(int hotel_no, int grade){
 		java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
 		

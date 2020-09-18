@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="team.Dproject.main.model.*" %>
 <%@page import="java.util.*" %>
+<%@page import="java.text.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,6 +11,39 @@
 	href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	function check() {
+		var start = f.start_resv_date.value;
+		var end = f.end_resv_date.value;
+		var date = new Date();
+		var year = date.getFullYear(); //년도
+		var month = date.getMonth() + 1; //월
+		var day = date.getDate(); //일
+		if ((day + "").length < 2) { // 일이 한자리 수인 경우 앞에 0을 붙여주기 위해
+			day = "0" + day;
+		}
+		var today = year + "-" + month + "-" + day; // 오늘 날짜 (2017-02-07)
+		if (start == "") {
+			alert("입실 시작 날짜를 입력 해 주세요!!")
+			return false;
+		}
+		if (end == "") {
+			alert("퇴실 시작 날짜를  입력 해 주세요!!")
+			return false;
+		}
+		if (start >= end) {
+			alert("퇴실 날짜를 입실날짜 이후로 지정해주세요!!")
+			return false;
+		}
+		var s = new Date(start);
+		var t = new Date(today);
+		if (s < t) {
+			alert("이전 날짜는 예약할 수 없습니다.")
+			return false;
+		}
+		return true;
+	}
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -28,7 +62,7 @@
 	</div>
 	<div>
 	<div align="center">
-		<form action="hotel_resvlist">
+		<form name="f" action="hotel_resvlist" onSubmit='return check();'>
 			<table border="1">
 				<tr>
 					<th><label>지역</label></th>
@@ -99,6 +133,7 @@
 			</tr>
 			<!-- 호텔,룸 리스트 불러오기. -->
 			<%
+				DecimalFormat df = new DecimalFormat("###,###");
 				List<HotelDTO_sks> hlist=(List<HotelDTO_sks>)request.getAttribute("hlist");
 				List<RoomDTO_sks> rlist=(List<RoomDTO_sks>)request.getAttribute("rlist");
 				int su = (Integer)request.getAttribute("stay");
@@ -110,7 +145,7 @@
 							&stay=${stay}&address=${address}&roomsu=${roomsu}&sleeps=${sleeps}
 							&start_resv_date=${start_resv_date}&end_resv_date=${end_resv_date}"> 
 						<img width="100px" height="70px"
-						src="c:/hotelimg/<%=hlist.get(i).getFilename() %>"/>
+						src="${pageContext.request.contextPath}/resources/img/<%=hlist.get(i).getFilename() %>"/>
 						</a>
 					</td>
 					<td>
@@ -136,7 +171,7 @@
 						<%=rlist.get(i).getName() %> 정원 <%=rlist.get(i).getSleeps()%>명<br>
 						</div>
 						<c:set var="su" value="${stay}" ></c:set>
-						<%=su%>박 <%=rlist.get(i).getPrice()*su%> 원<br>
+						<%=su%>박 <%=df.format(rlist.get(i).getPrice()*su)%> 원<br>
 						<a href="hotel_resvcontent?hotel_no=<%=hlist.get(i).getHotel_no()%>&room_no=<%=rlist.get(i).getRoom_no()%>
 								&stay=${stay}&address=${address}&roomsu=${roomsu}&sleeps=${sleeps}
 								&start_resv_date=${start_resv_date}&end_resv_date=${end_resv_date}">

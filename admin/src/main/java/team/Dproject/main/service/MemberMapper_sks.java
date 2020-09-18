@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import team.Dproject.main.model.MemberDTO_sks;
+import team.Dproject.main.model.MemberDTO;
 
 import java.util.*;
 
@@ -18,13 +18,13 @@ public class MemberMapper_sks {
 		java.util.Map<String,String> map = new java.util.Hashtable<String,String>();
 		map.put("ssn1", ssn1);
 		map.put("ssn2", ssn2);
-		MemberDTO_sks dto = sqlSession.selectOne("checkMember_sks",map);
+		MemberDTO dto = sqlSession.selectOne("checkMember_sks",map);
 		if(dto==null)return false;
 		return true;
 		
 	}
 	
-	public int insertMember_sks(MemberDTO_sks dto, int sex){
+	public int insertMember_sks(MemberDTO dto, int sex){
 		dto.setPosition(3);
 		dto.setPoint(0);
 		dto.setSex(sex);
@@ -34,11 +34,11 @@ public class MemberMapper_sks {
 		//만약 예를 들어 승인 후 가입이면 승인처리 한 후 commit을 써줘야한다. 단 session.close를 하면 commit이 안된다.
 		return res;
     }
-	public List<MemberDTO_sks> listMember_sks(){
+	public List<MemberDTO> listMember_sks(){
 		return sqlSession.selectList("listMember_sks");
 	}
 	
-	public MemberDTO_sks getMember_sks(int member_no){
+	public MemberDTO getMember_sks(int member_no){
 		return sqlSession.selectOne("getMember_sks",member_no);
 	}
 	
@@ -60,10 +60,17 @@ public class MemberMapper_sks {
 		
 	}
 
-	public MemberDTO_sks getMember1_sks(String id) {
-		MemberDTO_sks dto = sqlSession.selectOne("getMember1_sks", id);
+	public MemberDTO getMember1_sks(String id) {
+		MemberDTO dto = sqlSession.selectOne("getMember1_sks", id);
 		return dto;
 		
+	}
+	
+	public int updateMemberPoint_sks(int user_point,int member_no){
+		java.util.Map<String,Integer> map = new java.util.Hashtable<String,Integer>();
+		map.put("user_point", user_point);
+		map.put("member_no", member_no);
+		return sqlSession.insert("updateMemberPoint_sks", map);
 	}
 }
 

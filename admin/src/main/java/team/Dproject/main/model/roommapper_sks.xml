@@ -23,6 +23,12 @@
 	<select id="getRoom2_sks" resultType="roomDTO_sks" parameterType="java.util.Map">
 		select * from room where hotel_no=#{hotel_no} and grade=#{grade} and room_no like '%-1'
 	</select>
+	<select id="getResvRoom_sks" resultType="roomDTO_sks" parameterType="java.util.Map">
+		select * from room where hotel_no = #{hotel_no} and grade = #{grade}
+	</select>
+	<select id="getResvRoomno_sks" resultType="String" parameterType="java.util.Map">
+		select room_no from room where hotel_no = #{hotel_no} and grade = #{grade}
+	</select>
 	<!-- <select id="getRoomNo" parameterType="java.util.map" resultType="String">
 		select room_no from room a,hotel b where a.sleeps=#{sleeps} and b.address like #{address} and a.hotel_no=b.hotel_no 
 	</select> -->
