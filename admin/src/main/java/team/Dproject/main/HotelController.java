@@ -483,7 +483,7 @@ public class HotelController {
 			}
 			resp.addCookie(ck);
 			session.setAttribute("sedto", dto);
-			msg = dto.getName() + "님 환영합니다. 로그인 창을 닫습니다.";
+			msg = dto.getName() + " 님 환영합니다. 확인을 누르시면 창을 닫습니다.";
 			url = "popup";
 			break;
 						
