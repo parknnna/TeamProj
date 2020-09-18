@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="head.jsp" %>
-  <body>
+  <body onload="load();">
     
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
@@ -20,11 +21,16 @@
       
       <div class="header-btns" id="ftco-nav">
       	<ul class="navbar-nav">
-      	<li class="nav-item cta"><a href="member_login.do" class="nav-link"><span>Login</span></a>
+      	<c:if test="${empty sedto}">
+      	<li class="nav-item cta"><a href="member_login_resv.do" class="nav-link"><span>Login</span></a>
+      	</c:if>	
+      	<c:if test="${not empty sedto}">
+      	<li class="nav-item cta"><a href="member_logout_resv.do" class="nav-link"><span>LogOut</span></a>
+      	</c:if>
       		<ul class="submenu">
-      			<li><a href="member_mypage.do" class="submenu-1-first">My Page</a></li>
+      			<li><a href="member_mypage_resv.do" class="submenu-1-first">My Page</a></li>
       			<li><a href="member_wishlist.do" class="submenu-1-second">Wish List</a></li>
-                <li><a href="member_input.do" class="submenu-1-third">Sign Up</a></li>
+                <li><a href="member_input_resv.do" class="submenu-1-third">Sign Up</a></li>
       		</ul>
       	</li>
       	</ul>
@@ -43,7 +49,7 @@
 					<p class="breadcrumbs"
 						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"
 						style="margin-top: 170px">
-						<span class="mr-2"><a href="index">Home</a></span> <span>Bus</span>
+						<span class="mr-2"><a href="bus_main.do">Home</a></span> <span>Bus</span>
 					</p>
 					<h1 class="mb-3 bread"
 						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Bus</h1>
@@ -51,3 +57,4 @@
 			</div>
 		</div>
 	</div>
+	

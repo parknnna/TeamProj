@@ -19,17 +19,18 @@ public class BusRoadMapper {
 	 public List<BusRoadDTO> listBus_road(){
 	      return sqlSession.selectList("listBus_road");
 	 }
-	 public List<Bus_BusRoadDTO> bus_no_list_null(){//������� bus_no�� �����ϰ� ���
+	 public List<Bus_BusRoadDTO> bus_no_list_null(){//占쏙옙占쏙옙占쏙옙占� bus_no占쏙옙 占쏙옙占쏙옙占싹곤옙 占쏙옙占�
 		 return sqlSession.selectList("bus_no_list_null");
 	 }
 	
-	 public int bus_no_list_null_count(){//��������� ���� bus_no �� �� ���ϱ�
+	 public int bus_no_list_null_count(){//占쏙옙占쏙옙占쏙옙占쏙옙占� 占쏙옙占쏙옙 bus_no 占쏙옙 占쏙옙 占쏙옙占싹깍옙
 		 return sqlSession.selectOne("bus_no_list_null_count");
 	 }
-	 public int bus_road_member_count(){//���� �뼱 �౸�ϱ�
+	
+	 public int bus_road_member_count(){//占쏙옙占쏙옙 占쎈선 占썅구占싹깍옙
 		 return sqlSession.selectOne("bus_road_member_count");
 	 }
-	 public Bus_BusRoadDTO bus_no_null_rownum(){//��������� ���� bus_no ���߿� ù��°��
+	 public Bus_BusRoadDTO bus_no_null_rownum(){//占쏙옙占쏙옙占쏙옙占쏙옙占� 占쏙옙占쏙옙 bus_no 占쏙옙占쌩울옙 첫占쏙옙째占쏙옙
 		 return sqlSession.selectOne("bus_no_null_rownum");
 	 }
 	 

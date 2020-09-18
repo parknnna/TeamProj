@@ -15,6 +15,9 @@
 	<select id="getBus_station_resv" parameterType="String" resultType="BusStationDTO_resv">
 		select * from bus_station where station_no=#{no}
 	</select>
+	<select id="getBus_station_search_resv" parameterType="int" resultType="BusStationDTO_resv"><!-- station_no 값을 station_name 으로 변경시 사용 -->
+		select * from bus_station where station_no=#{search}
+	</select>
 	
 	<select id="getBus_station_name_resv" parameterType="String" resultType="BusStationDTO_resv">
 		select * from bus_station where station_name=#{name}

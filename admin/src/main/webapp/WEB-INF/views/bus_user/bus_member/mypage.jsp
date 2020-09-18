@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ include file="../bus_main/top.jsp" %>
+<%@ include file="../../Basic/top_Bus.jsp" %>
+<%@include file="../bus_main/top.jsp" %>
 <script type="text/javascript">
 	function check(){
 		if(f.passwd.value == ""){
@@ -26,7 +27,7 @@
 		<input type = "hidden" name = "sex" value = "${sedto.sex}">
 		<input type = "hidden" name = "position" value = "${sedto.position}" >
 		<table class = "outline" border = "1">
-			<caption>마 이 페 이 지</caption>
+			
 			<tr>
 				<th align = "center">이름</th>
 				<td colspan = "3">${sedto.name}</td>
@@ -76,4 +77,4 @@
 		</table>
 	</form>
 </div>
-<%@ include file="../bus_main/bottom.jsp" %>
+<%@ include file="../../Basic/bottom_nav.jsp" %>
