@@ -32,7 +32,7 @@
 	function goBack() {
 		  window.history.back();
 		}
-
+	
 </script>
 <style>
 	td{
@@ -74,7 +74,7 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td>호텔이미지 :</td><td> <input type="file" name="filename" size="30"></td>
+				<td>호텔이미지 :</td><td> <input multiple="multiple" type="file" name="file" /></td>
 			</tr>
 			<tr><td colspan="2"><input type="button" value="추가" onclick="javascript:check()">
 				<input type="reset" value="다시쓰기"></td></tr>

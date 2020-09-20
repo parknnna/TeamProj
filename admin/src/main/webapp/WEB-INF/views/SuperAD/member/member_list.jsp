@@ -63,6 +63,7 @@ th {
 						<td class="m2">${dto.joindate}</td>
 						<td class="m2">${dto.position}</td>
 						<td class="m2">
+							<a href = "loginProcess.do?post=${dto.id}">채팅</a> |
 							<a href = "ADmember_edit.do?id=${dto.id}">수정</a> |
 							<a href = "ADmember_delete.do?id=${dto.id}">삭제</a>
 						</td>

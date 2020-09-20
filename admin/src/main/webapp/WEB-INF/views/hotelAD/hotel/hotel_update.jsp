@@ -63,7 +63,7 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td>호텔이미지 : <input type="file" name="filename" size="30" value="${dto.filename}"></td>
+				<td>호텔이미지 : <input multiple="multiple" type="file" name="file" /></td>
 			</tr>
 			<tr>
 			<td><input type="button" value="수정" onclick="javascript:check()">

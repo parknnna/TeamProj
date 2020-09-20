@@ -35,6 +35,15 @@ import team.Dproject.main.service.MemberMapper;
 import team.Dproject.main.service.ResvMapper;
 import team.Dproject.main.service.RoomMapper;
 import team.Dproject.main.service.UpMapper;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * Handles requests for the application home page.
@@ -67,6 +76,8 @@ public class HADController {
 	 */
 
 	
+
+
 	//======================================================================================
 	@RequestMapping(value="/hotel_board_up.do")
 	public String up(HttpServletRequest req, HttpSession session) {
@@ -528,22 +539,26 @@ public class HADController {
 		return "hotelAD/hotel/hotel_insert";
 	}
 
-	@RequestMapping(value = "/ADhotel_insert.do", method = RequestMethod.POST)
-	public String hotel_insertOK(HttpServletRequest req, @ModelAttribute hotelDTO dto, BindingResult result, HttpSession session) {
+	@RequestMapping(value = "/ADhotel_insert.do", method = RequestMethod.POST)//호텔
+	public String hotel_insertOK(MultipartHttpServletRequest mtfRequest, HttpServletRequest req, @ModelAttribute hotelDTO dto, BindingResult result, HttpSession session) {
 		Integer MNUM=(Integer)session.getAttribute("MNUM");
 		dto.setMember_num(MNUM);
+		List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		
 		String filename = "";
-		int filesize = 0;
-		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
-		MultipartFile file = mr.getFile("filename");
-		File target = new File(upLoadPath, file.getOriginalFilename());
-		if (file.getSize() > 0) {
+		int filesize = 0; 	
+		for (MultipartFile mf : fileList) {
+			String tempname = mf.getOriginalFilename();
+			long tempsize = mf.getSize(); 	
 			try {
-				file.transferTo(target);
+				mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
+				filename+=tempname+"/";
+				filesize+=tempsize; 
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			filename = file.getOriginalFilename();
-			filesize = (int) file.getSize();
 		}
 		dto.setFilename(filename);
 		dto.setFilesize(filesize);
@@ -636,7 +651,7 @@ public class HADController {
 		return "hotelAD/room/room_insert";
 	}
 
-	@RequestMapping(value = "/ADroom_insert.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/ADroom_insert.do", method = RequestMethod.POST)//룸
 	public String room_insertOK(MultipartHttpServletRequest mtfRequest, HttpSession session, @ModelAttribute roomDTO dto,HttpServletRequest req) {
 		List<MultipartFile> fileList = mtfRequest.getFiles("file");
 		String hnum = (String) session.getAttribute("hnum");
@@ -759,7 +774,7 @@ public class HADController {
 
 	@RequestMapping("/ADresv_list.do")
 	public ModelAndView resv_list(HttpServletRequest req) {
-
+		int day=0;
 		ModelAndView mav = new ModelAndView();
 		if (req.getParameter("hnum") != null) {
 			hnum = req.getParameter("hnum");
@@ -769,9 +784,17 @@ public class HADController {
 		List<roomDTO> roomlist = roomMapper.listRoom(Integer.parseInt(hnum));
 		List<resvDTO> list = new ArrayList<resvDTO>();
 		for (resvDTO dto : resvlist) {
-			int resv = Integer.parseInt(dto.getStart_resv_date());
-			int a = Integer.parseInt(dto.getEnd_resv_date());
-			for (int i = 0; i < a - 1; i++) {
+			String[] startArr = dto.getStart_resv_date().split("-");
+			String start = "";
+			for(String i : startArr) start+=i;
+			int startInt = Integer.parseInt(start);
+			String[] endArr = dto.getEnd_resv_date().split("-");
+			String end = "";
+			for(String i : endArr) end+=i;
+			int endInt = Integer.parseInt(end);
+			day=endInt-startInt;
+			System.out.println(day);
+			for (int i = 0; i < day; i++) {
 				resvDTO Tdto = new resvDTO();
 				Tdto.setMember_no(dto.getMember_no());
 				Tdto.setEnd_resv_date(dto.getEnd_resv_date());
@@ -782,7 +805,7 @@ public class HADController {
 				Tdto.setSave_point(dto.getSave_point());
 				Tdto.setUse_point(dto.getUse_point());
 
-				Tdto.setStart_resv_date(resv_petch(resv, i));
+				Tdto.setStart_resv_date(resv_petch(startInt, i));
 				list.add(Tdto);
 			}
 		}
@@ -797,8 +820,8 @@ public class HADController {
 			mav.addObject("resvlist", resvlist);
 			mav.addObject("roomlist", roomlist);
 			mav.addObject("hnum", hnum);
+			mav.addObject("day", day);
 		}
-		req.setAttribute("page_name", "Hotel Resv");
 		return mav;
 	}
 
@@ -827,6 +850,10 @@ public class HADController {
 			int temp = resv + i;
 			re = String.valueOf(temp);
 		}
+		StringBuffer origin = new StringBuffer(re);
+		origin.insert(6, "-");
+		origin.insert(4, "-");
+		re=origin.toString();
 		return re;
 	}
 
