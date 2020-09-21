@@ -34,4 +34,16 @@ public class BoardMapper {
 	public int getCount(int main_board_no) {
 		return sqlSession.update("getCount", main_board_no);
 	}
+	
+	public List<BoardDTO> getList(int location_no){
+		return sqlSession.selectList("getList", location_no);
+	}
+	
+	public int board_update(BoardDTO dto) {
+		return sqlSession.update("board_update", dto);
+	}
+	
+	public int board_delete(int main_board_no) {
+		return sqlSession.delete("board_delete", main_board_no);
+	}
 }

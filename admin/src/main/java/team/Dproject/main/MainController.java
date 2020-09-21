@@ -60,15 +60,26 @@ public class MainController {
 	
 	@RequestMapping(value="/board_list.do")
 	public String listBoard(HttpServletRequest req) {
+		if(req.getParameter("location_no")==null||req.getParameter("location_no").equals("")) {
 		List<BoardDTO> list = boardMapper.board_list();
 		for(BoardDTO dto :list) {
 			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
 			dto.setMember_no(mdto.getId());
 		}
-		req.setAttribute("listBoard", list);
+		req.setAttribute("getList", list);
 		return "Forum/list";
-
+		}
+		int location_no=Integer.parseInt(req.getParameter("location_no"));
+		List<BoardDTO> loclist = boardMapper.getList(location_no);
+		for(BoardDTO dto :loclist) {
+			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
+			dto.setMember_no(mdto.getId());
+		}
+		req.setAttribute("getList", loclist);
+		return "Forum/list";
 	}
+	
+	
 	
 	@RequestMapping(value="/board_write.do", method=RequestMethod.GET)
 	public String writeForm() {
@@ -126,18 +137,97 @@ public class MainController {
 	public ModelAndView getBoard(@RequestParam int main_board_no,HttpServletRequest req) {
 		BoardDTO dto = boardMapper.getBoard(main_board_no);
 		boardMapper.getCount(main_board_no);
+		//getMember2 : dto의 Member_no으로 정보를 가져와서 mdto 에 저장  
+		req.setAttribute("getNo", dto.getMember_no());
 		MemberDTO mdto = memberMapper.getMember2(dto.getMember_no());
+		//dto의 Member_no에 mdto에서 가져온 Id 저장 
 		dto.setMember_no(mdto.getId());
 		ModelAndView mav = new ModelAndView("Forum/content", "getBoard", dto);
 		List<CommentDTO> list = commentMapper.commentList(dto.getMain_board_no());
+		List<CommentDTO> list2 = commentMapper.commentList(dto.getMain_board_no());
+		for(CommentDTO a : list) {
+			MemberDTO mdto2 = memberMapper.getMember2(a.getWriter());
+			a.setWriter(mdto2.getId());
+		}
 		req.setAttribute("commentList", list);
+		req.setAttribute("commentList2", list2);
 		return mav;
 	}
 	
 	
 	@RequestMapping(value="/search.do")
 	public String search() {
+		
 		return "search";
 	}
+	
+	@RequestMapping(value="/board_update.do", method=RequestMethod.GET)
+	public String up(HttpServletRequest req) { 
+		BoardDTO dto=boardMapper.getBoard(Integer.parseInt(req.getParameter("main_board_no")));
+		req.setAttribute("dto", dto);
+		return "Forum/updateForm";
+	}
+	
+	@RequestMapping(value="/board_update.do", method=RequestMethod.POST)
+	public String updateBoard(MultipartHttpServletRequest mtfRequest,HttpServletRequest req, BoardDTO dto,HttpSession session) {
+		
+		//다중파일 업로드니까 list 배열에 저장 
+				List<MultipartFile> fileList = mtfRequest.getFiles("file");
+				//IP주소 가져오기 
+				dto.setIp(req.getRemoteAddr());
+		String filename = "";
+	      int filesize = 0;    
+	      for (MultipartFile mf : fileList) {
+	         String tempname = mf.getOriginalFilename();
+	         long tempsize = mf.getSize();    
+	         try {
+	        	 //upLoadPath 에 설정해놓은 경로로 파일 업로드 
+	            mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
+	            filename+=tempname+"/";
+	            filesize+=tempsize;
+	        
+	         } catch (IllegalStateException e) {
+	            e.printStackTrace();
+	         } catch (IOException e) {
+	            e.printStackTrace();
+	         }
+	      }
+	    dto.setFilename(filename);
+	    dto.setFilesize(filesize);
+	    
+	    int res= boardMapper.board_update(dto);
+		String msg = null, url = null;
+		if(res>0) {
+			msg = "게시글 수정이 완료되었습니다. 게시글 목록으로 이동합니다.";
+			url = "board_list.do";
+		}else {
+			msg = "게시글 수정에 실패했습니다. 게시글 목록으로 이동합니다.";
+			url = "board_list.do";
+		}
+
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+		
+	}
+	
+	@RequestMapping(value="/board_delete.do")
+	public String deleteBoard(HttpServletRequest req, @RequestParam int main_board_no) {
+		int res= boardMapper.board_delete(main_board_no);
+		String msg = null, url = null;
+		if(res>0) {
+			msg = "게시글 삭제가 완료되었습니다. 게시글 목록으로 이동합니다.";
+			url = "board_list.do";
+		}else {
+			msg = "게시글 삭제에 실패했습니다. 게시글 목록으로 이동합니다.";
+			url = "board_list.do";
+		}
+
+		req.setAttribute("msg", msg);
+		req.setAttribute("url", url);
+		return "message";
+	}
+	
+	
 	
 }

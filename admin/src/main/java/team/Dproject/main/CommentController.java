@@ -39,8 +39,14 @@ public class CommentController {
 		dto.setMember_no(mdto.getId());
 		ModelAndView mav = new ModelAndView("Forum/content", "getBoard", dto);
 		List<CommentDTO> list = commentMapper.commentList(Integer.parseInt(req.getParameter("main_board_no")));
-		
+		List<CommentDTO> list2 = commentMapper.commentList(Integer.parseInt(req.getParameter("main_board_no")));
+		for(CommentDTO a : list) {
+			MemberDTO mdto2 = memberMapper.getMember2(a.getWriter());
+			a.setWriter(mdto2.getId());
+		}
 		req.setAttribute("commentList", list);
+		req.setAttribute("commentList2", list2);
+		
 		return mav;
 	}
 	
@@ -80,13 +86,25 @@ public class CommentController {
 		return mav;
 	}
 	
-	
-	
-	
-	
-
-	
-	
+//	@RequestMapping(value="/comment_update.do")
+//	public ModelAndView commentUpdate(CommentDTO dto, HttpServletRequest req) {
+//		int res = commentMapper.commentInsert(dto);
+//		String msg = null, url = null;
+//		if(res>0) {
+//			msg = "댓글 삭제 완료!";
+//			url = "comment_list.do?main_board_no="+req.getParameter("bno");
+//		}else {
+//			msg = "댓글 작성 오류!";
+//			url = "comment_list.do?main_board_no="+req.getParameter("bno");
+//		}
+//		
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("msg", msg);
+//		mav.addObject("url",url);
+//		mav.setViewName("message");
+//		return mav;
+//		
+//	}
 
 }
 

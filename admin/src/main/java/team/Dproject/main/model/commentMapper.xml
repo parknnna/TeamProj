@@ -7,7 +7,7 @@
 	</select>
 	
 	<select id="commentList" resultType="CommentDTO" parameterType="int">
-		select * from bcomment where bno=#{main_board_no}
+		select * from bcomment where bno=#{main_board_no} order by cno desc
 	</select>
 	
 	<insert id="commentInsert" parameterType="CommentDTO">

@@ -19,10 +19,18 @@
 	</select>
 	
 	<select id="getList" parameterType="int" resultType="BoardDTO">
-		select * from main_board where locaion_no=#{location_no}
+		select * from main_board where location_no=#{location_no}
 	</select>
 	
 	<update id="getCount" parameterType="int">
 		update main_board set readcount = readcount+1 where main_board_no=#{main_board_no}
 	</update>
+	
+	<update id="board_update" parameterType="BoardDTO">
+		update main_board set location_no=#{location_no}, title=#{title}, content=#{content}, filename=#{filename}, filesize=#{filesize} where main_board_no=#{main_board_no}
+	</update>
+	
+	<delete id="board_delete" parameterType="int">
+		delete from main_board where main_board_no=#{main_board_no}
+	</delete>
 </mapper>
