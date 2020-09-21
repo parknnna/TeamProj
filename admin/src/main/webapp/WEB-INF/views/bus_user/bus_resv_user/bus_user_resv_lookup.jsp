@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
+<html>
 <style>
 	input[type=radio]{
 		
@@ -247,9 +246,10 @@
 
 	
 	</script>	
+
+
 <%@ include file="../../Basic/top_Bus.jsp" %>
 <%@include file="../bus_main/top.jsp" %>
-<section class="ftco-section testimony-section bg-light">
 <div align="center" style="width:80%; margin:100px auto 0 auto;">
 	<form name="f" action="bus_resv_user_dispatch.do">
 		<div style="width:80%; height:40%;">
@@ -322,5 +322,5 @@
 		</div>
 	</form>
 </div>
-</section>
+<br><br>
 <%@ include file="../../Basic/bottom_nav.jsp" %>

@@ -3,7 +3,8 @@
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-
+ <%@ include file="../../Basic/top_Bus.jsp" %>
+ <%@ include file="../bus_main/top.jsp" %>
 <script type="text/javascript"> 
 function point(val){ //포인트계산 스크립트
 	var usepoint=parseInt(val);
@@ -14,13 +15,75 @@ function point(val){ //포인트계산 스크립트
 }
 
 </script>
-<%@ include file="../bus_main/top.jsp" %>
+<style>
+	#btn button{
+		border:0;
+		font-size:18px;
+		background-color:rgba(0,0,0,0);
+		color:#c94dff;
+		padding:5px;
+		font-family: "Trebuchet MS";
+		border-top-left-radius: 3px;
+  		border-top-right-radius: 5px;
+   		border-bottom-right-radius: 8px;
+   		border-bottom-left-radius: 10px;
+		
+		}
+	#btn a{
+		font-family: "Trebuchet MS";
+		font-size:25px;
+   	 	font-weight:bold;
+	}
+	#btn button:hover{
+		color:white;
+		background-color:#c94dff;
+		}
+		
+	table.type10 {
+    border-collapse: collapse;
+    font-family: "Trebuchet MS";
+    font-weight:bold;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 20px 10px;
+    font-size:20px;
+	}
+	table.type10 thead th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #fff;
+    background: #c94dff;
+    margin: 20px 10px;
+	}
+	table.type10 tbody th {
+    width: 150px;
+    padding: 10px;
+	}
+	table.type10 td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+	}
+	table.type10 .even {
+    background: #fdf3f5;
+    font-size:20px;
+	}
+	table.type10 .none_even {
+    
+    font-size:20px;
+	}
+</style>
+
 	
 	<div>
 		 
 		<form action="bus_resv_user_total_payok.do">
-		<input type="hidden" name="arr_date" value="${arr_date}">
-		<input type="hidden" name="dep_date" value="${dep_date}">
+		<input type="hidden" name="one_date" value="${one_date}">
+		<input type="hidden" name="two_date" value="${two_date}">
 		<input type="hidden" name="road_no" value="${road_no}">
 		<input type="hidden" name="road_no_reverse" value="${road_no_reverse}">
 		<input type="hidden" name="price" value="${(arr_seat_dto.price*seat_no)+(dep_seat_dto.price*seat_no_reverse)}">
@@ -33,9 +96,9 @@ function point(val){ //포인트계산 스크립트
 			<input type="hidden" name="seat_reverse" value="${seat_reverse}">
 		</c:forEach>
 			<div align="center" style="display: inline-block;">
-			<table border="1">
+			<table border="1" class="type10">
 				<tr align="center">
-					<td colspan="4">${arr_date}(출발일)</td>
+					<td colspan="4">${one_date}(출발일)</td>
 				</tr>
 				<tr>
 					<td colspan="2">출발지:${arr_seat_dto.arrival}</td>
@@ -60,9 +123,9 @@ function point(val){ //포인트계산 스크립트
 			</table>
 			</div>
 			<div align="center" style="display: inline-block;">
-			<table border="1">
+			<table border="1" class="type10">
 				<tr align="center">
-					<td colspan="4">${dep_date}(도착일)</td>
+					<td colspan="4">${two_date}(도착일)</td>
 				</tr>
 				<tr>
 					<td colspan="2">출발지:${dep_seat_dto.arrival}</td>
@@ -85,7 +148,7 @@ function point(val){ //포인트계산 스크립트
 			</table>
 			</div>
 			<div align="right">
-				<table border="1">
+				<table border="1" class="type10">
 					<tr>
 						<td colspan="2">총가격<input type="text"  value="${(arr_seat_dto.price*seat_no)+(dep_seat_dto.price*seat_no_reverse)}" disabled></td>
 					</tr>
@@ -96,4 +159,4 @@ function point(val){ //포인트계산 스크립트
 			</div>
 		</form>
 	</div>
-<%@ include file="../bus_main/bottom.jsp" %>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

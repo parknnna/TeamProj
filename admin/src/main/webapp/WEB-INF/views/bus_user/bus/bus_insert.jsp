@@ -22,14 +22,77 @@
 			
 		}
 	</script>
-<%@ include file="../bus_main/top.jsp" %>
+<style>
+#btn button{
+		border:0;
+		font-size:18px;
+		background-color:rgba(0,0,0,0);
+		color:#c94dff;
+		padding:5px;
+		font-family: "Trebuchet MS";
+		border-top-left-radius: 3px;
+  		border-top-right-radius: 5px;
+   		border-bottom-right-radius: 8px;
+   		border-bottom-left-radius: 10px;
+		
+		}
+	#btn a{
+		font-family: "Trebuchet MS";
+		font-size:25px;
+   	 	font-weight:bold;
+	}
+	#btn button:hover{
+		color:white;
+		background-color:#c94dff;
+		}
+		
+	table.type10 {
+    border-collapse: collapse;
+    font-family: "Trebuchet MS";
+    font-weight:bold;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 20px 10px;
+    font-size:20px;
+	}
+	table.type10  th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #fff;
+    background: #c94dff;
+    margin: 20px 10px;
+	}
+	table.type10  th {
+    width: 150px;
+    padding: 10px;
+	}
+	table.type10 td {
+    width: 300px;
+    padding: 10px;
+    vertical-align: top;
+	}
+	table.type10 .even {
+    background: #fdf3f5;
+    font-size:20px;
+	}
+	table.type10 .none_even {
+    
+    font-size:20px;
+	}
+</style>
+<%@ include file="../../Basic/top_Bus.jsp" %>
+<%@include file="../bus_main/top.jsp" %>
 
 
 	<div align="center">
 		<form name="f" action="bus_insert.do" method="post">
-			<table width="50%" border="1">
+			<table width="50%" border="1" class="type10">
 
-				<tr>
+				<tr style="background-color:#F2F2F2;">
 					<td>버스등급 :
 					<select name="grade">
 						<option value="">선택</option>
@@ -38,7 +101,7 @@
 					</select> 
 					</td>
 				</tr>
-				<tr>
+				<tr style="background-color:#F2F2F2;">
 					<td>버스좌석수 : <input type="text" name="seat"></td>
 				</tr>
 				<tr align="right">
@@ -50,4 +113,4 @@
 			</table>
 		</form>
 	</div>
-<%@ include file="../bus_main/bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

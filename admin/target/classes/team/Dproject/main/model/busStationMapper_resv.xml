@@ -31,5 +31,9 @@
 	<select id="find_station_resv" parameterType="String" resultType="BusStationDTO_resv">
 		select * from bus_station where station_name like '%'||#{searchString}||'%'  
 	</select>
+	
+	<select id="find_hotel_resv" parameterType="String" resultType="HotelDTO_sks">
+		select * from hotel where address like '%'||#{address}||'%' 
+	</select>
  	
 </mapper>

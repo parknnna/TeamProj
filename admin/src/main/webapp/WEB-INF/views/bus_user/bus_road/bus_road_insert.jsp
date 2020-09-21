@@ -35,7 +35,48 @@
 		}
 		</script>
 
-<%@ include file="../bus_main/top.jsp" %>
+<style>
+ table.type10 {
+    border-collapse: collapse;
+    font-family: "Trebuchet MS";
+    font-weight:bold;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 20px 10px;
+    font-size:15px;
+    width:80%;
+	}
+	table.type10  th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    color: #fff;
+    background: #c94dff;
+    margin: 20px 10px;
+	}
+	table.type10 th {
+    width: 150px;
+    padding: 10px;
+	}
+	table.type10 td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+	}
+	table.type10 .even {
+    background: #fdf3f5;
+    font-size:20px;
+	}
+	table.type10 .none_even {
+    
+    font-size:20px;
+	}
+
+</style>
+<%@ include file="../../Basic/top_Bus.jsp" %>
+<%@include file="../bus_main/top.jsp" %>
 	<div align="center">
 		<form name="f" action="bus_road_insert.do" method="post">
 			<h4>
@@ -43,14 +84,14 @@
 			</h4>
 			<h5>->일반:기본요금=5000원  x 소요시간</h5>
 			<h5>->우등:기본요금=8000원 x 소요시간</h5>
-			<table width="50%" border="1">
-				<tr align="center">
+			<table width="50%" border="1" class="type10">
+				<tr align="center" style="background-color:#F2F2F2;">
 				<td>
 					<input  type="radio" name="plus" value="singular" onclick="dip_OnOff(this.value,'dip');" checked>단일추가
 					<input  type="radio" name="plus" value="plural" onclick="dip_OnOff(this.value,'dip');">복수추가
 				</td>
 				</tr>
-				<tr>
+				<tr style="background-color:#F2F2F2;">
 					<td>버스번호:
 						
 						<select name="bus_no">
@@ -70,7 +111,7 @@
 
 
 				</tr>
-				<tr>
+				<tr style="background-color:#F2F2F2;">
 					<td>출발지 : 
 						<select name="arrival">
 						<c:forEach var="dto" items="${bus_station_list}">
@@ -79,7 +120,7 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr style="background-color:#F2F2F2;">
 					<td>도착지 : 
 						<select name="departure">
 						<c:forEach var="dto" items="${bus_station_list}">
@@ -89,7 +130,7 @@
 					</td>
 				</tr>
 			
-				<tr>
+				<tr style="background-color:#F2F2F2;">
 					<td>출발시간 : 
 						<select name="arr_time">
 								<option value="선택" selected>선택</option>
@@ -99,7 +140,7 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr style="background-color:#F2F2F2;">
 					<td>소요시간 : 
 						<select name="tot_time">
 							<option value="선택" selected>선택</option>
@@ -109,7 +150,7 @@
 						</select>
 					</td>
 				</tr>
-				<tr id="dip" style="display:none">
+				<tr id="dip" style="display:none" style="background-color:#F2F2F2;">
 					<td>배차시간: 
 						<select name="dip_time">
 							<option value="선택" selected>선택</option>
@@ -119,7 +160,7 @@
 						</select>
 					</td>
 				</tr>
-				<tr align="right">
+				<tr align="right" >
 					<td>
 						<input type="button" value="추가" onclick="javascript:check()">
 	 					<input type = "button" value = "다시쓰기" onclick = "javascript:reset()">
@@ -130,4 +171,4 @@
 		</form>
 	</div>
 
-<%@ include file="../bus_main/bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>
