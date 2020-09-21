@@ -1,97 +1,64 @@
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>호텔관리자</title>
-<style type="text/css">
-	tr{
-		align:"center";
-	}
-</style>
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.0/css/all.min.css"
-  />
-</head>
-<body>
-	<div align="center">
-		<h2>호텔관리자 페이지</h2>
-		<table>
-			<tr>
-				<td><a href="ADhotel_board.do">호텔 게시판</a> | </td>
-				<td><a href="ADhotel_list.do">호텔리스트</a> | </td>
-				<td><a href="home.do">관리자</a></td>
-			</tr>
-		</table> 
-	</div> --%>
-<%@include file="head.jsp"%>	
-<%
-	MemberDTO member=(MemberDTO)session.getAttribute("sedto");
-%>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="index">DProject</a>
-      <div class="collapse navbar-collapse" id="ftco-nav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a href="index" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="bus_main.do" class="nav-link">Bus</a></li>
-          <li class="nav-item"><a href="hotel" class="nav-link">Hotels</a></li>
-          <li class="nav-item"><a href="restaurant" class="nav-link">Restaurant</a></li>
-          <li class="nav-item"><a href="board_list.do" class="nav-link">Forum</a></li>
-         </ul>
-      </div>
-      
-      <div class="header-btns" id="ftco-nav">
-      	<ul class="navbar-nav">
-      	<%if(member==null){%>
-      	<li class="nav-item cta"><a href="member_login.do" class="nav-link"><span>Login</span></a>
-      	<%}else {%>
-      	<li class="nav-item cta"><a href="member_logout.do" class="nav-link"><span>Logout
-      	</span></a>
-      	<%} %>
-      		<ul class="submenu">
-      			<li><a href="blog.html" class="submenu-1-first">My Page</a></li>
-      			<li><a href="blog_details.html" class="submenu-1-second">Wish List</a></li>
-                <li><a href="blog_details.html" class="submenu-1-third">Sign Up</a></li>
-                <%if(member!=null){
-                	if(member.getPosition()==0){ %>
-                		<li><a href="ADsuperAD.do" class="submenu-1-second">Admin</a></li>
-                	<%} %>
-                	<%if(member.getPosition()==1){ %>
-                		<li><a href="ADbus_list.do" class="submenu-1-second">Bus AD</a></li>
-               		<%} %>
-               		<%if(member.getPosition()==2){ %>
-                		<li><a href="ADhotel_list.do" class="submenu-1-second">Hotel AD</a></li>
-                	<%} 
-                }%>
-      		</ul>
-      	</li>
-      	</ul>
-      </div>
-      </div>
-</nav>
-	<!-- END nav -->
+
+<style>
+                #topMenu {
+                       height: 30px;
+                        width: 850px;
+                }
+
+                #topMenu ul li {
+                        list-style: none;
+                        color: white;
+                        background-color: #D8D8D8;
+                        float: center;
+                        line-height: 30px;
+                        text-align: center;
+                }
+
+                #topMenu .menuLink {
+                        text-decoration:none;
+                        color: white;
+                        display: block;
+                        width: 150px;
+                        font-size: 12px;
+                        font-weight: bold;
+                        font-family: "Trebuchet MS";
+                }
+                #topMenu .menuLink:hover {
+                        color: red;
+                        background-color: #4d4d4d;
+                }
+
+    </style>
+
+	<c:set var = "member_no" value = "${sedto.member_no}"/>
 	
-		<div class="hero-wrap js-fullheight" style="background-image: url('${pageContext.request.contextPath}/resources/images/bgi_3.jpg'); height:70%;">
-	
-		<div class="container">
-			<div
-				class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-				data-scrollax-parent="true">
-				<div class="col-md-9-1 ftco-animate text-center"
-					data-scrollax=" properties: { translateY: '70%' }">
-					<p class="breadcrumbs"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"
-						style="margin-top: 170px">
-						<span class="mr-2"><a href="index">Home</a></span> <span><%=request.getAttribute("page_name") %></span>
-					</p>
-					<h1 class="mb-3 bread"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><%=request.getAttribute("page_name") %></h1>
-				</div>
-			</div>
-		</div>
-	</div>
+    <table style="width:100%; height=20%; background-color:#D8D8D8;">
+    <tr> <td>
+     	<nav id="topMenu" style="width:100%"> 
+        		<ul>
+          			<li >
+          				<c:if test="${empty sedto}">
+							<a href="member_login_resv.do">로그인</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="member_input_resv.do" class="nav_link">회원가입</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+						</c:if> 
+						<c:if test="${not empty sedto}">
+							<a href="member_logout_resv.do">로그아웃</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="member_mypage_resv.do" class="nav_link">마이페이지</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+						</c:if>
+						<a href="bus_user_resv_lookup.do">배자정보 조회 </a>&nbsp&nbsp&nbsp&nbsp&nbsp	
+						<a href="bus_resv_user_resvlist.do" >예약내역</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+						<a href="bus_station_info.do" >터미널 정보</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+						<c:if test="${sedto.position==0 || sedto.position==1}">
+							<a href="bus_list.do" >버스리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+							<a href="bus_station_list.do" >버스정류소 리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+							<a href="bus_road_list.do">버스노선 리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+							<a href="bus_resv_list.do" >버스예약 리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+						</c:if>
+          			</li>
+          		</ul>
+         
+     </nav>
+      	</td>	
+      </tr>
+</table>

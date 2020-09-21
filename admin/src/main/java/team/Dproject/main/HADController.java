@@ -35,14 +35,6 @@ import team.Dproject.main.service.MemberMapper;
 import team.Dproject.main.service.ResvMapper;
 import team.Dproject.main.service.RoomMapper;
 import team.Dproject.main.service.UpMapper;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -527,11 +519,20 @@ public class HADController {
 		String hnum=req.getParameter("hnum"); 
 		hotelDTO dto=hotelMapper.getHotel(req.getParameter("hnum"));
 		ModelAndView mav = new ModelAndView();
-		req.setAttribute("page_name", "Hotel Show");
 		mav.setViewName("hotelAD/hotel/hotel_show");
 		mav.addObject("dto", dto);
 		return mav;
 	}
+	@RequestMapping("/hotel_show.do")
+	public ModelAndView hotel_show2(HttpServletRequest req,HttpSession session) {
+		String hnum=req.getParameter("hnum"); 
+		hotelDTO dto=hotelMapper.getHotel(req.getParameter("hnum"));
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("hotelAD/hotel/hotel_show2");
+		mav.addObject("dto", dto);
+		return mav;
+	}
+
 
 	@RequestMapping(value = "/ADhotel_insert.do", method = RequestMethod.GET)
 	public String hotel_insert(HttpServletRequest req) {
@@ -603,19 +604,24 @@ public class HADController {
 	}
 
 	@RequestMapping(value = "/ADhotel_update.do", method = RequestMethod.POST)
-	public String bus_updateOK(HttpServletRequest req, @ModelAttribute hotelDTO dto, BindingResult result) {
+	public String bus_updateOK(MultipartHttpServletRequest mtfRequest,HttpServletRequest req, @ModelAttribute hotelDTO dto, BindingResult result) {
 		String filename = "";
 		int filesize = 0;
-		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
-		MultipartFile file = mr.getFile("filename");
-		File target = new File(upLoadPath, file.getOriginalFilename());
-		if (file.getSize() > 0) {
+		List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		
+		
+		for (MultipartFile mf : fileList) {
+			String tempname = mf.getOriginalFilename();
+			long tempsize = mf.getSize(); 	
 			try {
-				file.transferTo(target);
+				mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
+				filename+=tempname+"/";
+				filesize+=tempsize; 
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			filename = file.getOriginalFilename();
-			filesize = (int) file.getSize();
 		}
 		dto.setFilename(filename);
 		dto.setFilesize(filesize);
@@ -680,9 +686,10 @@ public class HADController {
 			dto.setFilesize(filesize);
 			dto.setRoom_no(seq + "-" + i);
 			dto.setHotel_no(Integer.parseInt(hnum));
+			System.out.println(dto.getGrade());
 			int res = roomMapper.insertRoom(dto);
 		}
-		req.setAttribute("page_name", "Room List");
+		
 		return "redirect:ADroom_list.do?hnum=" + hnum;
 	}
 
@@ -793,20 +800,22 @@ public class HADController {
 			for(String i : endArr) end+=i;
 			int endInt = Integer.parseInt(end);
 			day=endInt-startInt;
-			System.out.println(day);
+			String no[]=dto.getRoom_no().split("/");
 			for (int i = 0; i < day; i++) {
-				resvDTO Tdto = new resvDTO();
-				Tdto.setMember_no(dto.getMember_no());
-				Tdto.setEnd_resv_date(dto.getEnd_resv_date());
-				Tdto.setHotel_no(dto.getHotel_no());
-				Tdto.setHotel_resv_no(dto.getHotel_resv_no());
-				Tdto.setMember_no(dto.getMember_no());
-				Tdto.setRoom_no(dto.getRoom_no());
-				Tdto.setSave_point(dto.getSave_point());
-				Tdto.setUse_point(dto.getUse_point());
-
-				Tdto.setStart_resv_date(resv_petch(startInt, i));
-				list.add(Tdto);
+				for(int l=0;l<no.length;l++){
+					resvDTO Tdto = new resvDTO();
+					Tdto.setMember_no(dto.getMember_no());
+					Tdto.setEnd_resv_date(dto.getEnd_resv_date());
+					Tdto.setHotel_no(dto.getHotel_no());
+					Tdto.setHotel_resv_no(dto.getHotel_resv_no());
+					Tdto.setMember_no(dto.getMember_no());
+					Tdto.setRoom_no(no[l]);
+					Tdto.setSave_point(dto.getSave_point());
+					Tdto.setUse_point(dto.getUse_point());
+	
+					Tdto.setStart_resv_date(resv_petch(startInt, i));
+					list.add(Tdto);
+				}
 			}
 		}
 

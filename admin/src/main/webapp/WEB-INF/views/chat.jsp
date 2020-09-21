@@ -82,10 +82,14 @@
 			if(document.getElementById("fileH").value != "") {
 				var text = document.getElementById("messageinput").value + ","
 				+ document.getElementById("sender").value+ ","
-				+ document.getElementById("fileH").value + "," + "/admin/resources/img/";
+				+ document.getElementById("fileH").value + "," 
+				+ "/admin/resources/img/"+","
+				+ "<%=dto.getFilename()%>";
 				var text = document.getElementById("messageinput").value + ","
 				+ document.getElementById("sender").value+ ","
-				+ document.getElementById("fileH").value + "," + "/admin/resources/img/";
+				+ document.getElementById("fileH").value + ","
+				+ "/admin/resources/img/"+","
+				+ "<%=dto.getFilename()%>";
 				
 				ws.send(text);
 				text = "";
@@ -94,9 +98,12 @@
 			}
 			else if (document.getElementById("messageinput").value != "") {
 				var text = document.getElementById("messageinput").value + ","
-						+ document.getElementById("sender").value;
+						+ document.getElementById("sender").value+","
+						+ "/admin/resources/img/"+","+"<%=dto.getFilename()%>";
 				var text = document.getElementById("messageinput").value + ","
-						+ document.getElementById("sender").value;
+						+ document.getElementById("sender").value+","
+						+ "/admin/resources/img/"+","
+						+"<%=dto.getFilename()%>";
 				ws.send(text);
 				text = "";
 				document.getElementById("messageinput").value = "";

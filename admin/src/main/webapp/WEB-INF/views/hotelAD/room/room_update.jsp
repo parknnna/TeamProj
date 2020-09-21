@@ -84,6 +84,15 @@ function goBack() {
 			<tr>
 				<td align="right">방가격 : </td><td><input type="text" name="price" value="${dto.price }"></td>
 			</tr>
+			<tr align="center">
+				<td align="right">방등급 : </td><td align="left">
+					<select name="star">
+						<option value="1">디럭스</option>
+						<option value="2">스텐다드</option>
+						<option value="3">패밀리</option>
+					</select>
+				</td>	
+			</tr>
 			<tr>
 				<td align="right">이미지 : </td><td><input multiple="multiple" type="file" name="file" /></td>	
 			</tr>

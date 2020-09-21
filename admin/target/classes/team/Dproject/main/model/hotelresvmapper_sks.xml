@@ -3,5 +3,13 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.Dproject.main.model">
-
+	<insert id="insertHotelResv_sks" parameterType="HotelResvDTO_sks">
+		insert into hotel_resv values(hotel_resv_seq.nextval,
+		#{member_no}, #{hotel_no}, #{room_no}, #{use_point}, #{pay}, #{save_point}, 
+		#{start_resv_date}, #{end_resv_date}, sysdate)
+	</insert>
+	<select id="getHotelResv_sks" parameterType="int" resultType="java.util.Map">
+		select * from hotel_resv where member_no = #{member_no}
+	</select>
+	
 </mapper>

@@ -5,8 +5,8 @@ public class MemberDTO {
 	private String name;
 	private String id;
 	private String passwd;
-	private int ssn1;
-	private int ssn2;
+	private String ssn1;
+	private String ssn2;
 	private String email;
 	private String hp1;
 	private String hp2;
@@ -15,6 +15,20 @@ public class MemberDTO {
 	private int sex;
 	private int point;
 	private String joindate;
+	private String filename;
+	private int filesize;
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public int getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(int filesize) {
+		this.filesize = filesize;
+	}
 	public int getMember_no() {
 		return member_no;
 	}
@@ -39,16 +53,17 @@ public class MemberDTO {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
-	public int getSsn1() {
+
+	public String getSsn1() {
 		return ssn1;
 	}
-	public void setSsn1(int ssn1) {
+	public void setSsn1(String ssn1) {
 		this.ssn1 = ssn1;
 	}
-	public int getSsn2() {
+	public String getSsn2() {
 		return ssn2;
 	}
-	public void setSsn2(int ssn2) {
+	public void setSsn2(String ssn2) {
 		this.ssn2 = ssn2;
 	}
 	public String getEmail() {
@@ -103,6 +118,5 @@ public class MemberDTO {
 	public void setJoindate(String joindate) {
 		this.joindate = joindate;
 	}
-	
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team.Dproject.main.model.BusStationDTO_resv;
+import team.Dproject.main.model.HotelDTO_sks;
 
 @Service
 public class BusStaionMapper_resv {
@@ -36,5 +37,15 @@ public class BusStaionMapper_resv {
   }
   public List<BusStationDTO_resv> find_station_resv (String searchString){
 	  return  sqlSession.selectList("find_station_resv",searchString);
+  }
+  
+  public BusStationDTO_resv getBus_station_search_resv(int search){//station_no 값을 station_name 으로변경(main에서)
+	  
+	  return sqlSession.selectOne("getBus_station_search_resv",search);
+  }
+  
+  public List<HotelDTO_sks> find_hotel_resv(String address){
+	  
+	  return sqlSession.selectList("find_hotel_resv",address);
   }
 }

@@ -73,6 +73,7 @@
 						<option value="7">7성급</option>
 				</select></td>
 			</tr>
+			
 			<tr>
 				<td>호텔이미지 :</td><td> <input multiple="multiple" type="file" name="file" /></td>
 			</tr>

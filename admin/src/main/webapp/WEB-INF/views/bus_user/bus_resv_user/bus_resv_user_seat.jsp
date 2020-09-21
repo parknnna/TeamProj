@@ -4,14 +4,14 @@
 <%@page import="team.Dproject.main.model.*"%>
 <style type="text/css">
    div#left{
-   width:10%;
-   height:35px; 
+   width:15%;
+   height:35px;
    float:left
    }
    
    div#right{ 
-   width:10%; 
-   height:35px;
+   width:15%;
+   height:35px; 
    float:right
    }
    
@@ -22,7 +22,9 @@
       border:1px solid blue;
    }
 </style>
-<%@ include file="../bus_main/top.jsp" %>
+
+ <%@ include file="../../Basic/top_Bus.jsp" %>
+ <%@ include file="../bus_main/top.jsp" %>
 <%
 	
    
@@ -31,7 +33,7 @@
    String resvlist[] =seats.split("/");
 %>
    <form action="bus_resv_user_pay.do">
-   <div>
+   <div align="center">
       <div style="border:1px solid gray; width:90%;">
          <h3 style="width:80%;">${dto.arrival} ▶ ${dto.departure}  (${one_date})</h3>
          <input type="hidden" name="one_date" value="${one_date}">
@@ -77,14 +79,14 @@
             }
             if(i%4==1||i%4==2){%>
                <div id="left" class="<%=str%>">
-                  <p><%=i %><input type="checkbox" name="seat" value="<%=i%>" <%=str2 %>></p>
+                  <p><%=i %>&nbsp<input type="checkbox" name="seat" value="<%=i%>" <%=str2 %>></p>
                </div>
             <%}if(i%4==2){ %>
             <div></div>
             <%}
             if(i%4==3||i%4==0){%>
             <div id="right" class="<%=str%>">
-               <p><%=i %><input type="checkbox" name="seat" value="<%=i%>" <%=str2 %>></p>
+               <p><%=i %>&nbsp<input type="checkbox" name="seat" value="<%=i%>" <%=str2 %>></p>
             </div>
             <%}if(i%4==0){ %>
             <br><br>
@@ -92,7 +94,7 @@
             
          }%>
       
-         <br><br>
+         <br><br><br><br><br><br>
          <div style="float:right"><input type="submit" value="예매" style="width:200px;"></div>
       </div>
       </div>
@@ -101,4 +103,4 @@
 
 
 
-<%@ include file="../bus_main/bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

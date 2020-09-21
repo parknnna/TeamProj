@@ -4,19 +4,19 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.Dproject.adminBus.bus_resvMapper">
 	
-	<select id="listBus_resv_resv" resultType="BusResvDTO_resv">
+	<select id="listBus_resv_resv_resv" resultType="BusResvDTO_resv">
 		select * from bus_resv
 	</select>
-	<insert id="insertBus_resv_resv" parameterType="BusResvDTO_resv">
+	<insert id="insertBus_resv_resv_resv" parameterType="BusResvDTO_resv">
 		insert into bus_resv values(bus_resv_seq.nextval,#{member_no},#{bus_no},#{road_no},#{seat},#{use_point},#{save_point},#{resv_date})
 	</insert>
-	<delete id="deleteBus_resv_resv" parameterType="int">
+	<delete id="deleteBus_resv_resv_resv" parameterType="int">
 		delete from bus_resv where bus_resv_no=#{no}
 	</delete>
-	<select id="getBus_resv_resv" parameterType="String" resultType="BusResvDTO_resv">
+	<select id="getBus_resv_resv_resv" parameterType="String" resultType="BusResvDTO_resv">
 		select * from bus_resv where resv_no=#{no}
 	</select>
-	<update id="updateBus_resv_resv" parameterType="BusResvDTO_resv">
+	<update id="updateBus_resv_resv_resv" parameterType="BusResvDTO_resv">
 		update bus_resv set member_no=#{member_no}, bus_no=#{bus_no}, road_no=#{road_no}, seat=#{seat}, use_point=#{use_point}, save_point=#{save_point}, resv_date=#{resv_date} where resv_no=#{resv_no}
 	</update>
 	<select id="resvlist_resv" parameterType="int" resultType="BusResv_BusRoadDTO"><!-- 예약내역에 결제한 내용표시 -->
@@ -81,6 +81,10 @@
 	</select>
 	<select id="bus_busroad_resv_all_count_resv"  resultType="int"><!-- bus 와 bus_road join 한테이블(출발지 도착지 모든등급 에 맞추어 )행의개수 파악 -->
 		select count(*) from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure} 
+	</select>
+	
+	<select id="bus_resv_seat_count_oneway" parameterType="java.util.Map" resultType="BusResvDTO_resv">
+		select * from bus_resv where resv_date=${resv_date} and road_no=${road_no} 
 	</select>
 	
 </mapper>

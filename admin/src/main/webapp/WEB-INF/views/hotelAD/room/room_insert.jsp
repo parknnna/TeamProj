@@ -77,6 +77,15 @@
 				<td align="right">방의 수 : </td><td align="left"><input type="text" name="rooms" size="30"></td>
 			</tr>
 			<tr align="center">
+				<td align="right">방등급 : </td><td align="left">
+					<select name="grade">
+						<option value="1">디럭스</option>
+						<option value="2">스텐다드</option>
+						<option value="3">패밀리</option>
+					</select>
+				</td>	
+			</tr>
+			<tr align="center">
 				<td align="right">방이미지 : </td><td align="left"><input multiple="multiple" type="file" name="file" /></td>	
 			</tr>
 			<tr align="center">

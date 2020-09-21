@@ -65,6 +65,13 @@ public class MemberMapper_sks {
 		return dto;
 		
 	}
+	
+	public int updateMemberPoint_sks(int user_point,int member_no){
+		java.util.Map<String,Integer> map = new java.util.Hashtable<String,Integer>();
+		map.put("user_point", user_point);
+		map.put("member_no", member_no);
+		return sqlSession.insert("updateMemberPoint_sks", map);
+	}
 }
 
 

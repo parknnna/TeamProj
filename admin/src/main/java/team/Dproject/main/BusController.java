@@ -27,18 +27,20 @@ import team.Dproject.main.model.BusResv_BusRoadDTO;
 import team.Dproject.main.model.BusRoadDTO_resv;
 import team.Dproject.main.model.BusStationDTO_resv;
 import team.Dproject.main.model.Bus_BusRoadDTO;
-import team.Dproject.main.model.MemberDTO_resv;
+import team.Dproject.main.model.HotelDTO_sks;
+import team.Dproject.main.model.MemberDTO;
 import team.Dproject.main.model.Member_BusRoadDTO;
 import team.Dproject.main.service.BusMapper_resv;
 import team.Dproject.main.service.BusResvMapper_resv;
 import team.Dproject.main.service.BusRoadMapper_resv;
 import team.Dproject.main.service.BusStaionMapper_resv;
-import team.Dproject.main.service.MemberMapper_resv;
+import team.Dproject.main.service.MemberMapper;
+
 
 @Controller
 public class BusController {
 	@Autowired
-	private MemberMapper_resv memberMapper_resv;
+	private MemberMapper memberMapper; //로그인용으로만 사용하는 mapper (메인과 버스페이지들어갈시 dto 타입잉 안맞아 에러남)
 	@Autowired
 	private BusMapper_resv busMapper_resv;
 	@Autowired
@@ -52,10 +54,63 @@ public class BusController {
 	
 	@RequestMapping(value = "/bus_main.do", method = RequestMethod.GET)
 	
-	public String Main(){
-		
-		return "bus_user/bus_main/bus_main";
+	public ModelAndView Bus_Main(BusStationDTO_resv sdto){
+		ModelAndView mav = new ModelAndView();	
+		List<BusStationDTO_resv> slist =  busStationMapper_resv.listBus_station_resv();
+		mav.addObject("slist",slist);
+		mav.setViewName("/bus_user/bus_main/bus_main");
+		return mav;
 	
+	}
+	@RequestMapping(value = "/bus_mainOk.do", method = RequestMethod.GET)
+	public ModelAndView Bus_MainOk(HttpServletRequest req){
+		ModelAndView mav = new ModelAndView();
+		int search= (Integer.parseInt(req.getParameter("search")));
+		int pageSize=10;
+		String pageNum=req.getParameter("pageNum");
+		if(pageNum==null){
+			pageNum="1";
+		}
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = currentPage * pageSize - (pageSize-1);
+		int endRow = currentPage * pageSize;
+		int count = 0;
+		count=busRoadMapper_resv.bus_road_count_resv(search);
+		if(endRow>count){
+			endRow=count;
+		}
+		
+		List<BusStationDTO_resv> slist =  busStationMapper_resv.listBus_station_resv();
+		List<BusRoadDTO_resv> brlist = busRoadMapper_resv.bus_road_list_count_resv(search, startRow, endRow);
+		int startNum = count-((currentPage-1)*pageSize);
+		int pageCount = count/pageSize + (count%pageSize == 0 ? 0 : 1);
+		int pageBlock = 5;
+		int startPage = (currentPage-1)/pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage>pageCount) endPage = pageCount;
+		//List<BusRoadDTO_resv> brlist = busRoadMapper_resv.bus_arrival_list(search);
+		int size=brlist.size();
+		
+		for(BusRoadDTO_resv brdto : brlist ){
+			BusStationDTO_resv to1=busStationMapper_resv.getBus_station_search_resv(Integer.parseInt(brdto.getArrival()));
+			brdto.setArrival(to1.getStation_name());
+			BusStationDTO_resv to2=busStationMapper_resv.getBus_station_search_resv(Integer.parseInt(brdto.getDeparture()));
+			brdto.setDeparture(to2.getStation_name());
+		}
+		
+	
+		mav.addObject("slist",slist);
+		mav.addObject("brlist",brlist);
+		mav.addObject("size",size);
+		mav.addObject("search",search);
+		mav.addObject("count",count);
+		mav.addObject("startNum",startNum);
+		mav.addObject("pageCount",pageCount);
+		mav.addObject("pageBlock",pageBlock);
+		mav.addObject("startPage",startPage);
+		mav.addObject("endPage",endPage);
+		mav.setViewName("bus_user/bus_main/bus_main");
+		return mav;
 	}
 	
 	//로그인,회원가입----------------------------------------------------------------------------------
@@ -80,48 +135,7 @@ public class BusController {
 		
 	}
 	
-	@RequestMapping(value = "/member_login_ok_resv.do")//로그인 완료
-	public String MemberLoginOk(HttpServletRequest req, HttpServletResponse resp){
-		String id = req.getParameter("id");
-		String passwd = req.getParameter("passwd");
-		String saveId = req.getParameter("saveId");
-		int res = memberMapper_resv.memberLogin_resv(id, passwd);
-		String msg = null, url = null;
-		switch(res){
-		case 0 :
-			MemberDTO_resv dto = memberMapper_resv.getMember_resv(id);
-			HttpSession session = req.getSession();
-			Cookie ck = new Cookie("id", id);
-			if(saveId != null){
-				ck.setMaxAge(10*60);
-				
-			}else{
-				ck.setMaxAge(0);
-				
-			}
-			resp.addCookie(ck);
-			session.setAttribute("sedto", dto);
-			msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
-			url = "bus_main.do";
-			break;
-			
-		case 1 :
-			msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요";
-			url = "member_login_resv.do";
-			break;
-			
-		case 2 :
-			msg = "없는 아이디 입니다. 다시 확인하시고 입력해 주세요";
-			url = "member_login_resv.do";
-			break;
-		
-		}
-		req.setAttribute("msg", msg);
-		req.setAttribute("url", url);
-		return "message";
-		
-		
-	}
+	
 	
 	@RequestMapping(value = "/member_logout_resv.do") //로그아웃 페이지
 	public String MemberLogout(HttpServletRequest req){
@@ -140,14 +154,14 @@ public class BusController {
 		
 	}
 	@RequestMapping(value = "/member_input_ok_resv.do")//회원 가입 완료
-	public String MemberInputOk(HttpServletRequest req, MemberDTO_resv dto){
-		boolean checkMember = memberMapper_resv.checkMember_resv(dto);
+	public String MemberInputOk(HttpServletRequest req, MemberDTO dto){
+		boolean checkMember = memberMapper.checkMember(dto);
 		boolean isId;
 		String msg = null, url = null;
 		if(checkMember){
-			isId = memberMapper_resv.checkId_resv(dto);
+			isId = memberMapper.checkId(dto);
 			if(isId){
-				int res = memberMapper_resv.insertMember_resv(dto);
+				int res = memberMapper.insertMember(dto);
 				if(res > 0){
 					msg = "회원가입성공! 로그인 페이지로 이동합니다.";
 					url = "member_login_resv.do";
@@ -189,13 +203,13 @@ public class BusController {
 		String searchString = req.getParameter("searchString");
 		String ssn1 = req.getParameter("ssn1");
 		String ssn2 = req.getParameter("ssn2");
-		List<MemberDTO_resv> list = null;
+		List<MemberDTO> list = null;
 		if(mode.equals("id")){
-			list = memberMapper_resv.searchMemberId_resv(searchString, ssn1, ssn2);
+			list = memberMapper.searchMemberId(searchString, ssn1, ssn2);
 			
 		}
 		if(mode.equals("passwd")){
-			list = memberMapper_resv.searchMemberPasswd_resv(searchString, ssn1, ssn2);
+			list = memberMapper.searchMemberPasswd(searchString, ssn1, ssn2);
 			
 		}
 		req.setAttribute("searchList", list);
@@ -211,14 +225,14 @@ public class BusController {
 	}
 	
 	@RequestMapping(value = "/member_edit_ok_resv.do")//수정완료
-	public String MemberEditOk(HttpServletRequest req, MemberDTO_resv dto){
+	public String MemberEditOk(HttpServletRequest req, MemberDTO dto){
 		String msg = null, url = null, mode = req.getParameter("mode");
 		if(mode == null){
 			mode = "";
 			
 		}
 		HttpSession session = req.getSession();
-		int res = memberMapper_resv.editMember_resv(dto);
+		int res = memberMapper.editMember(dto);
 		if(res > 0){
 			session.removeAttribute("sedto");
 			session.setAttribute("sedto", dto);
@@ -259,7 +273,7 @@ public class BusController {
 		//버스---------------------------------------------------------------
 		@RequestMapping(value="/bus_list.do" )
 		public ModelAndView bus_list(HttpServletRequest req) {
-			int pageSize=5;
+			int pageSize=10;
 			String pageNum=req.getParameter("pageNum");
 			if(pageNum==null){
 				pageNum="1";
@@ -300,7 +314,7 @@ public class BusController {
 		}
 		@RequestMapping(value="/bus_insert.do",method = RequestMethod.POST)
 		public String bus_insertOK(HttpServletRequest req, BusDTO_resv dto)  {
-			int res=busMapper_resv.insertBus_resv(dto);
+			int res=busMapper_resv.insertBus_resv_resv(dto);
 			String msg = null, url = null;
 			if (res > 0) {
 				msg = "버스등록 성공";
@@ -315,7 +329,7 @@ public class BusController {
 		}
 		@RequestMapping("bus_delete.do")
 		public String bus_delete(HttpServletRequest req) {
-			int res=busMapper_resv.deletetBus_resv(Integer.parseInt(req.getParameter("no")));
+			int res=busMapper_resv.deletetBus_resv_resv(Integer.parseInt(req.getParameter("no")));
 			String msg = null, url = null;
 			if (res > 0) {
 				msg = "버스삭제 성공";
@@ -330,13 +344,13 @@ public class BusController {
 		}
 		@RequestMapping(value="/bus_update.do",method = RequestMethod.GET)
 		public ModelAndView bus_update(HttpServletRequest req) {
-			BusDTO_resv dto = busMapper_resv.getBus_resv(Integer.parseInt(req.getParameter("no")));
+			BusDTO_resv dto = busMapper_resv.getBus_resv_resv(Integer.parseInt(req.getParameter("no")));
 			ModelAndView mav = new ModelAndView("bus_user/bus/bus_update", "bus", dto);
 			return mav;
 		}
 		@RequestMapping(value="/bus_update.do",method = RequestMethod.POST)
 		public String bus_updateOK(HttpServletRequest req, BusDTO_resv dto)  {
-			int res=busMapper_resv.updateBus_resv(dto); 
+			int res=busMapper_resv.updateBus_resv_resv(dto); 
 			String msg = null, url = null;
 			if (res > 0) {
 				msg = "버스수정 성공";
@@ -353,8 +367,8 @@ public class BusController {
 		@RequestMapping(value = "/member_withdraw_resv.do")//회원 탈퇴
 		public String MemberWithdraw(HttpServletRequest req){
 			HttpSession session = req.getSession();
-			MemberDTO_resv dto = (MemberDTO_resv)session.getAttribute("sedto");
-			int res = memberMapper_resv.deleteMember_resv(dto.getMember_no());
+			MemberDTO dto = (MemberDTO)session.getAttribute("sedto");
+			int res = memberMapper.deleteMember(dto.getMember_no());
 			String msg = null, url = null;
 			if(res > 0){
 				session.removeAttribute("sedto");
@@ -484,7 +498,7 @@ public class BusController {
 		public ModelAndView bus_road_list(HttpServletRequest req) {
 			//List<Member_BusRoadDTO> listBus_road=busRoadMapper.bus_road_member_list();//노선만든사람 한글로 표시위해 member 테이블 bus_road테이블 조인
 			//page 나누기
-			int pageSize=5;
+			int pageSize=10;
 			String pageNum=req.getParameter("pageNum");
 			if(pageNum==null){
 				pageNum="1";
@@ -542,11 +556,11 @@ public class BusController {
 		}
 		@RequestMapping(value="/bus_road_insert.do",method = RequestMethod.POST)
 		public String bus_road_insertOK(HttpServletRequest req, BusRoadDTO_resv dto,@RequestParam String plus,@RequestParam int bus_no,@RequestParam int tot_time,@RequestParam String arrival,@RequestParam String departure)  {
-			BusDTO_resv bdto = busMapper_resv.getBus_resv(bus_no);
+			BusDTO_resv bdto = busMapper_resv.getBus_resv_resv(bus_no);
 			
 			
 			HttpSession session = req.getSession();
-			MemberDTO_resv mdto = (MemberDTO_resv)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
+			MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
 			
 			
 			dto.setArrival(String.valueOf(busStationMapper_resv.getBus_number_resv(arrival).getStation_no()));//int 형값 을 string 형으로 변경 작업(출발지 한글로 표시하기위해)
@@ -679,7 +693,7 @@ public class BusController {
 		//예약---------------------------------------------------------------
 		@RequestMapping(value="/bus_resv_list.do" )
 		public ModelAndView bus_resv_list() {
-			List<BusResvDTO_resv> list = busResvMapper_resv.listBus_resv_resv();
+			List<BusResvDTO_resv> list = busResvMapper_resv.listBus_resv_resv_resv();
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("bus_user/bus_resv/bus_resv_list");
 			mav.addObject("list", list);
@@ -691,7 +705,7 @@ public class BusController {
 		}
 		@RequestMapping(value="/bus_resv_insert.do",method = RequestMethod.POST)
 		public String bus_resv_insertOK(HttpServletRequest req, BusResvDTO_resv dto)  {
-			int res=busResvMapper_resv.insertBus_resv_resv(dto);
+			int res=busResvMapper_resv.insertBus_resv_resv_resv(dto);
 			String msg = null, url = null;
 			if (res > 0) {
 				msg = "예약등록 성공";
@@ -706,7 +720,7 @@ public class BusController {
 		}
 		@RequestMapping("bus_resv_delete.do")
 		public String bus_resv_delete(HttpServletRequest req) {
-			int res=busResvMapper_resv.deletetBus_resv_resv(Integer.parseInt(req.getParameter("no")));
+			int res=busResvMapper_resv.deletetBus_resv_resv_resv(Integer.parseInt(req.getParameter("no")));
 			String msg = null, url = null;
 			if (res > 0) {
 				msg = "예약삭제 성공";
@@ -721,7 +735,7 @@ public class BusController {
 		}
 		@RequestMapping(value="/bus_resv_update.do",method = RequestMethod.GET)
 		public ModelAndView bus_resv_update(HttpServletRequest req) {
-			BusResvDTO_resv dto = busResvMapper_resv.getBus_resv_resv(req.getParameter("no"));
+			BusResvDTO_resv dto = busResvMapper_resv.getBus_resv_resv_resv(req.getParameter("no"));
 			ModelAndView mav = new ModelAndView("bus_resv/bus_resv_update", "bus", dto);
 			return mav;
 		}
@@ -758,20 +772,33 @@ public class BusController {
 		
 		@RequestMapping(value="bus_station_info_detail.do") //버스정류소 디테일 페이지
 		public ModelAndView bus_station_info_detail(@RequestParam String station_no){
+			
 			BusStationDTO_resv dto =busStationMapper_resv.getBus_station_resv(station_no);
 			
+			String str=dto.getStation_name();
+			String address=str.replaceAll("고속버스터미널","");
+			List<HotelDTO_sks> hotel_list = busStationMapper_resv.find_hotel_resv(address);
+			
+			for(HotelDTO_sks hdto : hotel_list){
+		         String name=hdto.getFilename();
+		         String[] arrname=name.split("/");
+		         hdto.setFilename(arrname[0]);
+		      }
 			ModelAndView mav= new ModelAndView();
 			mav.setViewName("bus_user/bus_station_user/bus_station_info_detail");
 			mav.addObject("get_busstation",dto);
+			mav.addObject("hotel_list",hotel_list);
 			
 			return mav;
 		}
 		
 		@RequestMapping(value="bus_station_info_map.do") //지도 확대 페이지
-		public ModelAndView bus_station_info_map(){
+		public ModelAndView bus_station_info_map(@RequestParam String station_name,@RequestParam String address){
 			ModelAndView mav =new ModelAndView();
 		
 			mav.setViewName("bus_user/bus_station_user/bus_station_info_map");
+			mav.addObject("station_name",station_name);
+			mav.addObject("address",address);
 			
 			return mav;
 		}
@@ -835,7 +862,7 @@ public class BusController {
 			}
 			
 			mav.addObject("arr_dto",dto);
-			mav.setViewName("bus_user/bus_resv_user/bus_user_resv_lookup");
+			mav.setViewName("bus_user/bus_resv_user/popclose");
 			
 			return mav;
 		}
@@ -892,7 +919,7 @@ public class BusController {
 			}
 			
 			mav.addObject("dep_dto",dto);
-			mav.setViewName("bus_user/bus_resv_user/bus_user_resv_lookup");
+			mav.setViewName("bus_user/bus_resv_user/popclose");
 			
 			return mav;
 		}
@@ -903,7 +930,7 @@ public class BusController {
 			
 			List<BusStationDTO_resv> list = busStationMapper_resv.find_station_resv(searchString);
 			mav.addObject("find_station",list);
-			mav.setViewName("/bus_resv_user/bus_resv_user_arrival");
+			mav.setViewName("bus_user/bus_resv_user/bus_resv_user_arrival");
 			return mav;
 		}
 		@RequestMapping(value="resv_user_departure_find.do")//도착지 검색
@@ -912,17 +939,17 @@ public class BusController {
 			
 			List<BusStationDTO_resv> list = busStationMapper_resv.find_station_resv(searchString);
 			mav.addObject("find_station",list);
-			mav.setViewName("/bus_resv_user/bus_resv_user_departure");
+			mav.setViewName("bus_user/bus_resv_user/bus_resv_user_departure");
 			return mav;
 		}
 		
 		//배차조회 list
 		@RequestMapping(value="bus_resv_user_dispatch.do")
 		public ModelAndView bus_user_dispatch(
-				HttpServletRequest req,BusRoadDTO_resv dto,@RequestParam String mode,@RequestParam int arrival,@RequestParam int departure,@RequestParam String grade,@RequestParam String one_date,@RequestParam String arr_date,@RequestParam String dep_date){
+				HttpServletRequest req,BusRoadDTO_resv dto,@RequestParam String mode,@RequestParam int arrival,@RequestParam int departure,@RequestParam String grade,@RequestParam String one_date,@RequestParam String two_date){
 			ModelAndView mav = new ModelAndView();
 			if(mode.equals("oneway")){//편도 선택 했을떄
-				int pageSize=5;
+				int pageSize=10;
 				String pageNum=req.getParameter("pageNum");
 				if(pageNum==null){
 					pageNum="1";
@@ -948,6 +975,7 @@ public class BusController {
 							endRow=count;
 						}
 					}
+				
 				int startNum = count-((currentPage-1)*pageSize);
 				int pageCount = count/pageSize + (count%pageSize == 0 ? 0 : 1);
 				int pageBlock = 5;
@@ -965,6 +993,12 @@ public class BusController {
 				BusStationDTO_resv BDTO2=busStationMapper_resv.getBus_station_resv(dep);
 				roadDTO.setDeparture(BDTO2.getStation_name());
 			}
+			
+			
+			
+		
+			
+			
 			mav.addObject("mode",mode);
 			mav.addObject("arrival",arrival);//페이지이동을위해 넘겨줌
 			mav.addObject("departure",departure);//페이지이동을위해 넘겨줌
@@ -981,8 +1015,8 @@ public class BusController {
 		
 			}
 				if(mode.equals("twoway")){
-					int pageSize=5;
-					int pageSize2=5;
+					int pageSize=10;
+					int pageSize2=10;
 					String pageNum=req.getParameter("pageNum");
 					String pageNum2=req.getParameter("pageNum2");
 					
@@ -1071,8 +1105,8 @@ public class BusController {
 						session.setAttribute("seat_reverse",seat_reverse);
 						session.setAttribute("seat_no_reverse",seat_no_reverse);
 					}
-					mav.addObject("arr_date",arr_date);
-					mav.addObject("dep_date",dep_date);
+					mav.addObject("one_date",one_date);
+					mav.addObject("two_date",two_date);
 					mav.addObject("mode",mode);
 					mav.addObject("arrival",arrival);
 					mav.addObject("departure",departure);
@@ -1101,7 +1135,15 @@ public class BusController {
 		@RequestMapping(value="bus_resv_user_seat.do")
 		public  ModelAndView bus_resv_user_seat(HttpServletRequest req,Bus_BusRoadDTO dto,@RequestParam String mode,@RequestParam int road_no,@RequestParam String arrival,@RequestParam String departure){
 			ModelAndView mav = new ModelAndView();
-			
+			HttpSession session=req.getSession();
+			if(session.getAttribute("sedto")==null){
+				String msg="예약시 로그인이 필요합니다";
+				String url="member_login_resv.do";
+				mav.addObject("msg",msg);
+				mav.addObject("url",url);
+				mav.setViewName("message");
+				return mav;
+			}
 			String one_date=req.getParameter("one_date");
 			Bus_BusRoadDTO seat_dto= busResvMapper_resv.resv_user_seat_select_resv(road_no);
 			List<BusResvDTO_resv> resv_list=busResvMapper_resv.list_seat_resv_user_resv(one_date,road_no);//예약된 좌석 체크위한 리스트
@@ -1133,10 +1175,10 @@ public class BusController {
 		public ModelAndView bus_resv_user_arr_seat(HttpServletRequest req,Bus_BusRoadDTO dto,@RequestParam String mode,@RequestParam int road_no,@RequestParam String arrival_name,@RequestParam String departure_name,@RequestParam int departure,@RequestParam int arrival,@RequestParam String grade){
 			ModelAndView mav= new ModelAndView();
 			
-			String arr_date=req.getParameter("arr_date");
-			String dep_date=req.getParameter("dep_date");
+			String one_date=req.getParameter("one_date");
+			String two_date=req.getParameter("two_date");
 			Bus_BusRoadDTO arr_seat_dto= busResvMapper_resv.resv_user_seat_select_resv(road_no);
-			List<BusResvDTO_resv> resv_list=busResvMapper_resv.list_seat_resv_user_resv(arr_date,road_no);//예약된 좌석 체크위한 리스트
+			List<BusResvDTO_resv> resv_list=busResvMapper_resv.list_seat_resv_user_resv(one_date,road_no);//예약된 좌석 체크위한 리스트
 			
 			String seats="";
 				if(resv_list !=null){
@@ -1151,10 +1193,9 @@ public class BusController {
 			arr_seat_dto.setDeparture(departure_name);
 			HttpSession session=req.getSession();
 			session.setAttribute("arr_seat_dto",arr_seat_dto);
-			session.setAttribute("arr_date",arr_date);
-			session.setAttribute("dep_date",dep_date);
+			session.setAttribute("one_date",one_date);
+			session.setAttribute("two_date",two_date);
 			session.setAttribute("resv",seats);
-			session.setAttribute("dep_date",dep_date);
 			session.setAttribute("arrival",arrival);
 			session.setAttribute("departure",departure);
 			session.setAttribute("grade",grade);
@@ -1174,10 +1215,10 @@ public class BusController {
 		@RequestMapping(value="bus_resv_user_dep_seat.do")
 		public ModelAndView bus_resv_user_dep_seat(HttpServletRequest req,Bus_BusRoadDTO dto,@RequestParam String mode,@RequestParam int road_no,@RequestParam String arrival_name,@RequestParam String departure_name,@RequestParam int departure,@RequestParam int arrival,@RequestParam String grade){
 			ModelAndView mav= new ModelAndView();
-			String arr_date=req.getParameter("arr_date");
-			String dep_date=req.getParameter("dep_date");
+			String one_date=req.getParameter("one_date");
+			String two_date=req.getParameter("two_date");
 			Bus_BusRoadDTO dep_seat_dto= busResvMapper_resv.resv_user_seat_select_resv(road_no);
-			List<BusResvDTO_resv> resv_list=busResvMapper_resv.list_seat_resv_user_resv(dep_date,road_no);//예약된 좌석 체크위한 리스트
+			List<BusResvDTO_resv> resv_list=busResvMapper_resv.list_seat_resv_user_resv(two_date,road_no);//예약된 좌석 체크위한 리스트
 			
 			String seats="";
 				if(resv_list !=null){
@@ -1192,10 +1233,10 @@ public class BusController {
 			dep_seat_dto.setDeparture(departure_name);
 			HttpSession session=req.getSession();
 			session.setAttribute("dep_seat_dto",dep_seat_dto);
-			session.setAttribute("arr_date",arr_date);
-			session.setAttribute("dep_date",dep_date);
+			session.setAttribute("one_date",one_date);
+			session.setAttribute("two_date",two_date);
 			session.setAttribute("resv_reverse",seats);
-			session.setAttribute("dep_date",dep_date);
+			
 			session.setAttribute("arrival",arrival);
 			session.setAttribute("departure",departure);
 			session.setAttribute("grade",grade);
@@ -1258,13 +1299,31 @@ public class BusController {
 			return mav;
 		}
 		
-		//결제완료 (편도 bus_resv 테이블에 저장)
+		//결제완료 
 		@RequestMapping(value="bus_resv_user_payok.do")
 		public ModelAndView bus_resv_user_payok(BusResvDTO_resv dto,HttpServletRequest req,@RequestParam String one_date,@RequestParam int road_no,@RequestParam int use_point,@RequestParam int save_point,@RequestParam int price){
 			ModelAndView mav=new ModelAndView();
+			String[] seat = req.getParameterValues("seat");//좌석수 배열에 저장
+			String[] seats=new String[seat.length];//좌석수를 for문 돌릴 setter 메소드 저장 용도
+			//좌석번호 구하기
+			for(int i=0; i<seat.length; i++){
+				dto.setSeat(seat[i]);
+				seats[i]=dto.getSeat();
+			}
+			String result_seat = String.join("/",seats); //seats 배열의 자리 번호를 '/' 기준으로 나누어서 저장
+			
+			mav.addObject("result_seat",result_seat);
+			mav.addObject("one_date",one_date);
+			mav.addObject("road_no",road_no);
+			mav.addObject("use_point",use_point);
+			mav.addObject("save_point",save_point);
+			mav.addObject("price",price);
+			mav.setViewName("bus_user/bus_resv_user/bus_resv_user_payok");
+			return mav;
+			/*
 			Bus_BusRoadDTO rdto=busResvMapper_resv.resv_user_seat_select_resv(road_no);
 			HttpSession session = req.getSession();
-			MemberDTO_resv mdto = (MemberDTO_resv)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
+			MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
 			String[] seat = req.getParameterValues("seat");//좌석수 배열에 저장
 			String[] seats=new String[seat.length];//좌석수를 for문 돌릴 setter 메소드 저장 용도
 			int seat_no=seat.length;//좌석수 저장,티켓총가격 구하기위해
@@ -1283,13 +1342,13 @@ public class BusController {
 				dto.setSave_point(save_point);
 				dto.setPrice(price);
 				mdto.setPoint(mdto.getPoint()+dto.getSave_point());
-				res=memberMapper_resv.Member_buspoint_update_resv(mdto); //포인트 사용내역 meber 테이블에 업데이트
+				res=memberMapper.Member_buspoint_update(mdto); //포인트 사용내역 meber 테이블에 업데이트
 			}else{ //포인트를 사용했을떄(포인트적립x)
 				dto.setUse_point(use_point);
 				dto.setSave_point(0);
 				dto.setPrice(price-dto.getUse_point());
 				mdto.setPoint(mdto.getPoint()-dto.getUse_point());
-				res=memberMapper_resv.Member_buspoint_update_resv(mdto);//포인트 사용내역 meber 테이블에 업데이트
+				res=memberMapper.Member_buspoint_update(mdto);//포인트 사용내역 meber 테이블에 업데이트
 			}
 			
 			dto.setBus_no(rdto.getBus_no());
@@ -1305,16 +1364,98 @@ public class BusController {
 			mav.addObject("seat_no",seat_no);
 			mav.addObject("use_point",use_point);
 			return mav;
+			*/
+			}
+		@RequestMapping(value="bus_user_resv_paytable.do")
+		public ModelAndView bus_user_resv_paytable(BusResvDTO_resv dto,HttpServletRequest req,@RequestParam String one_date,@RequestParam int road_no,@RequestParam int use_point,@RequestParam int save_point,@RequestParam int price,@RequestParam String result_seat){
+			ModelAndView mav= new ModelAndView();
+			Bus_BusRoadDTO rdto=busResvMapper_resv.resv_user_seat_select_resv(road_no);
+			HttpSession session = req.getSession();
+			MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
+			
+			
+			
+			int res=0;
+			if(use_point ==0){ // 포인트를 사용하지 않았을떄
+				dto.setUse_point(0);
+				dto.setSave_point(save_point);
+				dto.setPrice(price);
+				mdto.setPoint(mdto.getPoint()+dto.getSave_point());
+				res=memberMapper.Member_buspoint_update(mdto); //포인트 사용내역 meber 테이블에 업데이트
+			}else{ //포인트를 사용했을떄(포인트적립x)
+				dto.setUse_point(use_point);
+				dto.setSave_point(0);
+				dto.setPrice(price-dto.getUse_point());
+				mdto.setPoint(mdto.getPoint()-dto.getUse_point());
+				res=memberMapper.Member_buspoint_update(mdto);//포인트 사용내역 meber 테이블에 업데이트
+			}
+			
+			dto.setBus_no(rdto.getBus_no());
+			dto.setResv_date(one_date);
+			dto.setRoad_no(road_no);
+			dto.setSeat(result_seat);
+			dto.setMember_no(mdto.getMember_no());
+			
+			res =busResvMapper_resv.insertBus_resv_user_resv(dto);
+			
+			String msg="결제성공 메인페이지로 돌아갑니다";
+			String url="bus_main.do";
+			mav.addObject("msg",msg);
+			mav.addObject("url",url);
+			mav.setViewName("message");
+				
+				
+				
+			return mav;
 		}
 		//결제완료 (왕복 bus_resv 테이블에 저장)
 		@RequestMapping(value="bus_resv_user_total_payok.do")
-		public ModelAndView bus_resv_user_total_payok(BusResvDTO_resv dto,HttpServletRequest req,@RequestParam String arr_date,@RequestParam String dep_date,@RequestParam int road_no,@RequestParam int road_no_reverse,@RequestParam int price,@RequestParam int arr_price,@RequestParam int dep_price){
+		public ModelAndView bus_resv_user_total_payok(BusResvDTO_resv dto,HttpServletRequest req,@RequestParam String one_date,@RequestParam String two_date,@RequestParam int road_no,@RequestParam int road_no_reverse,@RequestParam int price,@RequestParam int arr_price,@RequestParam int dep_price){
 			ModelAndView mav = new ModelAndView();
+			String[] seat = req.getParameterValues("seat");//좌석수 배열에 저장
+			String[] seats=new String[seat.length];//좌석수를 for문 돌릴 setter 메소드 저장 용도
+			int seat_no=seat.length;//좌석수 저장,티켓총가격 구하기위해
+			
+			String[] seat_reverse = req.getParameterValues("seat_reverse");//좌석수 배열에 저장
+			String[] seats_reverse=new String[seat_reverse.length];//좌석수를 for문 돌릴 setter 메소드 저장 용도
+			int seat_no_reverse=seat_reverse.length;//좌석수 저장,티켓총가격 구하기위해
+			
+			for(int i=0; i<seat.length; i++){
+				dto.setSeat(seat[i]);
+				seats[i]=dto.getSeat();
+			}
+			String result_seat = String.join("/",seats); //seats 배열의 자리 번호를 '/' 기준으로 나누어서 저장
+			
+			//좌석번호 구하기
+			for(int j=0; j<seat_reverse.length; j++){
+				dto.setSeat(seat_reverse[j]);
+				seats_reverse[j]=dto.getSeat();
+			}
+			String result_seat_reverse = String.join("/",seat_reverse); //seats 배열의 자리 번호를 '/' 기준으로 나누어서 저장
+			
+			HttpSession session = req.getSession();
+			session.removeAttribute("arr_seat_dto");
+			session.removeAttribute("dep_seat_dto");
+			session.removeAttribute("seat");
+			session.removeAttribute("seat_reverse");
+			
+			mav.addObject("result_seat",result_seat);
+			mav.addObject("result_seat_reverse",result_seat_reverse);
+			mav.addObject("one_date",one_date);
+			mav.addObject("two_date",two_date);
+			mav.addObject("road_no",road_no);
+			mav.addObject("road_no_revere",road_no_reverse);
+			mav.addObject("price",price);
+			mav.addObject("arr_price",arr_price);
+			mav.addObject("dep_price",dep_price);
+			mav.setViewName("bus_user/bus_resv_user/bus_resv_user_total_payok");
+			return mav;
+			/*
 			Bus_BusRoadDTO rdto=busResvMapper_resv.resv_user_seat_select_resv(road_no);
 			Bus_BusRoadDTO rdto_reverse=busResvMapper_resv.resv_user_seat_select_resv(road_no_reverse);
 			HttpSession session = req.getSession();
 			
-			MemberDTO_resv mdto = (MemberDTO_resv)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
+			MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
 			String[] seat = req.getParameterValues("seat");//좌석수 배열에 저장
 			String[] seats=new String[seat.length];//좌석수를 for문 돌릴 setter 메소드 저장 용도
 			int seat_no=seat.length;//좌석수 저장,티켓총가격 구하기위해
@@ -1343,7 +1484,7 @@ public class BusController {
 			dto.setSave_point(0);
 			dto.setPrice(arr_price);
 			dto.setBus_no(rdto.getBus_no());
-			dto.setResv_date(dep_date);
+			dto.setResv_date(two_date);
 			dto.setRoad_no(road_no);
 			dto.setSeat(result_seat);
 			dto.setMember_no(mdto.getMember_no());
@@ -1354,7 +1495,7 @@ public class BusController {
 			dto.setSave_point(0);
 			dto.setPrice(dep_price);
 			dto.setBus_no(rdto_reverse.getBus_no());
-			dto.setResv_date(dep_date);
+			dto.setResv_date(one_date);
 			dto.setRoad_no(road_no_reverse);
 			dto.setSeat(result_seat_reverse);
 			dto.setMember_no(mdto.getMember_no());
@@ -1365,7 +1506,55 @@ public class BusController {
 			mav.setViewName("bus_user/bus_resv_user/bus_resv_user_total_payok");
 			
 			session.removeAttribute("arr_seat_dto");
-			session.removeAttribute("dep_session_dto");
+			session.removeAttribute("dep_seat_dto");
+			session.removeAttribute("seat");
+			session.removeAttribute("seat_reverse");
+			return mav;*/
+		}
+		@RequestMapping(value="bus_user_resv_totalpaytable.do")
+		public ModelAndView bus_user_resv_totalpaytable(BusResvDTO_resv dto,HttpServletRequest req,@RequestParam String one_date,@RequestParam String two_date,@RequestParam int road_no,@RequestParam int road_no_reverse,@RequestParam int price,@RequestParam int arr_price,@RequestParam int dep_price,@RequestParam String result_seat,@RequestParam String result_seat_reverse){
+			ModelAndView mav = new ModelAndView();
+			Bus_BusRoadDTO rdto=busResvMapper_resv.resv_user_seat_select_resv(road_no);
+			Bus_BusRoadDTO rdto_reverse=busResvMapper_resv.resv_user_seat_select_resv(road_no_reverse);
+			HttpSession session = req.getSession();
+			
+			MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");//로그인되어있는 회원 정보 불러오기
+			
+			
+			int res=0;
+
+			dto.setUse_point(0);
+			dto.setSave_point(0);
+			dto.setPrice(arr_price);
+			dto.setBus_no(rdto.getBus_no());
+			dto.setResv_date(two_date);
+			dto.setRoad_no(road_no);
+			dto.setSeat(result_seat);
+			dto.setMember_no(mdto.getMember_no());
+			
+			res =busResvMapper_resv.insertBus_resv_user_resv(dto);
+			
+			dto.setUse_point(0);
+			dto.setSave_point(0);
+			dto.setPrice(dep_price);
+			dto.setBus_no(rdto_reverse.getBus_no());
+			dto.setResv_date(one_date);
+			dto.setRoad_no(road_no_reverse);
+			dto.setSeat(result_seat_reverse);
+			dto.setMember_no(mdto.getMember_no());
+			
+			res =busResvMapper_resv.insertBus_resv_user_resv(dto);
+			
+			mav.addObject("price",arr_price+dep_price);
+			
+			String msg="결제성공 메인페이지로 돌아갑니다";
+			String url="bus_main.do";
+			mav.addObject("msg",msg);
+			mav.addObject("url",url);
+			mav.setViewName("message");
+			
+			session.removeAttribute("arr_seat_dto");
+			session.removeAttribute("dep_seat_dto");
 			session.removeAttribute("seat");
 			session.removeAttribute("seat_reverse");
 			return mav;
@@ -1379,14 +1568,14 @@ public class BusController {
 			String url="";
 			if(session.getAttribute("sedto")==null){//로그인 유효성검사
 				msg = "해당서비스는 로그인이 필요합니다.로그인페이지로 이동";
-				url = "member_login.do";
+				url = "member_login_resv.do";
 				mav.addObject("msg",msg);
 				mav.addObject("url",url);
 				mav.setViewName("message");
 				return mav;
 			}else{
 				session.getAttribute("sedto");
-				MemberDTO_resv mdto = (MemberDTO_resv)session.getAttribute("sedto");
+				MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");
 				List<BusResv_BusRoadDTO> resv_list = busResvMapper_resv.resvlist_resv(mdto.getMember_no());
 				for(BusResv_BusRoadDTO dto : resv_list){
 					BusStationDTO_resv to = busStationMapper_resv.getBus_station_resv(String.valueOf(dto.getArrival()));
@@ -1405,20 +1594,20 @@ public class BusController {
 		@RequestMapping(value="bus_resv_user_refund.do")
 		public ModelAndView bus_resv_user_refund(HttpServletRequest req,@RequestParam int bus_resv_no,@RequestParam int use_point,@RequestParam int save_point){
 			ModelAndView mav = new ModelAndView();
-			int res=busResvMapper_resv.deletetBus_resv_resv(bus_resv_no);
+			int res=busResvMapper_resv.deletetBus_resv_resv_resv(bus_resv_no);
 			HttpSession session = req.getSession();
 			String msg="";
 			String url="";
 			if (res > 0) {
 				if(use_point>0){
-					MemberDTO_resv mdto = (MemberDTO_resv)session.getAttribute("sedto");	
+					MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");	
 					mdto.setPoint(mdto.getPoint()+use_point);
-					res=memberMapper_resv.Member_buspoint_update_resv(mdto);
+					res=memberMapper.Member_buspoint_update(mdto);
 					
 				}else if(save_point>0){
-					MemberDTO_resv mdto = (MemberDTO_resv)session.getAttribute("sedto");	
+					MemberDTO mdto = (MemberDTO)session.getAttribute("sedto");	
 					mdto.setPoint(mdto.getPoint()-save_point);
-					res=memberMapper_resv.Member_buspoint_update_resv(mdto);
+					res=memberMapper.Member_buspoint_update(mdto);
 				}
 				msg = "환불성공";
 				url = "bus_resv_user_resvlist.do";

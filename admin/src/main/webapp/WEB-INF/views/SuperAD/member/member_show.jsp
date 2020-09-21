@@ -12,7 +12,7 @@
 <body>
 <%@include file="../top2.jsp"%>
 	<table align="center" border="1">
-		<%MemberDTO dto =(MemberDTO) request.getAttribute("dto"); %>
+		<%MemberDTO_sm dto =(MemberDTO_sm) request.getAttribute("dto"); %>
 		<tr><td>회원 번호 : </td><td> <%=dto.getMember_no()%></td></tr>
 		<tr><td>이름 : </td><td> <%=dto.getName() %></td></tr>
 		<tr><td>아이디 : </td><td> <%=dto.getId() %></td></tr>

@@ -7,8 +7,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active"><a href="index" class="nav-link-1">Home</a></li>
           <li class="nav-item"><a href="bus_main.do" class="nav-link-1">Bus</a></li>
-          <li class="nav-item"><a href="hotel_main.do" class="nav-link-1">Hotels</a></li>
-          <li class="nav-item"><a href="restaurant_main.do" class="nav-link-1">Restaurant</a></li>
+          <li class="nav-item"><a href="hotel_resv" class="nav-link-1">Hotels</a></li>
           <li class="nav-item"><a href="board_list.do" class="nav-link-1">Forum</a></li>
          </ul>
       </div>

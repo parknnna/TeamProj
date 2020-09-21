@@ -252,6 +252,5 @@
 				}%>	
 		</TBODY>
 	</TABLE>
-	<div align = "center">양승민 왔다감!</div>
 </DIV>
 

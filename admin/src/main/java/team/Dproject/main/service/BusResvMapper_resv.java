@@ -15,20 +15,20 @@ public class BusResvMapper_resv {
 	   @Autowired
 	   private SqlSession sqlSession;
 	   
-	   public List<BusResvDTO_resv> listBus_resv_resv(){
-		      return sqlSession.selectList("listBus_resv_resv");
+	   public List<BusResvDTO_resv> listBus_resv_resv_resv(){
+		      return sqlSession.selectList("listBus_resv_resv_resv");
 	   }
-	   public int insertBus_resv_resv(BusResvDTO_resv dto){
-		      return sqlSession.insert("insertBus_resv_resv",dto);
+	   public int insertBus_resv_resv_resv(BusResvDTO_resv dto){
+		      return sqlSession.insert("insertBus_resv_resv_resv",dto);
 	   }
-	   public int deletetBus_resv_resv(int no){
-		      return sqlSession.insert("deleteBus_resv_resv",no);
+	   public int deletetBus_resv_resv_resv(int no){
+		      return sqlSession.insert("deleteBus_resv_resv_resv",no);
 	   }
-	   public BusResvDTO_resv getBus_resv_resv(String no){
-		   return sqlSession.selectOne("getBus_resv_resv",no);
+	   public BusResvDTO_resv getBus_resv_resv_resv(String no){
+		   return sqlSession.selectOne("getBus_resv_resv_resv",no);
 	   }
 	   public int updateBus_resv_resv(BusResvDTO_resv dto){
-		      return sqlSession.insert("updateBus_resv_resv",dto);
+		      return sqlSession.insert("updateBus_resv_resv_resv",dto);
 	   }
 	   public List<Bus_BusRoadDTO> listdispatch_resv_resv(int arrival,int departure,String grade){
 		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
@@ -184,6 +184,14 @@ public class BusResvMapper_resv {
 		   map.put("departure",departure);
 		   
 		   return sqlSession.selectOne("bus_busroad_resv_all_count_resv",map);
+	   }
+	   
+	   public List<BusResvDTO_resv> bus_resv_seat_count_oneway(String resv_date,int road_no){
+		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+		   map.put("resv_date",resv_date);
+		   map.put("road_no",road_no);
+		   
+		   return sqlSession.selectList("bus_resv_seat_count_oneway",map);
 	   }
 	   
 	    

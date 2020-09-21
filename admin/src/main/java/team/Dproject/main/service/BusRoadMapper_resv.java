@@ -37,6 +37,16 @@ public class BusRoadMapper_resv {
 		 
 		 return sqlSession.selectList("bus_road_member_list_resv");
 	 }
+	 public int bus_road_count_resv(int search){//arrival값에 조건인 bus_road count
+		 return sqlSession.selectOne("bus_road_count_resv",search);
+	 }
+	 public List<BusRoadDTO_resv> bus_road_list_count_resv(int search,int start,int end){//arrival 조건에 맞추어 bus_road 테이블 5개씩 출력
+		 java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+		 map.put("search",search);
+		 map.put("start",start);
+		 map.put("end",end);
+		 return sqlSession.selectList("bus_road_list_count_resv",map);
+	 }
 	 public List<Member_BusRoadDTO> bus_road_member_list_count_resv(int start,int end){//
 		  java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
 		    map.put("start",start);
@@ -60,5 +70,10 @@ public class BusRoadMapper_resv {
   }
   public int updateBus_road_resv(BusRoadDTO_resv dto){
 	      return sqlSession.insert("updateBus_road_resv",dto);
+  }
+  
+  public List<BusRoadDTO_resv> bus_arrival_list(int search){
+	  
+	  return sqlSession.selectList("bus_arrival_list",search);
   }
 }

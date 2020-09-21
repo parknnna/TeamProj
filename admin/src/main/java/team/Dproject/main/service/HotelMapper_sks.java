@@ -36,7 +36,7 @@ public class HotelMapper_sks {
 		
 		if(sleeps <= 2){
 			sleeps = 2;
-		}
+		} 
 		
 		map.put("address", address);
 		map.put("sleeps", sleeps);

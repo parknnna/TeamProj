@@ -13,8 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import team.Dproject.main.model.BoardDTO;
+import team.Dproject.main.model.BusStationDTO_resv;
 import team.Dproject.main.model.MemberDTO;
+import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.service.BoardMapper;
+import team.Dproject.main.service.BusStaionMapper_resv;
+import team.Dproject.main.service.Bus_stationMapper;
+import team.Dproject.main.service.HotelMapper;
 
 @Controller
 public class MainController {
@@ -22,14 +27,27 @@ public class MainController {
 	@Autowired
 	private BoardMapper boardMapper;
 	
+	@Autowired
+	private BusStaionMapper_resv busStationMapper; 
+	@Autowired
+	private HotelMapper hotelMapper; 
+	
+	
 	@RequestMapping(value = "/")
-	public String home(HttpSession session) {
-		session.setAttribute("member_no", 1);
+	public String home(HttpServletRequest req) {
+		List<BusStationDTO_resv> list=busStationMapper.listBus_station_resv();
+		req.setAttribute("list", list);
+		List<hotelDTO> list2=hotelMapper.listHotel2();
+		req.setAttribute("list2", list2);
 		return "index";
 	}
 	
 	@RequestMapping(value = "/index")
-	public String home2() {
+	public String home2(HttpServletRequest req) {
+		List<BusStationDTO_resv> list=busStationMapper.listBus_station_resv();
+		req.setAttribute("list", list);
+		List<hotelDTO> list2=hotelMapper.listHotel2();
+		req.setAttribute("list2", list2);
 		return "index";
 	}
 	
@@ -58,8 +76,9 @@ public class MainController {
 	@RequestMapping(value="/board_write.do", method=RequestMethod.POST)
 	public String insertBoard(HttpServletRequest req, BoardDTO dto,HttpSession session) {
 		dto.setIp(req.getRemoteAddr());
-		int member_no=(Integer)session.getAttribute("member_no");
+		int member_no=(Integer)session.getAttribute("MNUM");
 		dto.setMember_no(String.valueOf(member_no));
+		System.out.println(dto.getTitle());
 		int res = boardMapper.board_insert(dto);
 		String msg = null, url = null;
 		if(res>0) {

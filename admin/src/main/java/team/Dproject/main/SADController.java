@@ -228,7 +228,7 @@ public class SADController {
 	@RequestMapping(value = "/ADmember_show.do")
 	public ModelAndView Member_show(HttpServletRequest req) {
 		MemberDTO_sm dto = memberMapper.getMember2(req.getParameter("no")); 
-
+ 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("SuperAD/member/member_show");
 		req.setAttribute("page_name", "Member Show");
