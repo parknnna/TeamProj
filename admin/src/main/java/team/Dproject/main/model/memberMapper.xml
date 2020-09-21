@@ -20,7 +20,10 @@
 	<select id = "findMemberName" parameterType = "String" resultType = "memberDTO">
 		select * from member where name = #{searchString}
 	</select>
-	<select id = "getMember" parameterType = "Integer" resultType ="memberDTO">
+		<select id = "getMember" parameterType = "String" resultType ="memberDTO">
+		select * from member where id = #{id}
+	</select>
+	<select id = "getMember2" parameterType = "Integer" resultType ="memberDTO">
 		select * from member where member_no = #{member_no}
 	</select>
 	<select id = "searchMemberId" parameterType = "java.util.Map" resultType = "memberDTO">
