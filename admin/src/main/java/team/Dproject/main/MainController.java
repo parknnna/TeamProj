@@ -65,6 +65,7 @@ public class MainController {
 		for(BoardDTO dto :list) {
 			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
 			dto.setMember_no(mdto.getId());
+			dto.setFilename(mdto.getFilename());
 		}
 		req.setAttribute("getList", list);
 		return "Forum/list";
@@ -74,6 +75,7 @@ public class MainController {
 		for(BoardDTO dto :loclist) {
 			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
 			dto.setMember_no(mdto.getId());
+			dto.setFilename(mdto.getFilename());
 		}
 		req.setAttribute("getList", loclist);
 		return "Forum/list";

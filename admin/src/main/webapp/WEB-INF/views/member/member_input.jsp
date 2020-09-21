@@ -79,7 +79,7 @@
 <div class="card" style="width:700px;margin:0 auto;border:none;">
 <h3 class="dark-grey" style="margin-top:10px">Registration</h3>
 <article class="card-body">
-	<form name = "f" action = "member_input_ok.do" method = "post" style="width:80%;">
+	<form name = "f" action = "member_input_ok.do" method = "post" style="width:80%;"  enctype="multipart/form-data">
  
 				<div class="form-wrap">
 					<h6 class="category">
@@ -161,6 +161,15 @@
 						</select>
 					</div>
 				</div>	
+				
+				<div class="form-wrap">
+					<h6 class="category">
+						<label class="reg_form" style="float:left">Profile</label>
+					</h6>
+					<div class="img-wrap">
+						프로필 사진을 선택해주세요. <input type = "file" name = "filename">
+					</div>
+				</div>
 				
 				<div class="col-sm-6" style="float:left">
 					<input type="checkbox" class="checkbox" />Sign up for our newsletter

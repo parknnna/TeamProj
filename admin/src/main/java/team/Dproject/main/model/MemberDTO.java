@@ -15,6 +15,8 @@ public class MemberDTO {
 	private int sex;
 	private int point;
 	private String joindate;
+	private String filename;
+	private int filesize;
 	public int getMember_no() {
 		return member_no;
 	}
@@ -102,6 +104,18 @@ public class MemberDTO {
 	}
 	public void setJoindate(String joindate) {
 		this.joindate = joindate;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public int getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(int filesize) {
+		this.filesize = filesize;
 	}
 	
 	

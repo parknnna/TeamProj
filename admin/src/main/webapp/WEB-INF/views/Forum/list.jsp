@@ -163,7 +163,7 @@
 			<div class="memberInfo">
 				<div class="memberImgWrapper">
 					<div class="memberImg">
-						<a><img src="${pageContext.request.contextPath}/resources/images/bg_5.jpg"></a>
+						<a><img src="${pageContext.request.contextPath}/resources/img/${dto.filename}" style="width:60px;height:60px;border-radius:60px;"></a>
 					</div>
 				</div>
 				<div class="memberId">
