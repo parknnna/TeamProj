@@ -5,19 +5,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	function setParentText() {
 		opener.document.getElementById("fileH").value = document.getElementById("file").value;
-
+		$(opener.location).attr("href","javascript:send();");
 		window.close();
 	}
 </script>
 </head>
-<body>
+<body onload="setParentText()">
 <%
 	String a=(String)request.getAttribute("filename");
 %>
  <input type="hidden" id="file" name="filename" value="<%=a%>">
- <input type="button" onclick="setParentText()" value="확인">
+
 </body>
 </html>

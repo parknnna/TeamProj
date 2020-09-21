@@ -23,14 +23,6 @@ import team.Dproject.main.service.MemberMapper;
 public class MemberController {
 	@Autowired
 	private MemberMapper memberMapper;
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public String home() {
-//		return "main";
-//		
-//	}
 	@RequestMapping(value = "/index.do")
 	public String main(){
 		return "index";

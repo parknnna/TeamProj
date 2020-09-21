@@ -27,12 +27,10 @@
 		select * from member where #{search} = #{searchString} and ssn1 = #{ssn1} and ssn2 = #{ssn2}
 	</select>
 	<insert id = "insertMember" parameterType = "memberDTO">
-		insert into member values (member_seq.nextval, #{name}, #{id}, #{passwd},
-		#{ssn1}, #{ssn2}, #{email}, #{hp1}, #{hp2}, #{hp3}, #{position}, #{sex}, 0, sysdate)
+		insert into member values (member_seq.nextval, #{name}, #{id}, #{passwd},#{ssn1}, #{ssn2}, #{email}, #{hp1}, #{hp2}, #{hp3}, #{position}, #{sex}, 0, sysdate)
 	</insert>
 	<update id = "editMember" parameterType = "memberDTO">
-		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
-		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position} where member_no= #{member_no}
+		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},hp2 = #{hp2}, hp3 = #{hp3}, position = #{position} where member_no= #{member_no}
 	</update>
 	
 	<select id = "getPosition" parameterType = "int" resultType = "memberDTO">

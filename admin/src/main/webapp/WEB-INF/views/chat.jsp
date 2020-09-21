@@ -5,24 +5,31 @@
 <%@page import="java.net.InetAddress"%>
 <%@ include file="Basic/head.jsp" %>   
 <%@ include file="Basic/nav_AD.jsp" %>   
+<%@page import="team.Dproject.main.model.*"%>
 
 
 
-	<div>
+	<div align="center" width="60%" >
 		<%
 			InetAddress local;
 			local = InetAddress.getLocalHost();
 			String ip = local.getHostAddress();
+			MemberDTO dto = (MemberDTO)session.getAttribute("sedto");
 		%>
-		<div align="center" style="margin-top:100px" >
-		<div id="messages" style="width:60%;overflow:auto; width:500px; height:400px;"></div>
-		<br /> 메세지 입력 : <input type="text" id="sender"
-			value="${sessionScope.id}" style="display: none;"> 
-			<input type="text" id="messageinput" class="input">
-			<input type="hidden" id="fileH" name="fileH" class="fileH" onchange="valueChange()">
-		<button type="button" onclick="send();" >메세지 전송</button>
-		<button type="button" onclick="javascript:up();">파일보내기</button>
+		<div align="center" style="margin-top:100px;margin-bottom:100px;" >
+		
+		<div id="messages" style="overflow:auto; width:500px; height:400px;border:1px solid #000;"></div>
+		<br />  
+		
+		
+		<input type="text" id="sender" value="<%=dto.getId()%>" style="display: none;"> 
+		<input type="hidden" id="fileH" name="fileH" class="fileH" onchange="send();">
+
 		</div>
+		<div align="right" style=" float: left; width: 33%;"><a onclick="javascript:up();"><i class="far fa-images fa-2x"></i></a></div>
+		<div style=" float: left; width: 33%;"><input type="text" id="messageinput" class="input" size="60"onKeypress="javascript:if(event.keyCode==13) {send()}"></div>
+		<div align="left" style=" float: left; width: 33%;"><a onclick="send();" ><i class="fas fa-play fa-2x"></i></a></div>
+
 	</div>
 
 
@@ -41,8 +48,10 @@
 
 			ws = new WebSocket("ws://<%=ip%>:8080/admin/echo.do");
 
+			
 			ws.onopen = function(event) {
 				if (event.data === undefined) {
+					ws.send("<%=dto.getName()%>님이 입장하였습니다.");
 					return;
 				}
 				writeResponse(event.data);
@@ -55,16 +64,18 @@
 			};
 
 			ws.onclose = function(event) {
-				writeResponse("대화 종료");
+				writeResponse("<%=dto.getName()%>님이 퇴장하였습니다.");
 			}
-		}
+		} 
 
 		function up() {
-			 // window.name = "부모창 이름"; 
+
             window.name = "chat";
-            // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-            window.open("chatfile.do",
-                    "childForm", "width=570, height=350, resizable = no, scrollbars = no");    
+
+            var popupX = (document.body.offsetWidth / 2) - (200 / 2);
+			var popupY= (window.screen.height / 2) - (300 / 2);
+ 
+            window.open('chatfile.do', 'childForm', 'status=no, height=50, width=350, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 		}
 
 		function send() {
@@ -76,17 +87,10 @@
 				+ document.getElementById("sender").value+ ","
 				+ document.getElementById("fileH").value + "," + "/admin/resources/img/";
 				
-				
-				
 				ws.send(text);
 				text = "";
 				
 				document.getElementById("fileH").value = ""
-				
-				
-				
-
-
 			}
 			else if (document.getElementById("messageinput").value != "") {
 				var text = document.getElementById("messageinput").value + ","
@@ -100,6 +104,7 @@
 			}
 		}
 		window.onbeforeunload = function() {
+			ws.send("<%=dto.getName()%>님이 퇴장하였습니다.");
 			ws.close();
 			writeResponse("대화 종료");
 		}
@@ -114,4 +119,3 @@
 	</script>
 
 
-<%@ include file="Basic/bottom_nav.jsp" %> 

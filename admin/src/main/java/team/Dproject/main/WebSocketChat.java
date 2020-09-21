@@ -11,14 +11,13 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import org.slf4j.Logger; 
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller; 
+import org.springframework.stereotype.Controller;
 
 
 @Controller @ServerEndpoint(value="/echo.do") 
 public class WebSocketChat { 
 	private static final List<Session> sessionList=new ArrayList<Session>();;
 	private static final Logger logger = LoggerFactory.getLogger(WebSocketChat.class); 
-	
 	public WebSocketChat() { 
 		 System.out.println("웹소켓(서버) 객체생성");
 	} 
@@ -34,6 +33,10 @@ public class WebSocketChat {
 		}
 		sessionList.add(session); 
 	} 
+	
+
+	
+	
 	private void sendAllSessionToMessage(Session self, String sender, String message) {
 		try {
 			for(Session session : WebSocketChat.sessionList) {
@@ -45,12 +48,23 @@ public class WebSocketChat {
 			System.out.println(e.getMessage()); 
 		} 
 	} 
+	private void sendAllSessionToMessage2(Session self, String sender, String message) {
+		try {
+			for(Session session : WebSocketChat.sessionList) {
+				if(!self.getId().equals(session.getId())) {
+					session.getBasicRemote().sendText("<div align='center' width='100%'>"+sender+""+message+"</div>"); 
+				} 
+			} 
+		}catch (Exception e) { 
+			System.out.println(e.getMessage()); 
+		} 
+	} 
 	
 	private void sendAllSessionToMessage2(Session self, String sender, String message,String a) {
 		try {
 			for(Session session : WebSocketChat.sessionList) {
 				if(!self.getId().equals(session.getId())) {
-					session.getBasicRemote().sendText("<div align='left' width='100%'>"+sender+" : "+"<img src='"+a+message+"'><br><a href='"+a+message+"' download>다운로드</a></div>"); 
+					session.getBasicRemote().sendText("<div align='left' width='100%'>"+sender+" : "+"<img src='"+a+message+"'width='40' height='40'><br><a href='"+a+message+"' download>다운로드</a></div>"); 
 				} 
 			} 
 		}catch (Exception e) { 
@@ -61,8 +75,16 @@ public class WebSocketChat {
 	
 	@OnMessage public void onMessage(String message,Session session) {
 		String temp[]=message.split(",");
-		
-		if(temp.length<3){
+		if(temp.length==1){
+			String sender = "";
+			message = message.split(",")[0];
+			logger.info("Message From "+sender + ": "+message);
+			try { 
+				final Basic basic=session.getBasicRemote(); 
+			}catch (Exception e) { 
+				System.out.println(e.getMessage()); 
+			} sendAllSessionToMessage2(session, sender, message); 
+		}else if(temp.length<3){
 			String sender = message.split(",")[1];
 			message = message.split(",")[0];
 			logger.info("Message From "+sender + ": "+message);
@@ -77,7 +99,7 @@ public class WebSocketChat {
 			message = message.split(",")[2];
 			logger.info("Message From "+sender + ": "+message);
 			try {
-				final Basic basic=session.getBasicRemote(); basic.sendText("<div align='right' width='100%'><img src='"+a+message+"' ><br><a href='"+a+message+"' download>다운로드</a></div>");
+				final Basic basic=session.getBasicRemote(); basic.sendText("<div align='right' width='100%'><img src='"+a+message+"' width='40' height='40'> : 나<br><a href='"+a+message+"' download>다운로드</a></div>");
 				
 			}catch (Exception e) { 
 				System.out.println(e.getMessage()); 
@@ -90,7 +112,8 @@ public class WebSocketChat {
 	
 	@OnClose 
 	public void onClose(Session session) { 
-		logger.info("Session "+session.getId()+" has ended"); sessionList.remove(session);
+		logger.info("Session "+session.getId()+" has ended"); 
+		sessionList.remove(session);
 	} 
 }
 		

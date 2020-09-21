@@ -32,6 +32,7 @@
       			<li><a href="member_wishlist.do" class="submenu-1-second">Wish List</a></li>
                 <li><a href="member_input.do" class="submenu-1-third">Sign Up</a></li>
                 <%if(member!=null){
+                	%><li><a href="loginProcess.do" class="submenu-1-third">Chat</a></li><%
                 	if(member.getPosition()==0){ %>
                 		<li><a href="ADsuperAD.do" class="submenu-1-second" style="color:black">Admin</a></li>
                 	<%} %>
