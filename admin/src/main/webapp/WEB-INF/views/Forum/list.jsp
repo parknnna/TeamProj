@@ -208,12 +208,29 @@
 				</span>
 			</div>
 			<br>
-			<div>${dto.filename }</div>
+		
 		</div>
 	</div>
 	</div>
 	</c:forEach>
 	</div>
+	
+		<!-- 페이지 이전? 다음? -->
+	<c:if test="${count>0}">
+	<c:set var="startPage" value="${startPage}"/>
+	<c:set var="endPage" value="${endPage}"/>
+	<c:set var="pageBlock" value="${pageBlock}"/>
+	<c:set var="pageCount" value="${pageCount}"/>
+	<c:if test="${startPage>pageBlock}">
+			[<a href="board_list.do?pageNum=${startPage-1}">이전</a>]		
+	</c:if>
+	<c:forEach var="i" begin="${startPage}" end="${endPage }" step="1">
+		[<a href="board_list.do?pageNum=${i}">${i}</a>]
+	</c:forEach>
+		<c:if test="${endPage<pageCount}">
+			[<a href="board_list.do?pageNum=${endPage+1}">다음</a>]		
+		</c:if>
+	</c:if>	
 
 	<!-- BoardList Start -->
 	<%-- <%int cnt=0; %> --%>

@@ -59,26 +59,70 @@ public class MainController {
 	
 	
 	@RequestMapping(value="/board_list.do")
-	public String listBoard(HttpServletRequest req) {
+	public ModelAndView listBoard(HttpServletRequest req) {
+		int pageSize=7;
+		String pageNum = req.getParameter("pageNum");
+		if(pageNum==null) {
+			pageNum="1";
+		}
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = currentPage * pageSize - (pageSize-1);
+		int endRow = currentPage * pageSize;
+		int count = 0;
+		count = boardMapper.board_count();
+		if(endRow>count) {
+			endRow=count;
+		}
 		if(req.getParameter("location_no")==null||req.getParameter("location_no").equals("")) {
-		List<BoardDTO> list = boardMapper.board_list();
-		for(BoardDTO dto :list) {
-			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
-			dto.setMember_no(mdto.getId());
-			dto.setFilename(mdto.getFilename());
+		List<BoardDTO> list = boardMapper.board_list(startRow,endRow);
+			for(BoardDTO dto :list) {
+				MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
+				dto.setMember_no(mdto.getId());
+				dto.setFilename(mdto.getFilename());
+			}
+		int startNum = count-((currentPage-1)*pageSize);
+		int pageCount = count/pageSize + (count%pageSize == 0 ? 0 : 1);
+		int pageBlock = 7;
+		int startPage = (currentPage-1)/pageBlock * pageBlock +1;
+		int endPage = startPage + pageBlock -1;
+		if(endPage>pageCount) endPage = pageCount;
+			
+		ModelAndView mav = new ModelAndView();	
+		mav.setViewName("Forum/list");
+		mav.addObject("getList", list);
+		mav.addObject("count",count);
+		mav.addObject("startNum",startNum);
+		mav.addObject("pageCount",pageCount);
+		mav.addObject("pageBlock",pageBlock);
+		mav.addObject("startPage",startPage);
+		mav.addObject("endPage",endPage);
+		return mav;
 		}
-		req.setAttribute("getList", list);
-		return "Forum/list";
-		}
+		
 		int location_no=Integer.parseInt(req.getParameter("location_no"));
-		List<BoardDTO> loclist = boardMapper.getList(location_no);
+		List<BoardDTO> loclist = boardMapper.getList(startRow,endRow,location_no);
 		for(BoardDTO dto :loclist) {
 			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
 			dto.setMember_no(mdto.getId());
 			dto.setFilename(mdto.getFilename());
-		}
-		req.setAttribute("getList", loclist);
-		return "Forum/list";
+			}
+		int startNum = count-((currentPage-1)*pageSize);
+		int pageCount = count/pageSize + (count%pageSize == 0 ? 0 : 1);
+		int pageBlock = 7;
+		int startPage = (currentPage-1)/pageBlock * pageBlock +1;
+		int endPage = startPage + pageBlock -1;
+		if(endPage>pageCount) endPage = pageCount;
+		
+		ModelAndView mav = new ModelAndView();	
+		mav.setViewName("Forum/list");
+		mav.addObject("getList", loclist);
+		mav.addObject("count",count);
+		mav.addObject("startNum",startNum);
+		mav.addObject("pageCount",pageCount);
+		mav.addObject("pageBlock",pageBlock);
+		mav.addObject("startPage",startPage);
+		mav.addObject("endPage",endPage);
+		return mav;
 	}
 	
 	
@@ -141,9 +185,18 @@ public class MainController {
 		boardMapper.getCount(main_board_no);
 		//getMember2 : dto의 Member_no으로 정보를 가져와서 mdto 에 저장  
 		req.setAttribute("getNo", dto.getMember_no());
+		int max=boardMapper.MAX();
+		int min=boardMapper.MIN();
+		if(max!=dto.getMain_board_no()) {
+			req.setAttribute("nextNum", boardMapper.nextNum(dto.getMain_board_no()));
+		}
+		if(min!=dto.getMain_board_no()) {
+			req.setAttribute("prevNum", boardMapper.prevNum(dto.getMain_board_no()));
+		}
 		MemberDTO mdto = memberMapper.getMember2(dto.getMember_no());
 		//dto의 Member_no에 mdto에서 가져온 Id 저장 
 		dto.setMember_no(mdto.getId());
+		req.setAttribute("proimg", mdto.getFilename());
 		ModelAndView mav = new ModelAndView("Forum/content", "getBoard", dto);
 		List<CommentDTO> list = commentMapper.commentList(dto.getMain_board_no());
 		List<CommentDTO> list2 = commentMapper.commentList(dto.getMain_board_no());
@@ -155,6 +208,7 @@ public class MainController {
 		req.setAttribute("commentList2", list2);
 		return mav;
 	}
+	
 	
 	
 	@RequestMapping(value="/search.do")

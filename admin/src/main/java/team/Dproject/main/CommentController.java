@@ -36,7 +36,10 @@ public class CommentController {
 	public ModelAndView commentList(HttpServletRequest req) {
 		BoardDTO dto = boardMapper.getBoard(Integer.parseInt(req.getParameter("main_board_no")));
 		MemberDTO mdto = memberMapper.getMember2(dto.getMember_no());
+		
+		req.setAttribute("getNo", dto.getMember_no());
 		dto.setMember_no(mdto.getId());
+		dto.setFilename(mdto.getFilename());
 		ModelAndView mav = new ModelAndView("Forum/content", "getBoard", dto);
 		List<CommentDTO> list = commentMapper.commentList(Integer.parseInt(req.getParameter("main_board_no")));
 		List<CommentDTO> list2 = commentMapper.commentList(Integer.parseInt(req.getParameter("main_board_no")));
@@ -56,10 +59,10 @@ public class CommentController {
 		String msg = null, url = null;
 		if(res>0) {
 			msg = "댓글 작성 완료!";
-			url = "comment_list.do?main_board_no="+dto.getBno();
+			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}else {
 			msg = "댓글 작성 오류!";
-			url = "comment_list.do?main_board_no="+dto.getBno();
+			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}
 
 		req.setAttribute("msg", msg);
@@ -73,10 +76,10 @@ public class CommentController {
 		String msg = null, url = null;
 		if(res>0) {
 			msg = "댓글 삭제 완료!";
-			url = "comment_list.do?main_board_no="+req.getParameter("bno");
+			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}else {
 			msg = "댓글 작성 오류!";
-			url = "comment_list.do?main_board_no="+req.getParameter("bno");
+			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}
 		
 		ModelAndView mav = new ModelAndView();

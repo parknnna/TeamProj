@@ -20,7 +20,7 @@
 		</tr>
 		<c:if test="${empty list}">
 			<tr>
-				<td colspan="7">등록된 호텔가 없습니다.</td>
+				<td colspan="7">등록된 호텔이 없습니다.</td>
 			</tr>
 		</c:if>
 		<c:forEach var="dto" items="${list}">
