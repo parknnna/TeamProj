@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/team/Dproject/main/MemberController.java=UTF-8
+encoding//src/main/java/team/Dproject/main/SADController.java=UTF-8
 encoding//src/main/java/team/Dproject/main/service/MemberMapper.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/busAD/bus/bus_list.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8

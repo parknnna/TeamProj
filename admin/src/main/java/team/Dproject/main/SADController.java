@@ -31,7 +31,7 @@ public class SADController {
 	
 	
 	
-	//================로그인==========================
+	//================濡쒓렇�씤==========================
 	@RequestMapping(value = "/ADmember_login.do")
 	public String MemberLogin(HttpServletRequest req){
 		Cookie[] cks = req.getCookies();
@@ -68,17 +68,17 @@ public class SADController {
 			resp.addCookie(ck);
 			session.setAttribute("sedto", dto);
 			session.setAttribute("MNUM", dto.getMember_no());
-			msg = dto.getName() + "님 로그인완료.";
+			msg = dto.getName() + "�떂 濡쒓렇�씤�셿猷�.";
 			url = "home.do";
 			break;
 			
 		case 1 :
-			msg = "로그인실패";
+			msg = "濡쒓렇�씤�떎�뙣";
 			url = "home.do";
 			break;
 			
 		case 2 :
-			msg = "로그인실패";
+			msg = "濡쒓렇�씤�떎�뙣";
 			url = "home.do";
 			break;
 		
@@ -94,7 +94,7 @@ public class SADController {
 		HttpSession session = req.getSession();
 		session.removeAttribute("sedto");
 		session.removeAttribute("MNUM");
-		req.setAttribute("msg", "로그아웃.");
+		req.setAttribute("msg", "濡쒓렇�븘�썐.");
 		req.setAttribute("url", "home.do");
 		return "message";
 		
@@ -104,7 +104,7 @@ public class SADController {
 	
 	
 	
-	//================로그인==========================
+	//================濡쒓렇�씤==========================
 	
 
 	@RequestMapping(value = "/ADsuperAD.do")
@@ -158,20 +158,20 @@ public class SADController {
 			if (mode.equals("mypage")) {
 				session.removeAttribute("sedto");
 				session.setAttribute("sedto", dto);
-				msg = "회원수정성공! 마이페이지로 이동합니다.";
+				msg = "�쉶�썝�닔�젙�꽦怨�! 留덉씠�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 				url = "ADmember_list.do";
 
 			} else {
-				msg = "회원수정성공! 회원목록으로 이동합니다.";
+				msg = "�쉶�썝�닔�젙�꽦怨�! �쉶�썝紐⑸줉�쑝濡� �씠�룞�빀�땲�떎.";
 				url = "ADmember_list.do";
 			}
 		} else {
 			if (mode.equals("mypage")) {
-				msg = "회원수정실패! 마이페이지로 이동합니다.";
+				msg = "�쉶�썝�닔�젙�떎�뙣! 留덉씠�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 				url = "ADmember_list.do";
 
 			} else {
-				msg = "회원수정실패! 회원수정페이지로 이동합니다.";
+				msg = "�쉶�썝�닔�젙�떎�뙣! �쉶�썝�닔�젙�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 				url = "ADmember_list.do?id=" + dto.getId();
 
 			}
@@ -200,23 +200,23 @@ public class SADController {
 			if (isId) {
 				int res = memberMapper.insertMember(dto);
 				if (res > 0) {
-					msg = "회원가입성공! 로그인 페이지로 이동합니다.";
+					msg = "�쉶�썝媛��엯�꽦怨�! 濡쒓렇�씤 �럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 					url = "ADmember_list.do";
 
 				} else {
-					msg = "회원가입실패! 메인페이지로 이동합니다.";
+					msg = "�쉶�썝媛��엯�떎�뙣! 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 					url = "ADmember_list.do";
 
 				}
 
 			} else {
-				msg = "중복된 아이디가 있습니다. 다른 아이디로 가입해 주세요";
+				msg = "以묐났�맂 �븘�씠�뵒媛� �엳�뒿�땲�떎. �떎瑜� �븘�씠�뵒濡� 媛��엯�빐 二쇱꽭�슂";
 				url = "ADmember_input.do";
 
 			}
 
 		} else {
-			msg = "아이디가 너무 많습니다. 로그인 해주세요.";
+			msg = "�븘�씠�뵒媛� �꼫臾� 留롮뒿�땲�떎. 濡쒓렇�씤 �빐二쇱꽭�슂.";
 			url = "ADmember_list.do";
 
 		}

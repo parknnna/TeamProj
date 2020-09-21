@@ -65,35 +65,37 @@ public class MemberController {
 		String id = req.getParameter("id");
 		String passwd = req.getParameter("passwd");
 		String saveId = req.getParameter("saveId");
-		MemberDTO dto = memberMapper.memberLogin(id);
+		int res = memberMapper.memberLogin(id, passwd);
 		String msg = null, url = null;
-		if(dto == null){
-			msg = "없는 아이디 잆니다. 다시 입력해 주세요";
-			url = "member_login.do";
-			
-		}else{
-			if(dto.getPasswd().equals(passwd)){
-				HttpSession session = req.getSession();
-				Cookie ck = new Cookie("id", id);
-				if (saveId != null) {
-					ck.setMaxAge(10 * 60);
+		switch (res) {
+		case 0:
+			MemberDTO dto = memberMapper.getMember(id);
+			HttpSession session = req.getSession();
+			Cookie ck = new Cookie("id", id);
+			if (saveId != null) {
+				ck.setMaxAge(10 * 60);
 
-				} else {
-					ck.setMaxAge(0);
+			} else {
+				ck.setMaxAge(0);
 
-				}
-				resp.addCookie(ck);
-				session.setAttribute("sedto", dto);
-				session.setAttribute("MNUM", dto.getMember_no());
-				msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
-				url = "index.do";
-				
-			}else{
-				msg = "비밀번호가 틀립니다. 다시 입력해 주세요";
-				url = "member_login.do";
-				
 			}
-			
+			resp.addCookie(ck);
+			session.setAttribute("sedto", dto);
+			session.setAttribute("MNUM", dto.getMember_no());
+			msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
+			url = "index.do";
+			break;
+
+		case 1:
+			msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요";
+			url = "member_login.do";
+			break;
+
+		case 2:
+			msg = "없는 아이디 입니다. 다시 확인하시고 입력해 주세요";
+			url = "member_login.do";
+			break;
+
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
@@ -202,8 +204,8 @@ public class MemberController {
 
 	@RequestMapping(value = "/member_edit.do")
 	public String MemberEdit(HttpServletRequest req) {
-		int member_no = Integer.parseInt(req.getParameter("member_no"));
-		MemberDTO dto = memberMapper.getMember(member_no);
+		String id = req.getParameter("id");
+		MemberDTO dto = memberMapper.getMember(id);
 		req.setAttribute("dto", dto);
 		return "member/member_edit";
 
@@ -212,6 +214,7 @@ public class MemberController {
 	@RequestMapping(value = "/member_edit_ok.do")
 	public String MemberEditOk(HttpServletRequest req, MemberDTO dto, BindingResult result) {
 		String msg = null, url = null, mode = req.getParameter("mode");
+		HttpSession session = req.getSession();
 		String filename = dto.getFilename();
 		int filesize =dto.getFilesize();
 		
@@ -232,11 +235,6 @@ public class MemberController {
 			dto.setFilesize(0);
 			
 		}
-		if (mode == null) {
-			mode = "";
-
-		}
-		HttpSession session = req.getSession();
 		int res = memberMapper.editMember(dto);
 		if (res > 0) {
 			session.removeAttribute("sedto");

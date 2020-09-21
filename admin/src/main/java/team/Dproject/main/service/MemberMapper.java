@@ -111,14 +111,26 @@ public class MemberMapper {
 		
 	}
 
-	public MemberDTO memberLogin(String id) {
-		return sqlSession.selectOne("getMemberPasswd", id);
+	public int memberLogin(String id, String passwd) {
+		MemberDTO dto = sqlSession.selectOne("getMemberPasswd", id);
+		if(dto == null){
+			return 1;//아이디 없음
+			
+		}else{
+			if(dto.getPasswd().equals(passwd)){
+				return 0;//로그인 성공
+				
+			}else{
+				return 1;//비밀번호 틀림
+				
+			}
+			
+		}
 		
 	}
 
-	public MemberDTO getMember(int member_no) {
-		MemberDTO dto = sqlSession.selectOne("getMember", member_no);
-		return dto;
+	public MemberDTO getMember(String id) {
+		return sqlSession.selectOne("getMember", id);
 		
 	}
 	
@@ -140,6 +152,11 @@ public class MemberMapper {
 	
 	public int Member_buspoint_update(MemberDTO dto){
 		return sqlSession.update("Member_buspoint_update",dto);
+	}
+
+	public MemberDTO getMember2(String parameter) {
+		return sqlSession.selectOne("getMember2", parameter);
+		
 	}
 	
 }
