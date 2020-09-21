@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import team.Dproject.main.model.hotelDTO_resv_ysm;
 import team.Dproject.main.model.MemberDTO;
 import team.Dproject.main.model.hotelDTO;
 
@@ -57,11 +58,6 @@ public class MemberMapper {
 		
 	}
 	
-	public List<hotelDTO> getHotelReserve(int member_no) {
-		List<hotelDTO> list = sqlSession.selectList("getHotelReserve", member_no);
-		return list;
-	}
-
 	public List<MemberDTO> searchMemberPasswd(String searchString, String ssn1, String ssn2) {
 		java.util.Map<String, String> map = new java.util.Hashtable<String, String>();
 		map.put("searchString", searchString);
@@ -72,11 +68,18 @@ public class MemberMapper {
 		
 	}
 	
-	
-	
+	public List<hotelDTO_resv_ysm> getHotelReserve(int member_no) {
+		List<hotelDTO_resv_ysm> list = sqlSession.selectList("getHotelReserve", member_no);
+		if(list == null){
+			
+		}
+		return list;
+		
+	}
+
 	public int deleteMember(int member_no) {
-		int res = sqlSession.delete("deleteMember", member_no);
-		return res;
+		return sqlSession.delete("deleteMember", member_no);
+		
 	}
 
 	public List<MemberDTO> memberList() {
@@ -108,38 +111,21 @@ public class MemberMapper {
 		
 	}
 
-	public int memberLogin(String id, String passwd) {
-		String dbPasswd = sqlSession.selectOne("getMemberPasswd", id);
-		if(dbPasswd == null){
-			return 2; //占쌔댐옙占싹댐옙 占쏙옙占싱듸옙 占쏙옙占쏙옙
-			
-		}else{
-			if(dbPasswd.trim().equals(passwd)){
-				return 0; // 占싸깍옙占쏙옙 占쏙옙占쏙옙
-				
-			}else{
-				return 1; // 占쏙옙橘占싫ｏ옙占� 틀占쏙옙
-				
-			}
-			
-		}
+	public MemberDTO memberLogin(String id) {
+		return sqlSession.selectOne("getMemberPasswd", id);
 		
 	}
 
-	public MemberDTO getMember(String id) {
-		MemberDTO dto = sqlSession.selectOne("getMember", id);
+	public MemberDTO getMember(int member_no) {
+		MemberDTO dto = sqlSession.selectOne("getMember", member_no);
 		return dto;
 		
-	}
-	
-	public MemberDTO getMember2(String member_no) {
-		MemberDTO dto = sqlSession.selectOne("getMember2", member_no);
-		return dto;	
 	}
 	
 	public List<MemberDTO> getPosition(String posistion) {
 		List<MemberDTO> list = sqlSession.selectList("getPosition",posistion);
 		return list;	
+		
 	}
 
 	public List<MemberDTO> searchMember(String mode, String searchString, String ssn1, String ssn2) {

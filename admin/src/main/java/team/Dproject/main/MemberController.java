@@ -2,6 +2,7 @@ package team.Dproject.main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import team.Dproject.main.model.MemberDTO;
-import team.Dproject.main.model.hotelDTO;
+import team.Dproject.main.model.hotelDTO_resv_ysm;
 import team.Dproject.main.service.MemberMapper;
 
 /**
@@ -64,37 +65,35 @@ public class MemberController {
 		String id = req.getParameter("id");
 		String passwd = req.getParameter("passwd");
 		String saveId = req.getParameter("saveId");
-		int res = memberMapper.memberLogin(id, passwd);
+		MemberDTO dto = memberMapper.memberLogin(id);
 		String msg = null, url = null;
-		switch (res) {
-		case 0:
-			MemberDTO dto = memberMapper.getMember(id);
-			HttpSession session = req.getSession();
-			Cookie ck = new Cookie("id", id);
-			if (saveId != null) {
-				ck.setMaxAge(10 * 60);
+		if(dto == null){
+			msg = "없는 아이디 잆니다. 다시 입력해 주세요";
+			url = "member_login.do";
+			
+		}else{
+			if(dto.getPasswd().equals(passwd)){
+				HttpSession session = req.getSession();
+				Cookie ck = new Cookie("id", id);
+				if (saveId != null) {
+					ck.setMaxAge(10 * 60);
 
-			} else {
-				ck.setMaxAge(0);
+				} else {
+					ck.setMaxAge(0);
 
+				}
+				resp.addCookie(ck);
+				session.setAttribute("sedto", dto);
+				session.setAttribute("MNUM", dto.getMember_no());
+				msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
+				url = "index.do";
+				
+			}else{
+				msg = "비밀번호가 틀립니다. 다시 입력해 주세요";
+				url = "member_login.do";
+				
 			}
-			resp.addCookie(ck);
-			session.setAttribute("sedto", dto);
-			session.setAttribute("MNUM", dto.getMember_no());
-			msg = dto.getName() + "�떂 �솚�쁺�빀�땲�떎. 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
-			url = "index.do";
-			break;
-
-		case 1:
-			msg = "鍮꾨�踰덊샇瑜� �옒紐� �엯�젰�븯�뀲�뒿�땲�떎. �떎�떆 �엯�젰�빐 二쇱꽭�슂";
-			url = "member_login.do";
-			break;
-
-		case 2:
-			msg = "�뾾�뒗 �븘�씠�뵒 �엯�땲�떎. �떎�떆 �솗�씤�븯�떆怨� �엯�젰�빐 二쇱꽭�슂";
-			url = "member_login.do";
-			break;
-
+			
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
@@ -106,7 +105,8 @@ public class MemberController {
 	public String MemberLogout(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		session.removeAttribute("sedto");
-		req.setAttribute("msg", "濡쒓렇�븘�썐 �릺�뿀�뒿�땲�떎. 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.");
+		session.removeAttribute("MNUM");
+		req.setAttribute("msg", "로그아웃 되었습니다. 메인페이지로 이동합니다.");
 		req.setAttribute("url", "index.do");
 		return "message";
 
@@ -143,23 +143,23 @@ public class MemberController {
 				dto.setFilesize(filesize);
 				int res = memberMapper.insertMember(dto);
 				if (res > 0) {
-					msg = "�쉶�썝媛��엯�꽦怨�! 濡쒓렇�씤 �럹�씠吏�濡� �씠�룞�빀�땲�떎.";
+					msg = "회원가입성공! 로그인 페이지로 이동합니다.";
 					url = "member_login.do";
 
 				} else {
-					msg = "�쉶�썝媛��엯�떎�뙣! 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
+					msg = "회원가입실패! 메인페이지로 이동합니다.";
 					url = "index.do";
 
 				}
 
 			} else {
-				msg = "以묐났�맂 �븘�씠�뵒媛� �엳�뒿�땲�떎. �떎瑜� �븘�씠�뵒濡� 媛��엯�빐 二쇱꽭�슂";
+				msg = "중복된 아이디가 있습니다. 다른 아이디로 가입해 주세요";
 				url = "member_input.do";
 
 			}
 
 		} else {
-			msg = "�븘�씠�뵒媛� �꼫臾� 留롮뒿�땲�떎. 濡쒓렇�씤 �빐二쇱꽭�슂.";
+			msg = "아이디가 너무 많습니다. 로그인 해주세요.";
 			url = "member_login.do";
 
 		}
@@ -202,8 +202,8 @@ public class MemberController {
 
 	@RequestMapping(value = "/member_edit.do")
 	public String MemberEdit(HttpServletRequest req) {
-		String id = req.getParameter("id");
-		MemberDTO dto = memberMapper.getMember(id);
+		int member_no = Integer.parseInt(req.getParameter("member_no"));
+		MemberDTO dto = memberMapper.getMember(member_no);
 		req.setAttribute("dto", dto);
 		return "member/member_edit";
 
@@ -221,6 +221,7 @@ public class MemberController {
 		if (file.getSize() > 0){
 			try{
 				file.transferTo(target);
+				
 			}catch(IOException e){}
 			filename = file.getOriginalFilename();
 			filesize = (int)file.getSize();
@@ -241,22 +242,22 @@ public class MemberController {
 			session.removeAttribute("sedto");
 			session.setAttribute("sedto", dto);
 			if (mode.equals("mypage")) {
-				msg = "�쉶�썝�닔�젙�꽦怨�! 留덉씠�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
+				msg = "회원수정성공! 마이페이지로 이동합니다.";
 				url = "member_mypage.do";
 
 			} else {
-				msg = "�쉶�썝�닔�젙�꽦怨�! �쉶�썝紐⑸줉�쑝濡� �씠�룞�빀�땲�떎.";
+				msg = "회원수정성공! 회원목록으로 이동합니다.";
 				url = "member_list.do";
 
 			}
 
 		} else {
 			if (mode.equals("mypage")) {
-				msg = "�쉶�썝�닔�젙�떎�뙣! 留덉씠�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
+				msg = "회원수정실패! 마이페이지로 이동합니다.";
 				url = "member_mypage.do";
 
 			} else {
-				msg = "�쉶�썝�닔�젙�떎�뙣! �쉶�썝�닔�젙�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
+				msg = "회원수정실패! 회원수정페이지로 이동합니다.";
 				url = "member_edit.do?id=" + dto.getId();
 
 			}
@@ -268,7 +269,6 @@ public class MemberController {
 
 	}
 
-	// 留덉씠�럹�씠吏� �씠�룞
 	@RequestMapping(value = "/member_mypage.do")
 	public String MemberMypage(HttpServletRequest req) {
 		return "member/mypage";
@@ -309,21 +309,56 @@ public class MemberController {
 
 	}
 
-	@RequestMapping(value = "/member_withdraw.do")
-	public String MemberWithdraw(HttpServletRequest req) {
+	@RequestMapping(value = "/member_delete.do")
+	public String MemberDelete(HttpServletRequest req) {
+		String mode = req.getParameter("mode");
+		if(mode == null){
+			mode = "";
+			
+		}
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
-		int res = memberMapper.deleteMember(dto.getMember_no());
+		int res = 0;
 		String msg = null, url = null;
-		if (res > 0) {
-			session.removeAttribute("sedto");
-			msg = "회占쏙옙탈占쏜성곤옙! 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占싱듸옙占쌌니댐옙.";
-			url = "index.do";
+		if(mode.equals("admin")){
+			res = memberMapper.deleteMember(Integer.parseInt(req.getParameter("member_no")));
+			if(res > 0){
+				msg = "회원 삭제 성공! 회원목록으로 이동합니다.";
+				url = "member_list.do";
+				
+			}else{
+				msg = "회원 삭제 실패! 회원목록으로 이동합니다.";
+				url = "member_list.do";
+				
+			}
+			
+		}else{
+			String passwd = req.getParameter("passwd");
+			if(passwd == null){
+				msg = "비밀번호를 입력해주세요.";
+				url = "member_mypage.do";
+				
+			}else if(passwd.equals(dto.getPasswd())){
+				msg = "회원 탈퇴 성공! 메인 페이지로 이동합니다.";
+				url = "index.do";
+				
+			}else{
+				msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.";
+				url = "member_mypage.do";
+				
+			}
+			res = memberMapper.deleteMember(dto.getMember_no());
+			if (res > 0) {
+				session.removeAttribute("sedto");
+				msg = "회원탈퇴성공! 메인페이지로 이동합니다.";
+				url = "index.do";
 
-		} else {
-			msg = "회占쏙옙탈占쏙옙占쏙옙占�! 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占싱듸옙占쌌니댐옙.";
-			url = "index.do";
+			} else {
+				msg = "회원탈퇴실패! 메인페이지로 이동합니다.";
+				url = "index.do";
 
+			}
+			
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
@@ -331,16 +366,40 @@ public class MemberController {
 
 	}
 
-	@RequestMapping(value = "/member_reserve.do")
+	@RequestMapping(value = "/member_wishlist.do")
 	public String MemberReserve(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
-		List<hotelDTO> hotelList = memberMapper.getHotelReserve(dto.getMember_no());
-		// List<BusDTO> busList = memberMapper.getReserve(dto.getMember_no());
-		req.setAttribute("hotelList", hotelList);
-		// req.setAttribute("busList", busList);
+		List<hotelDTO_resv_ysm> hotelList = memberMapper.getHotelReserve(dto.getMember_no());
+		System.out.println(hotelList);
+		req.setAttribute("List", hotelList);
 		return "member/member_reserve";
 
+	}
+	
+	@RequestMapping(value = "/member_reserve_ok.do")
+	public String MemberReserveOk(HttpServletRequest req){
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
+		String[] value = req.getParameterValues("choose");
+		List<hotelDTO_resv_ysm> hotelList = memberMapper.getHotelReserve(dto.getMember_no());
+		List<hotelDTO_resv_ysm> hList = new ArrayList<hotelDTO_resv_ysm>();
+		int total_price = 0;
+		for(int i = 0 ; i < value.length ; i ++){
+			for(hotelDTO_resv_ysm hdto : hotelList){
+				if(hdto.getHotel_resv_no() == Integer.parseInt(value[i])){
+					hList.add(hdto);
+					total_price += hdto.getPrice();
+					
+				}
+				
+			}
+			
+		}
+		req.setAttribute("List", hList);
+		req.setAttribute("total_price", total_price);
+		return "member/member_reserve_ok";
+		
 	}
 
 }

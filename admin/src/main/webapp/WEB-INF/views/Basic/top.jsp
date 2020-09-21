@@ -19,8 +19,7 @@
 					<li class="nav-item active"><a href="index" class="nav-link">Home</a></li>
 					<li class="nav-item"><a href="bus_main.do" class="nav-link">Bus</a></li>
 					<li class="nav-item"><a href="hotel_main.do" class="nav-link">Hotels</a></li>
-					<li class="nav-item"><a href="restaurant_main.do"
-						class="nav-link">Restaurant</a></li>
+					<li class="nav-item"><a href="restaurant_main.do" class="nav-link">Restaurant</a></li>
 					<li class="nav-item"><a href="board_list.do" class="nav-link">Forum</a></li>
 				</ul>
 			</div>
@@ -28,10 +27,10 @@
 			<div class="header-btns" id="ftco-nav">
 				<ul class="navbar-nav">
 					<%if(member==null){%>
-					<li class="nav-item cta"><a href="member_login.do"
-						class="nav-link"><span>Login</span></a> <%}else {%>
-					<li class="nav-item cta"><a href="member_logout.do"
-						class="nav-link"><span>Logout </span></a> <%} %>
+					<li class="nav-item cta"><a href="member_login.do" class="nav-link"><span>Login</span></a>
+					<%}else {%>
+					<li class="nav-item cta"><a href="member_logout.do" class="nav-link"><span>Logout </span></a> 
+					<%} %>
 						<ul class="submenu">
 							<%if(member != null){%>
 							<li><a href="member_mypage.do" class="submenu-1-first">My

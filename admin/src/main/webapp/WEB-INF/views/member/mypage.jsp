@@ -83,8 +83,9 @@
 			<tr>
 				<td colspan = "4" align = "center">
 					<input type = "button" value = "수정" onclick = "javascript:check()">
-					<input type = "button" value = "예약 페이지" onclick = "window.location='member_reserve.do'">
-					<input type="button" value="회원탈퇴" onclick="window.location='member_withdraw.do'">
+					<input type = "button" value = "위시리스트" style = "width : 100px;" onclick = "window.location='member_wishlist.do'">
+					<input type = "button" value = "버스 예약 페이지" style = "width : 140px;" onclick = "window.location='bus_resv_user_resvlist.do'">
+					<input type="button" value="회원탈퇴" style = "width : 80px;" onclick="window.location='member_delete.do'">
 				</td>
 			</tr>
 		</table>
