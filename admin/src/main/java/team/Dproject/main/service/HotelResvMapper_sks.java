@@ -21,4 +21,12 @@ public class HotelResvMapper_sks {
 	public List<HotelResvDTO_sks> getHotelResv_sks(int member_no){
 		return sqlSession.selectList("getHotelResv_sks", member_no);
 	}
+	
+	public List<String> checkResvRoomno_sks(String start_resv_date,String end_resv_date,int hotel_no){
+		java.util.Map<String, Object> map=new java.util.Hashtable<String, Object>();
+			map.put("start_resv_date", start_resv_date);
+			map.put("end_resv_date", end_resv_date);
+			map.put("hotel_no", hotel_no);
+			return sqlSession.selectList("checkResvRoomno_sks", map);
+		}
 }

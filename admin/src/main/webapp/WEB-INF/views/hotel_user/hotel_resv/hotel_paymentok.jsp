@@ -15,6 +15,7 @@ window.onload = function(){
 <body>
 <form id="f" action="hotel_paymentoklist">
 <input type="hidden" name="total" value="${total}"/>
+<input type="hidden" name="member_no" value="${sedto.member_no}"/>
 </form>
 </body>
 </html>

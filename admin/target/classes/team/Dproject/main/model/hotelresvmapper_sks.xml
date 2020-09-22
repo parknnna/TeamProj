@@ -6,9 +6,15 @@
 	<insert id="insertHotelResv_sks" parameterType="HotelResvDTO_sks">
 		insert into hotel_resv values(hotel_resv_seq.nextval,
 		#{member_no}, #{hotel_no}, #{room_no}, #{use_point}, #{pay}, #{save_point}, 
-		#{start_resv_date}, #{end_resv_date}, sysdate)
+		to_date(#{start_resv_date},'yyyy-mm-dd'), 
+		to_date(#{end_resv_date},'yyyy-mm-dd'), sysdate)
 	</insert>
 	<select id="getHotelResv_sks" parameterType="int" resultType="java.util.Map">
 		select * from hotel_resv where member_no = #{member_no}
+	</select>
+	<select id="checkResvRoomno_sks" parameterType="java.util.Map" resultType="String">
+	select room_no from hotel_resv where 
+	end_resv_date <![CDATA[>=]]> to_date(#{start_resv_date},'yyyy-mm-dd') 
+	and start_resv_date <![CDATA[<=]]> to_date(#{end_resv_date},'yyyy-mm-dd') and hotel_no=#{hotel_no}
 	</select>
 </mapper>

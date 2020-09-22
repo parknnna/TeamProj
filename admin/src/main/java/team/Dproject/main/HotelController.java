@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import team.Dproject.main.model.HotelDTO_sks;
 import team.Dproject.main.model.HotelResvDTO_sks;
 import team.Dproject.main.model.MemberDTO;
+import team.Dproject.main.model.MemberDTO_sks;
 import team.Dproject.main.model.RoomDTO_sks;
 import team.Dproject.main.service.HotelMapper_sks;
 import team.Dproject.main.service.HotelResvMapper_sks;
@@ -593,6 +594,96 @@ public class HotelController {
 			RoomDTO_sks rdto2 = roomMapper.getRoom2_sks(hotel_no,2);
 			RoomDTO_sks rdto3 = roomMapper.getRoom2_sks(hotel_no,3);
 			
+			//날짜가 겹칠 때 예약테이블의 룸 넘버 가져오기
+			String start_resv_date = req.getParameter("start_resv_date");
+			String end_resv_date = req.getParameter("end_resv_date");
+			//날짜와 호텔 비교 후 예약 테이블에 있는 눔 넘버 가져오기
+			List<String> resv_roomno = hotelResvMapper.checkResvRoomno_sks(start_resv_date, end_resv_date, hotel_no);
+			//호텔과 등급의 맞는 룸 넘버 가져오기
+			List<String> d_roomno = roomMapper.getResvRoomno_sks(hotel_no, 1);
+			List<String> s_roomno = roomMapper.getResvRoomno_sks(hotel_no, 2);
+			List<String> f_roomno = roomMapper.getResvRoomno_sks(hotel_no, 3);
+				//예약 시 선택되는 룸넘버 저장
+				List<String> resv_no = new ArrayList();
+				//등급별 예약된 넘버 저장
+				String[] droom_no = new String[]{};
+				String[] sroom_no = new String[]{};
+				String[] froom_no = new String[]{};
+				//예약된 등급별 방 넘버와 기존 방 넘버 겹치는 방 넘버 저장
+				List<String> dnum1 = new ArrayList();
+				List<String> snum1 = new ArrayList();
+				List<String> fnum1= new ArrayList();
+				//기존 방 넘버와 예약된 방 넘버의 겹치는 값 제거 후 남은 방 넘버 저장
+				List<String> dnum = new ArrayList();
+				List<String> snum = new ArrayList();
+				List<String> fnum = new ArrayList();
+				
+				//디럭스
+				for(int i=0;i<resv_roomno.size();i++){
+					String no = resv_roomno.get(i);
+					droom_no = no.split("/");
+					for(String noo : droom_no){
+						if(!resv_no.contains(noo)){
+							resv_no.add(noo);
+						}
+					}
+				}
+				
+				for(String no : resv_no){
+					if(d_roomno.contains(no)){
+						dnum1.add(no);
+					}
+					
+				}
+				for(String n : d_roomno){
+					if(!dnum1.contains(n)){
+						dnum.add(n);
+					}
+				}
+				
+				req.setAttribute("d_roomno", dnum);
+				req.setAttribute("dsu", dnum.size());
+				//스탠다드
+				for(int i=0;i<resv_roomno.size();i++){
+					String no = resv_roomno.get(i);
+					sroom_no = no.split("/");
+				}
+				for(String no : resv_no){
+					if(s_roomno.contains(no)){
+						snum1.add(no);
+					}
+					
+				}
+				for(String n : s_roomno){
+					if(!snum1.contains(n)){
+						snum.add(n);
+					}
+				}
+				
+				req.setAttribute("s_roomno", snum);
+				req.setAttribute("ssu", snum.size());
+
+				//패밀리
+				for(int i=0;i<resv_roomno.size();i++){
+					String no = resv_roomno.get(i);
+					froom_no = no.split("/");
+				}
+				for(String no : resv_no){
+					if(f_roomno.contains(no)){
+						fnum1.add(no);
+					}
+					
+				}
+				for(String n : f_roomno){
+					if(!fnum1.contains(n)){
+						fnum.add(n);
+					}
+				}
+				
+				req.setAttribute("f_roomno", fnum);
+				req.setAttribute("fsu", fnum.size());
+
+			
 			int stay=0;
 			String strStartDate = req.getParameter("start_resv_date").replaceAll("[\\-\\+\\.\\^:,]","");
 	        String strEndDate = req.getParameter("end_resv_date").replaceAll("[\\-\\+\\.\\^:,]","");
@@ -606,17 +697,6 @@ public class HotelController {
 	            long diffDay = (startDate.getTime() - endDate.getTime()) / (24*60*60*1000);
 	           
 	            stay = (int)Math.abs(diffDay);
-	            Calendar c1 = Calendar.getInstance();
-	            Calendar c2 = Calendar.getInstance();
-
-	            
-	            c1.setTime( startDate );
-	            c2.setTime( endDate );
-	            
-	            while( c1.compareTo( c2 ) !=1 ){
-
-	                c1.add(Calendar.DATE, 1);
-	                }
 	        }catch(ParseException e){
 	            e.printStackTrace();
 	        }
@@ -634,7 +714,6 @@ public class HotelController {
 			req.setAttribute("s", rdto2);
 			//패밀리
 			req.setAttribute("f", rdto3);
-			req.setAttribute("droom_su", 10);
 			req.setAttribute("getHotel", hdto);
 			req.setAttribute("hotel_no", req.getParameter("hotel_no"));
 			req.setAttribute("room_no", req.getParameter("room_no"));
@@ -645,6 +724,7 @@ public class HotelController {
 		public String hotel_resvroomcontent(HttpServletRequest req){
 			RoomDTO_sks rdto = roomMapper.getRoom2_sks(Integer.parseInt(req.getParameter("hotel_no")),Integer.parseInt(req.getParameter("grade")));
 			
+			req.setAttribute("stay", Integer.parseInt(req.getParameter("stay")));
 			req.setAttribute("rdto", rdto);
 			return "hotel_user/hotel_resv/hotel_resvroomcontent";
 		}
@@ -687,12 +767,13 @@ public class HotelController {
 				//선택 한 등급에 맞는 룸dto가져오기
 				List<RoomDTO_sks> drlist = roomMapper.getResvRoom_sks(hotel_no, d_grade);
 				//선택 한 등급에 맞는 룸no가져오기
-				List<String> d_rnlist = roomMapper.getResvRoomno_sks(hotel_no, d_grade);
+				String dno = req.getParameter("d_roomno").replaceAll("[\\[\\]\\p{Z}]","");
+				String[] d_rnlist = dno.split(",");
 				List<String> d_rn = new ArrayList<String>();
 				//선택 한 등급에 맞는 룸name가져오기
 				String drname = drlist.get(1).getName();
 				for(int i = 0;i<d_roomsu;i++){
-					d_rn.add(i, d_rnlist.get(i));
+					d_rn.add(i, d_rnlist[i]);
 				}
 				d_price=drdto.getPrice()*stay*d_roomsu;
 				req.setAttribute("d_roomsu", d_roomsu);
@@ -705,13 +786,14 @@ public class HotelController {
 				
 				List<RoomDTO_sks> srlist = roomMapper.getResvRoom_sks(hotel_no, s_grade);
 				
-				List<String> s_rnlist = roomMapper.getResvRoomno_sks(hotel_no, s_grade);
+				String sno = req.getParameter("s_roomno").replaceAll("[\\[\\]\\p{Z}]","");
+				String[] s_rnlist = sno.split(",");
 				List<String> s_rn = new ArrayList<String>();
 				
 				String srname = srlist.get(1).getName();
 				
 				for(int i = 0;i<s_roomsu;i++){
-					s_rn.add(i, s_rnlist.get(i));
+					s_rn.add(i, s_rnlist[i]);
 				}
 				s_price=srdto.getPrice()*stay*s_roomsu;
 				req.setAttribute("s_roomsu", s_roomsu);
@@ -724,13 +806,14 @@ public class HotelController {
 				
 				List<RoomDTO_sks> frlist = roomMapper.getResvRoom_sks(hotel_no, f_grade);
 				
-				List<String> f_rnlist = roomMapper.getResvRoomno_sks(hotel_no, f_grade);
+				String fno = req.getParameter("f_roomno").replaceAll("[\\[\\]\\p{Z}]","");
+				String[] f_rnlist = fno.split(",");
 				List<String> f_rn = new ArrayList<String>();
 				
 				String frname = frlist.get(1).getName();
 				
 				for(int i = 0;i<f_roomsu;i++){
-					f_rn.add(i, f_rnlist.get(i));
+					f_rn.add(i, f_rnlist[i]);
 				}
 				f_price=frdto.getPrice()*stay*f_roomsu;
 				req.setAttribute("f_roomsu", f_roomsu);
@@ -791,9 +874,9 @@ public class HotelController {
 			int member_no = Integer.parseInt(req.getParameter("member_no"));
 			
 			//넘어온 룸 넘버 가져와서 배열로 옮기기
-			String[] droom_no = new String[]{};
+			/*String[] droom_no = new String[]{};
 			String[] sroom_no = new String[]{};
-			String[] froom_no = new String[]{};
+			String[] froom_no = new String[]{};*/
 			
 			if (req.getParameterValues("d_rn") != null) {
 				//jsp에서 넘어온 룸 넘버가 여러 개 일 때 []과 공백 제거 후 스플릿으로 배열에 저장
@@ -897,7 +980,7 @@ public class HotelController {
 			int use_point = Integer.parseInt(req.getParameter("use_point"));
 			int user_point = Integer.parseInt(req.getParameter("user_point"))+save_point;
 			String pay = "O";
-			System.out.println(member_no);
+			
 			//예약 DTO에 값 넣어주기!
 			dto.setMember_no(member_no);
 			dto.setHotel_no(hotel_no);
@@ -908,12 +991,8 @@ public class HotelController {
 			dto.setStart_resv_date(start_resv_date);
 			dto.setEnd_resv_date(end_resv_date);
 			int res = hotelResvMapper.insertHotelResv_sks(dto);
-			List<HotelResvDTO_sks> h_resvdto = hotelResvMapper.getHotelResv_sks(member_no);
-			if(res>0){
-				HttpSession session = req.getSession();
-				session.setAttribute("h_resvdto", h_resvdto);
-			}
 			
+			List<HotelResvDTO_sks> h_resvdto = hotelResvMapper.getHotelResv_sks(member_no);
 			if(res<0){
 				String msg = "예약이 제대로 이루어지지 않았습니다. 다시 확인하시고 입력해 주세요";
 				String url = "hotel_resvfinal";
@@ -932,6 +1011,12 @@ public class HotelController {
 				req.setAttribute("url", url);
 				return "message";
 			}
+			if(update_point>0){
+				HttpSession session = req.getSession();
+				session.removeAttribute("sedto");
+				MemberDTO mdto = memberMapper.getMember_sks(member_no);
+				session.setAttribute("sedto", mdto);
+			}
 			
 			
 			req.setAttribute("total", total);
@@ -942,9 +1027,7 @@ public class HotelController {
 		@RequestMapping("/hotel_paymentoklist")
 		public String hotel_paymentoklist(HttpServletRequest req){
 			HttpSession session = req.getSession();
-			if(session.getAttribute("sedto")==null){
-				session.removeAttribute("h_resvdto");
-			}
+			
 			req.setAttribute("total", req.getParameter("total"));
 			
 			return "hotel_user/hotel_resv/hotel_paymentoklist";

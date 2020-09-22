@@ -2,14 +2,19 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<%@ include file="../../Basic/head.jsp" %>
 <script
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
 <script  type="text/javascript">
+var d_leave = ${dsu};
+var s_leave = ${ssu};
+var f_leave = ${fsu};
+setTimeout(function() {
+	  alert("현재 호텔에 남은 방수는\n디럭스 : "+d_leave+"\n스탠다드 : "+s_leave+"\n패밀리 : "+f_leave);
+	}, 500);
+	
 function check() {
 	var start = f.start_resv_date.value;
 	var end = f.end_resv_date.value;
@@ -75,7 +80,6 @@ function test(){
 	var d_roomsu = $("#d_roomsu option:selected").val();
 	var s_roomsu = $("#s_roomsu option:selected").val();
 	var f_roomsu = $("#f_roomsu option:selected").val();
-	var droom_su = ${droom_su};
 	
 	/* if(d_roomsu.click){
 		alert("예약가능한 방이 "+droom_su+"개 남았습니다.");
@@ -83,18 +87,20 @@ function test(){
 	
 	if(d_roomsu == 0 && s_roomsu == 0 && f_roomsu == 0){
 		alert("객실을 선택해 주세요.");
+	}else if(d_roomsu>d_leave){
+		alert("현재 남은 방 수를 확인해 주세요.\n 현재 남은 디럭스 방 수 : "+d_leave);
+	}else if(s_roomsu>s_leave){
+		alert("현재 남은 방 수를 확인해 주세요.\n 현재 남은 스탠다드 방 수 : "+s_leave);
+	}else if(f_roomsu>f_leave){
+		alert("현재 남은 방 수를 확인해 주세요.\n 현재 남은 패밀리 방 수 : "+f_leave);
 	}else{
-
 		form.submit();
-	}
+	}	
 	
 	
 }
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<title>Insert title here</title>
-</head>
+<%@ include file="../../Basic/nav_Hotel.jsp" %>
 <body>
 <div align="right">
 		<c:choose>
@@ -187,6 +193,9 @@ function test(){
 	<input type="hidden" name="start_resv_date" value="${start_resv_date}"/>
 	<input type="hidden" name="end_resv_date" value="${end_resv_date}"/>
 	<input type="hidden" name="member_no" value="${sedto.member_no}"/>
+	<input type="hidden" name="d_roomno" value="${d_roomno}"/>
+	<input type="hidden" name="s_roomno" value="${s_roomno}"/>
+	<input type="hidden" name="f_roomno" value="${f_roomno}"/>
 		<table border="1" align="center">
 			<tr>
 				<th>객실 유형</th>
@@ -207,11 +216,11 @@ function test(){
 				</tr>
 				
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${1}', 'popup');">디럭스</a><br>
+				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${1}&stay=${stay}', 'popup');">디럭스</a><br>
 				${d.item}
 				</td>
 				<td>${d.sleeps}명</td>
-				<td><f:formatNumber value="${d.price}" type="number"/>원</td>
+				<td><f:formatNumber value="${d.price*stay}" type="number"/>원</td>
 				<td>
 				<select id="d_roomsu" name="d_roomsu">
 							<option value="0">0개 0원</option>
@@ -249,11 +258,11 @@ function test(){
 				</td>
 			</tr>
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${2}', 'popup');">스탠다드</a><br>
+				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${2}&stay=${stay}', 'popup');">스탠다드</a><br>
 				${s.item}
 				</td>
 				<td>${s.sleeps}명</td>
-				<td><f:formatNumber value="${s.price}" type="number"/>원</td>
+				<td><f:formatNumber value="${s.price*stay}" type="number"/>원</td>
 				<td>
 					<select id="s_roomsu" name="s_roomsu">
 							<option value="0">0개 0원</option>
@@ -291,12 +300,12 @@ function test(){
 				</td>
 			</tr>
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${3}', 'popup');">패밀리</a><br>
+				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${3}&stay=${stay}', 'popup');">패밀리</a><br>
 				${f.item} 
 				</td>
 				<td>${f.sleeps} 명</td>
 				<td>
-				<f:formatNumber value="${f.price}" type="number"/>원
+				<f:formatNumber value="${f.price*stay}" type="number"/>원
 				</td>
 				<td>
 					<select id="f_roomsu" name="f_roomsu">
@@ -337,5 +346,4 @@ function test(){
 		</table>
 		</form>
 	</div>
-</body>
-</html>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

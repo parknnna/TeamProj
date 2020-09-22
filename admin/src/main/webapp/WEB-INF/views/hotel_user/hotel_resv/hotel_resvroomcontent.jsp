@@ -43,7 +43,7 @@ function slideShow(){
 			<td align="center" width="30%">${rdto.name}</td>
 			<th width="20%" bgcolor="yellow">룸 가격</th>
 			<td align="center" width="30%">
-			<f:formatNumber value="${rdto.price}" type="number"/>원
+			<f:formatNumber value="${rdto.price*stay}" type="number"/>원
 			</td>
 		</tr>
 		<tr height="30">

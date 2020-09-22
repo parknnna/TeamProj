@@ -2,9 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<%@ include file="../../Basic/head.jsp" %>
 <script type="text/javascript"> 
 function point(val){ //포인트계산 스크립트
 	var usepoint=parseInt(val);
@@ -21,14 +19,13 @@ function point(val){ //포인트계산 스크립트
 	}
 	var resetpoint=${sedto.point}-usepoint;
 	var price=${total}-usepoint;
+	var save_point=price*0.1;
 	document.getElementById("user_point").value = resetpoint;
 	document.getElementById("total").value=price;
+	document.getElementById("save_point").value=save_point;
 }
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>예약 내용 확인</title>
-</head>
-<body>
+<%@ include file="../../Basic/nav_Hotel.jsp" %>
 <div align="center">${sedto.name}님의 예약 내용</div>
 <div align="center">
 <form action="hotel_resvpayment">
@@ -134,15 +131,15 @@ function point(val){ //포인트계산 스크립트
 <tr>
 <td align="left">총 금액</td>
 <td align="right">
-<input type="text" id="total" name="total" value="${total}" readonly> 원
+<input type="text" id="total" name="total" value="${total-usepoint}" readonly> 원
 </td>
 </tr>
 <tr>
 <td align="left"> 적립 포인트
 </td>
 <td align="right">
-<f:parseNumber var="save_point" integerOnly="true" value="${total*0.1}"/>
-<input type="text" name="save_point" value="${save_point}" readonly>
+<f:parseNumber var="save_point" integerOnly="true" value="${(total-usepoint)*0.1}"/>
+<input type="text" id="save_point" name="save_point" value="${save_point}" readonly>
 </td>
 </tr>
 </table> 
@@ -151,8 +148,7 @@ function point(val){ //포인트계산 스크립트
 </div>
 </form>
 </div>
-</body>
-</html>
+<%@ include file="../../Basic/bottom_nav.jsp" %>
 <!-- jstl로 값 구하기 -->
 <%-- <table border="1">
 <tr>

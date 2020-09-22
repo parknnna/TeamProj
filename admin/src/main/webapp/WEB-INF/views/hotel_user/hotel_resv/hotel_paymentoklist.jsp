@@ -2,80 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"></script>
-<script>
-$(document).ready(function(){
-	$( "div > table" ).each(function( i ) {
-	  
-	  });
-	
-	
-})
- $(function(){
-       $(".tab ul li").click(function(){ 
-           $(".tab ul li").removeClass('on');
-           $(".tab .conBox").removeClass('on');
-           $(this).addClass('on');
-           $("#"+$(this).data('id')).addClass('on');
-       });
-   });
-</script>
-<style>
-.tab{
-    width:200px;
-    height:auto;
-    overflow:hidden;
-}
- 
-.tab ul{
-    padding:0;
-    margin:0;
-    list-style:none;
-    width:100%:
-    height:auto;
-    overflow:hidden;
-}
- 
-.tab ul li{
-    display:inline-block;
-    width:33.3333%;
-    float:left;
-    line-height:40px;
-    text-align:center;
-    cursor:pointer;
-}
- 
-.tab ul li:hover,
-.tab ul li.on{
-    background:#ccc;
-}
- 
-.tab .conBox{
-    width:100%;
-    height:auto;
-    overflow:hidden;
-    min-height:200px;
-    background:#ccc;
-    display:none;
-    text-align:center;
-}
- 
-.tab .conBox.on{
-    display:block;
-}
-
-</style>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ include file="../../Basic/head.jsp" %>
+<%@ include file="../../Basic/nav_Hotel.jsp" %>
 <h4 align="center">결제 내역서</h4>
 <div align="center">
+<div align="left"><a href="hotel_resv"><input type="button" value="검색창으로"></a></div>
 	<c:forEach var="dto" items="${h_resvdto}" varStatus="status">
 	<table border="1" id="show${status.index}" class="conBox">
 		<tr>
@@ -132,10 +63,10 @@ $(document).ready(function(){
 		<th>지급 포인트</th>
 		<td>${dto.SAVE_POINT}</td>
 		</tr>
-		<tr>
+		<%-- <tr>
 		<th>잔여 포인트</th>
 		<td>${sedto.point}</td>
-		</tr>
+		</tr> --%>
 	</table>
 	</c:forEach>
 	<%-- <div class="tab">
@@ -146,5 +77,4 @@ $(document).ready(function(){
 		</ul>
 	</div> --%>
 </div>
-</body>
-</html>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

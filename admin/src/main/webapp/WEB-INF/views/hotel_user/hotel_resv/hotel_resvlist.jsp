@@ -5,8 +5,13 @@
 <%@page import="java.util.*" %>
 <%@page import="java.text.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<style>
+	table th tr{
+		text-align:center;
+	}
+	
+</style>
+<%@ include file="../../Basic/head.jsp" %>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -44,27 +49,12 @@
 		return true;
 	}
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<div align="right">
-	<c:choose>
-		<c:when test="${empty sedto}">
-			<input type="button" value="로그인"
-				onClick="location.href='memberlogin'" />
-		</c:when>
-		<c:otherwise>
-			<input type="button" value="로그아웃"
-				onClick="location.href = 'memberlogout'" />
-		</c:otherwise>
-	</c:choose>
-	</div>
-	<div>
-	<div align="center">
+<%@ include file="../../Basic/nav_Hotel.jsp" %>
+<div class="boxContainer" align="center" style="margin-top:100px">
+	<div class="formContainer" style="width:100%;">
 		<form name="f" action="hotel_resvlist" onSubmit='return check();'>
-			<table border="1">
-				<tr>
+			<table border="1" align="center" style="width:70%">
+				<tr  align="center">
 					<th><label>지역</label></th>
 					<td> <select name="address">
 							<!-- select값 유지 -->
@@ -114,15 +104,15 @@
                                 <option value="9" <c:if test="${sleeps=='9'}">selected</c:if>>9명</option>
                                 <option value="10"<c:if test="${sleeps=='10'}">selected</c:if>>10명</option>
 					</select></td>
-					<th><label>&nbsp;</label></th>
+					
 					<td>
 						<button type="submit">검색변경</button></td>
 				</tr>
 			</table>
 		</form>
 	</div>
-	<div align="center">
-		<table border="1">
+	<div class="hotelContainer" style="width:100%;margin-top:30px;" align="center">
+		<table border="1" style="width:70%">
 			<tr bgcolor="green">
 				<th>사진</th>
 				<th>호텔이름</th>
@@ -186,5 +176,4 @@
 		</table>
 		</div>
 	</div>
-</body>
-</html>
+<%@ include file="../../Basic/bottom_nav.jsp" %>
