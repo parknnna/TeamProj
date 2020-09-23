@@ -25,10 +25,12 @@
 		<input type="text" id="sender" value="<%=dto.getId()%>" style="display: none;"> 
 		<input type="hidden" id="fileH" name="fileH" class="fileH" onchange="send();">
 
+		<div align="center" style="width: 100%;">
+			<a onclick="javascript:up();"><i class="far fa-images fa-2x"></i></a>
+			<input type="text" id="messageinput" class="input" size="60"onKeypress="javascript:if(event.keyCode==13) {send()}">
+			<a onclick="send();" ><i class="fas fa-play fa-2x"></i></a>
 		</div>
-		<div align="right" style=" float: left; width: 33%;"><a onclick="javascript:up();"><i class="far fa-images fa-2x"></i></a></div>
-		<div style=" float: left; width: 33%;"><input type="text" id="messageinput" class="input" size="60"onKeypress="javascript:if(event.keyCode==13) {send()}"></div>
-		<div align="left" style=" float: left; width: 33%;"><a onclick="send();" ><i class="fas fa-play fa-2x"></i></a></div>
+		</div>
 
 	</div>
 
@@ -111,7 +113,7 @@
 			}
 		}
 		window.onbeforeunload = function() {
-			ws.send("<%=dto.getName()%>님이 퇴장하였습니다.");
+			ws.send("<%=dto.getName()%>님이 퇴장하였습니다., ");
 			ws.close();
 			writeResponse("대화 종료");
 		}

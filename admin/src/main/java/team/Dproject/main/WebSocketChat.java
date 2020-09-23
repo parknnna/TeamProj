@@ -41,7 +41,7 @@ public class WebSocketChat {
 		try {
 			for(Session session : WebSocketChat.sessionList) {
 				if(!self.getId().equals(session.getId())) {
-					session.getBasicRemote().sendText("<div align='left' width='100%'><img src='"+a+img+"'width='40' height='40'>"+sender+" : "+message+"</img></div>"); 
+					session.getBasicRemote().sendText("<div align='left' width='100%'><img src='"+a+img+"'width='40' height='40' style='border-radius:40px;'>"+"  "+sender+" : "+message+"</img></div>"); 
 				} 
 			} 
 		}catch (Exception e) { 
@@ -60,11 +60,11 @@ public class WebSocketChat {
 		} 
 	} 
 	
-	private void sendAllSessionToMessage2(Session self, String sender, String message,String a) {
+	private void sendAllSessionToMessage2(Session self, String sender, String message,String a ,String img) {
 		try {
 			for(Session session : WebSocketChat.sessionList) {
 				if(!self.getId().equals(session.getId())) {
-					session.getBasicRemote().sendText("<div align='left' width='100%'>"+sender+" : "+"<img src='"+a+message+"'width='40' height='40'><br><a href='"+a+message+"' download>다운로드</a></div>"); 
+					session.getBasicRemote().sendText("<div align='left' width='50%'><img src='"+a+img+"'width='40' height='40' style='border-radius:40px;'>"+"  "+sender+" : "+"<img src='"+a+message+"'width='40' height='40' ><br><a href='"+a+message+"' download>다운로드</a>"); 
 				} 
 			} 
 		}catch (Exception e) { 
@@ -77,7 +77,16 @@ public class WebSocketChat {
 		String temp[]=message.split(",");
 		if(temp.length==1){
 			String sender = "";
-			message = message.split(",")[0];
+			message = message.split(",")[0]+"\n현재 인원수 : "+sessionList.size()+" 명";
+			logger.info("Message From "+sender + ": "+message);
+			try { 
+				final Basic basic=session.getBasicRemote(); 
+			}catch (Exception e) { 
+				System.out.println(e.getMessage()); 
+			} sendAllSessionToMessage2(session, sender, message); 
+		}else if(temp.length==2){
+			String sender = "";
+			message = message.split(",")[0]+"\n현재 인원수 : "+(sessionList.size()-1)+" 명";
 			logger.info("Message From "+sender + ": "+message);
 			try { 
 				final Basic basic=session.getBasicRemote(); 
@@ -98,6 +107,7 @@ public class WebSocketChat {
 		}else if(temp.length>=5){
 			String a=message.split(",")[3];
 			String sender = message.split(",")[1];
+			String img=message.split(",")[4];
 			message = message.split(",")[2];
 			logger.info("Message From "+sender + ": "+message);
 			try {
@@ -105,7 +115,7 @@ public class WebSocketChat {
 				
 			}catch (Exception e) { 
 				System.out.println(e.getMessage()); 
-			} sendAllSessionToMessage2(session, sender, message ,a); 
+			} sendAllSessionToMessage2(session, sender, message ,a ,img); 
 		}
 	} 
 	

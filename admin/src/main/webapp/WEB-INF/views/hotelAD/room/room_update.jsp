@@ -30,11 +30,7 @@
             f.price.focus();
             return;
         }
-		if (f.rooms.value == "") {
-            alert("방의 수를 입력하지 않았습니다.")
-            f.rooms.focus();
-            return;
-        }
+		
 		
 		document.f.submit()
 	}
@@ -64,7 +60,7 @@ function goBack() {
 </script>
 
 <div align="center"style="margin-top:90px" width="50%" >
-		<form action="ADroom_update.do" method="post" enctype="multipart/form-data">
+		<form name="f" action="ADroom_update.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="member_num" value="2">
 		<input type="hidden" name="room_no" value="${dto.room_no}">
 		<table width="40%" align="center">
@@ -86,7 +82,7 @@ function goBack() {
 			</tr>
 			<tr align="center">
 				<td align="right">방등급 : </td><td align="left">
-					<select name="star">
+					<select name="grade">
 						<option value="1">디럭스</option>
 						<option value="2">스텐다드</option>
 						<option value="3">패밀리</option>

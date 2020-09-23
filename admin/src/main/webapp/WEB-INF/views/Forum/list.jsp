@@ -80,8 +80,8 @@
 	padding:10px 10px;
 }
 .memberImg img{
-	width:70px;
-	height:70px;
+	width:100%;
+	height:100%;
 	border-radius:70px;
 }
 .memberId{
@@ -96,7 +96,45 @@
 	width:100px;
 	text-align:center;
 }
+.profile_wrapper {
+    float: left;
+    width: 70px;
+    height: 70px;
+    position: relative;
+    padding:10px 10px;
+}
 
+.gradation_animate {
+    position: absolute;
+    top: 0px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: url("${pageContext.request.contextPath}/resources/images/gradation.png") no-repeat;
+    animation: spin 1s linear infinite;
+}
+
+.image_wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 54px;
+    height: 54px;
+    border-radius: 54%;
+    top: -7px;
+    left: 3px;
+}
+
+.image {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    right: -100%;
+    bottom: -100%;
+    margin: auto;
+    height: 92px;
+    min-width: 100%;
+    min-height: 100%;
+}
 </style>
 
 <%-- <%@ include file="../Basic/head.jsp" %> --%>
@@ -163,7 +201,18 @@
 			<div class="memberInfo">
 				<div class="memberImgWrapper">
 					<div class="memberImg">
-						<a><img src="${pageContext.request.contextPath}/resources/images/bg_5.jpg"></a>
+						<% 
+						List<BoardDTO> dto = (List)request.getAttribute("getList");
+						if(dto.get(cnt).getReadcount()<100){ %>
+						<a><img src="${pageContext.request.contextPath}/resources/img/${dto.filename}" style="width:60px;height:60px;border-radius:60px;"></a>
+						<%} else{%>
+						<div class="profile_wrapper"> 
+						<div class="gradation_animate"></div> 
+						<div class="image_wrapper"> 
+						<a><img class="image" src="${pageContext.request.contextPath}/resources/img/${dto.filename}"></a>
+						</div> 
+						</div>
+						<%} %>
 					</div>
 				</div>
 				<div class="memberId">
@@ -208,13 +257,31 @@
 				</span>
 			</div>
 			<br>
-			<div>${dto.filename }</div>
+		
 		</div>
 	</div>
 	</div>
 	</c:forEach>
 	</div>
-
+	
+		<!-- 페이지 이전? 다음? -->
+	<div align="center">
+	<c:if test="${count>0}">
+	<c:set var="startPage" value="${startPage}"/>
+	<c:set var="endPage" value="${endPage}"/>
+	<c:set var="pageBlock" value="${pageBlock}"/>
+	<c:set var="pageCount" value="${pageCount}"/>
+	<c:if test="${startPage>pageBlock}">
+			[<a href="board_list.do?pageNum=${startPage-1}">이전</a>]		
+	</c:if>
+	<c:forEach var="i" begin="${startPage}" end="${endPage }" step="1">
+		[<a href="board_list.do?pageNum=${i}">${i}</a>]
+	</c:forEach>
+		<c:if test="${endPage<pageCount}">
+			[<a href="board_list.do?pageNum=${endPage+1}">다음</a>]		
+		</c:if>
+	</c:if>	
+	</div>
 	<!-- BoardList Start -->
 	<%-- <%int cnt=0; %> --%>
 	<%-- <c:forEach var="dto" items="${listBoard}">

@@ -21,7 +21,7 @@
     	select * from room where room_no=#{no}
     </select>
     <update id="updateRoom" parameterType="roomDTO">
-    	update room set hotel_no=#{hotel_no}, name=#{name}, roomsize=#{roomsize}, sleeps=#{sleeps}, item=#{item}, filename=#{filename}, filesize=#{filesize},grade=#{grade} where room_no=#{room_no}
+    	update room set name=#{name}, roomsize=#{roomsize}, sleeps=#{sleeps}, item=#{item}, filename=#{filename}, filesize=#{filesize},grade=#{grade} where room_no=#{room_no}
     </update>
     
     <insert id="seqUP" >

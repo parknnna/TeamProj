@@ -219,7 +219,7 @@ public class HADController {
 		int member_no=(Integer)session.getAttribute("MNUM");
 		dto.setMember_no(String.valueOf(member_no));
 		int count=hotel_boardMapper.hotel_board_count();
-		if (dto.getHotel_board_no() == 0){
+		if (dto.getHotel_board_no()==null){
 			if(count!=0){
 				int max = hotel_boardMapper.hotel_board_MAX();
 				dto.setRe_group(max+1);
@@ -372,7 +372,7 @@ public class HADController {
 		int member_no=(Integer)session.getAttribute("MNUM");
 		dto.setMember_no(String.valueOf(member_no));
 		int count=hotel_boardMapper.hotel_board_count();
-		if (dto.getHotel_board_no() == 0){
+		if (Integer.parseInt(dto.getHotel_board_no()) == 0){
 			if(count!=0){
 				int max = hotel_boardMapper.hotel_board_MAX();
 				dto.setRe_group(max+1);

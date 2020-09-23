@@ -10,6 +10,9 @@
 	</select>
 	<select id = "memberList" resultType = "memberDTO">
 		select * from member order by member_no
+	</select> 
+	<select id = "getPosition" resultType = "memberDTO" parameterType="int">
+		select * from member where position=#{posistion} or position=0 
 	</select>
 	<select id = "getMemberPasswd" parameterType = "String" resultType = "memberDTO">
 		select * from member where id = #{id}

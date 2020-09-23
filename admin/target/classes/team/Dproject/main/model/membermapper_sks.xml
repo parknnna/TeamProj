@@ -4,27 +4,27 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="team.Dproject.main.model">
 
-	<select id="checkMember_sks" parameterType="java.util.Map" resultType="memberDTO_sks"> 
+	<select id="checkMember_sks" parameterType="java.util.Map" resultType="memberDTO"> 
 	<!-- parameterType=받아오는거(?값 #{???})  resultType=내보내는 값(여기서 내보내는 값)-->
 		select * from member where ssn1=#{ssn1} and ssn2=#{ssn2} 
 	</select>
 	
-	<insert id="insertMember_sks" parameterType="memberDTO_sks">
+	<insert id="insertMember_sks" parameterType="memberDTO">
 		insert into member values(member_seq.nextval,
 		#{name},#{id},#{passwd},#{ssn1},#{ssn2},#{email},
 		#{hp1},#{hp2},#{hp3},#{position},#{sex},#{point},sysdate)
 	</insert>
 	
 	
-	<select id="listMember_sks" resultType="memberDTO_sks">
+	<select id="listMember_sks" resultType="memberDTO">
 		select * from member
 	</select>
 	
-	<select id="getMember_sks" resultType="memberDTO_sks" parameterType="int">
+	<select id="getMember_sks" resultType="memberDTO" parameterType="int">
 		select * from member where member_no = #{member_no}
 	</select>
 	
-	<select id = "getMember1_sks" parameterType = "String" resultType ="memberDTO_sks">
+	<select id = "getMember1_sks" parameterType = "String" resultType ="memberDTO">
 		select * from member where id = #{id}
 	</select>
 	<select id = "getMemberPasswd_sks" parameterType = "String" resultType = "String">

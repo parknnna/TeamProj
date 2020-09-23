@@ -65,7 +65,7 @@
 <%@include file="../top2.jsp"%>
 <body>
 	<div align="center">
-		<form name="f" action="ADmember_input_ok.do" method="post">
+		<form name="f" action="ADmember_input_ok.do" method="post" enctype="multipart/form-data">
 			<table class="outline" border="1">
 				<tr>
 					<td colspan="2" align="center">회원가입</td>
@@ -100,6 +100,9 @@
 						<input type="text" name="hp2" size="4" maxlength="4"> -
 						<input type="text" name="hp3" size="4" maxlength="4">
 					</td>
+				</tr>
+				<tr>
+					<td>이미지 : <input type="file" name="file" size="30" value="${dto.filename}"></td>
 				</tr>
 				<tr>
 					<td>성별</td>

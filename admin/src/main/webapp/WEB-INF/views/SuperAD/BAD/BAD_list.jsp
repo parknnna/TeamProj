@@ -38,7 +38,7 @@ th,tr{
 		<c:choose>
 			<c:when test="${empty list}">
 				<tr>
-					<td colspan="7" align = "center">등록된(찾으시는) 회원이 없습니다.</td>
+					<td colspan="7" align = "center">등록된(찾으시는) 버스이 없습니다.</td>
 				</tr>	
 			</c:when>
 			<c:otherwise>

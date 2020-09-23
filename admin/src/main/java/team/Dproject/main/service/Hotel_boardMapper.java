@@ -22,6 +22,10 @@ public class Hotel_boardMapper {
 		return sqlSession.selectList("listHotel_board", map);
 	}
 	
+	public List<hotel_boardDTO> listHotel_boardup() {
+		return sqlSession.selectList("listHotel_boardup");
+	}
+	
 	public List<hotel_boardDTO> listHotel_board2(int start, int end ,int re_group) {
 		java.util.Map<String, Object> map = new java.util.Hashtable<String, Object>();
 		map.put("start", start);

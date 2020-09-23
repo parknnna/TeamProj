@@ -37,7 +37,7 @@ int temp=0;
 			for(bus_resvDTO dto : list){
 			%>
 			<tr>
-				<td><%=dto.getResv_no() %></td>
+				<td><%=dto.getBus_resv_no() %></td> 
 				<td><%=dto.getMember_no() %></td>
 				<td><%=dto.getBus_no() %></td>
 				<td><%=llist.get(temp).getArrival()%> >> <%=llist.get(temp).getDeparture() %></td>
@@ -47,8 +47,8 @@ int temp=0;
 				<td><%=dto.getResv_date() %></td>
 				<td><%=dto.getPrice() %></td>
 				<td>
-					<a href="ADbus_resv_update.do?no=<%=dto.getResv_no()%>">수정</a> | 
-					<a href="ADbus_resv_delete.do?no=<%=dto.getResv_no()%>">삭제</a>
+					<a href="ADbus_resv_update.do?no=<%=dto.getBus_resv_no()%>">수정</a> | 
+					<a href="ADbus_resv_delete.do?no=<%=dto.getBus_resv_no()%>">삭제</a>
 				</td>
 			</tr>
 			<%

@@ -1,14 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-        
-<head>         
-<title>로그인</title>
-
+<%@ include file="../../Basic/head.jsp" %>
 <script type="text/javascript">
 	function searchMember(mode){
-		window.open("search.do?mode="+mode,"", "width=650, height=400")
+		window.open("member_search.do?mode="+mode, "", "width=650, height=400")
 	}
 	function loginCheck(){
 		if (f.id.value==""){
@@ -16,7 +11,6 @@
 			f.id.focus()
 			return
 		}
-		
 		if (f.passwd.value==""){
 			alert("비밀번호를 입력해 주세요!!")
 			f.passwd.focus()
@@ -24,86 +18,63 @@
 		}
 		window.opener.location.reload();
 		document.f.submit();
-		//window.close();
 	}
 </script>
-</head>
-<%-- <%
-		Cookie[] cks = request.getCookies();
-		String value = null;
-		if (cks != null && cks.length != 0){
-			for(int i=0; i<cks.length; ++i){
-				String name = cks[i].getName();
-				if (name.equals("mbId")){
-					value = cks[i].getValue();
-					break;
-				}
-			}
-		}
-		 
-%> --%>
-<body>
-<div align="center">
-<br>
-<img src="${pageContext.request.contextPath}/resources/img/bottom.gif" width=570 height="40" border="0" alt="">
-<br>
-<p>
-<img src="${pageContext.request.contextPath}/resources/img/tm_login.gif" width=100 height="13" border="0" 
-	align="center" ALT="회원 로그인">
-<form name="f" action="loginclearok" method="post">
-	<table width="60%" align="center" height="120" border="1">
-		<tr>
-			<td align="right" width="30%">
-				<img src="${pageContext.request.contextPath}/resources/img/id01.gif" 
-				width="28" height="11" border="0" alt="아이디">&nbsp;&nbsp;
-			</td>
-			<td width="40%">
-			<c:if test="${value==null}">
-				<input type="text" name="id" tabindex="1">
-			</c:if>
-			<c:if test="${value!=null}">
-				<input type="text" name="id" tabindex="1" value="${value}">
-			</c:if>
-			</td>
-			<td rowspan="2" width="30%" valign="middle">
-				<a href="javascript:loginCheck()">
-					<img src="${pageContext.request.contextPath}/resources/img/bt_login.gif" border="0" alt="로그인"  tabindex="3">&nbsp;&nbsp;<br>
-				</a>
-				<nobr>
-				<c:if test="${value==null}">
-					<input type="checkbox" name="saveId">
-				</c:if>
-				<c:if test="${value!=null}">
-					<input type="checkbox" name="saveId" checked>
-				</c:if>	
-					<font face="굴림" size="2">아이디 기억하기</font>
+<%@ include file="../../Basic/top_Login.jsp" %>
+<div align="center" style="margin:50px auto 30px auto;">
+	<div class="row" align="center" style="display:block;margin:0 auto;">
+<div class="card" style="width:400px;margin:0 auto;box-shadow: 3px 3px 13px;">
+<h4 class="card-title mb-4 mt-1" style="margin-top:1.25em !important">Welcome!</h4>
+<article class="card-body">
+		<form name="f" action="loginclearok" method="post">
+			<!-- form-group//ID -->
+    		<div class="form-group">
+    			<a class="float-right" href="javascript:searchMember('id')">Forgot?</a>
+    			<label style="float:left">ID</label>
+    			<c:choose>
+				<c:when test="${empty value}">
+					<input type="text" name="id" tabindex="1" class="form-control" placeholder="ID">
+				</c:when>
+				<c:otherwise>
+					<input type="text" name="id" tabindex="1" class="form-control" value = "${value}">	
+				</c:otherwise>
+				</c:choose>
+   			</div> <!-- form-group//ID -->
+   			
+    
+		    <div class="form-group">
+		    	<a class="float-right" href="javascript:searchMember('passwd')">Forgot?</a>
+		    	<label style="float:left">PASSWORD</label>
+		    	<input class="form-control" placeholder="******" type="password" name="passwd" tabindex="2">
+		    </div> <!-- form-group// --> 
+		    
+		    <div class="form-group"> 
+			    <div class="checkbox">
+			    <nobr>
+					<c:choose>
+						<c:when test="${empty value}">
+							<input type="checkbox" name="saveId" style="top: 1.8px;position: relative;">
+						</c:when>
+						<c:otherwise>
+							<input type = "checkbox" name = "saveId" style="top: 1.8px;position: relative;" checked>
+						</c:otherwise>
+					</c:choose>
+						<font face="굴림" size="2">Save ID</font>
 				</nobr>
-			</td>
-		</tr>
-		<tr>
-			<td align="right">
-				<img src="${pageContext.request.contextPath}/resources/img/pwd.gif" 
-							width="37" height="11" alt="비밀번호">
-			</td>
-			<td>
-				<input type="password" name="passwd"  tabindex="2">
-			</td>
-		</tr>
-		<tr>
-			<td colspan="3" align="center">
-				<a href="memberSsn.do">
-					<img src="${pageContext.request.contextPath}/resources/img/bt_join.gif" width="60" height="22" alt="회원가입" border="0">
-				</a>	
-				<a href="javascript:searchMember('id')">				
- 					<img src="${pageContext.request.contextPath}/resources/img/bt_search_id.gif" width="60" height="22" alt="아이디 찾기">
-				</a>
-				<a href="javascript:searchMember('pw')">
-					<img src="${pageContext.request.contextPath}/resources/img/bt_search_pw.gif" width="60" height="22" alt="비밀번호 찾기">
-				</a>				
-			</td>
-		</tr>
-	</table>
+			      <!-- <label> <input type="checkbox"> Save ID </label> -->
+			    </div> <!-- checkbox .// -->
+		    </div> <!-- form-group// -->  
+		    
+		    <div class="form-group">
+		        <button type="submit" class="btn btn-primary btn-block" onclick="javascript:loginCheck()"> Login  </button>
+		    </div> <!-- form-group// -->    
+		    
+		    <div class="form-group">
+		    	<a href="member_input.do" class="btn btn-outline-primary btn-block">Sign up</a>
+		    </div>                                                       
 </form>
-</div> 
-</body>
-</html>
+</article>
+</div> <!-- card.// -->
+</div>
+</div>
+<%@ include file="../../Basic/bottom_top.jsp" %>

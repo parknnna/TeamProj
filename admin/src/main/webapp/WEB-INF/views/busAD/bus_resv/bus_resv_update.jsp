@@ -80,8 +80,12 @@ bus_resvDTO rdto=(bus_resvDTO)request.getAttribute("rdto");
 				<tr>
 					<td>적립 : <input type="text" name="save_point" value="<%=rdto.getSave_point()%>"></td>
 				</tr>
+				
 				<tr>
-					<td>날짜 : <input type="text" name="resv_date" value="<%=rdto.getResv_date()%>"></td>
+					<td>금액 : <input type="text" name="price" value="<%=rdto.getSave_point()%>"></td>
+				</tr>
+				<tr>
+					<td>날짜 : <input type="date" name="resv_date" value="<%=rdto.getResv_date()%>"></td>
 				</tr>
 				<tr><td><input type="button" value="수정" onclick="javascript:check()">
 				<input type="reset" value="다시쓰기"></td></tr>

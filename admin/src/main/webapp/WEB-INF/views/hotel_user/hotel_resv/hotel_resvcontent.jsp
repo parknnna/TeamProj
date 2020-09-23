@@ -1,15 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %>
+<%@ include file="../../Basic/head.jsp" %>
 <script
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
 <script  type="text/javascript">
-
+var d_leave = ${dsu};
+var s_leave = ${ssu};
+var f_leave = ${fsu};
+setTimeout(function() {
+	  alert("현재 호텔에 남은 방수는\n디럭스 : "+d_leave+"\n스탠다드 : "+s_leave+"\n패밀리 : "+f_leave);
+	}, 500);
+	
+function check() {
+	var start = f.start_resv_date.value;
+	var end = f.end_resv_date.value;
+	var date = new Date();
+	var year = date.getFullYear(); //년도
+	var month = date.getMonth() + 1; //월
+	var day = date.getDate(); //일
+	if ((day + "").length < 2) { // 일이 한자리 수인 경우 앞에 0을 붙여주기 위해
+		day = "0" + day;
+	}
+	var today = year + "-" + month + "-" + day; // 오늘 날짜 (2017-02-07)
+	if (start == "") {
+		alert("입실 시작 날짜를 입력 해 주세요!!")
+		return false;
+	}
+	if (end == "") {
+		alert("퇴실 시작 날짜를  입력 해 주세요!!")
+		return false;
+	}
+	if (start >= end) {
+		alert("퇴실 날짜를 입실날짜 이후로 지정해주세요!!")
+		return false;
+	}
+	var s = new Date(start);
+	var t = new Date(today);
+	if (s < t) {
+		alert("이전 날짜는 예약할 수 없습니다.")
+		return false;
+	}
+	return true;
+}
 function openWindowPop(url, name){
     var options = 'top=10, left=10, width=600, height=700, status=no, menubar=no, toolbar=no, resizable=no';
     window.open(url, name, options);
@@ -40,26 +76,31 @@ function slideShow(){
 	setTimeout(slideShow,2500);
 }
 function test(){
-	var form = document.getElementById("f");
+	var form = document.getElementById("fo");
 	var d_roomsu = $("#d_roomsu option:selected").val();
 	var s_roomsu = $("#s_roomsu option:selected").val();
 	var f_roomsu = $("#f_roomsu option:selected").val();
-
+	
+	/* if(d_roomsu.click){
+		alert("예약가능한 방이 "+droom_su+"개 남았습니다.");
+	} */
+	
 	if(d_roomsu == 0 && s_roomsu == 0 && f_roomsu == 0){
-		alert("값 입력해 ㅄ아");
+		alert("객실을 선택해 주세요.");
+	}else if(d_roomsu>d_leave){
+		alert("현재 남은 방 수를 확인해 주세요.\n 현재 남은 디럭스 방 수 : "+d_leave);
+	}else if(s_roomsu>s_leave){
+		alert("현재 남은 방 수를 확인해 주세요.\n 현재 남은 스탠다드 방 수 : "+s_leave);
+	}else if(f_roomsu>f_leave){
+		alert("현재 남은 방 수를 확인해 주세요.\n 현재 남은 패밀리 방 수 : "+f_leave);
 	}else{
-
 		form.submit();
-	}
-	console.log(form);
+	}	
 	
 	
 }
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<title>Insert title here</title>
-</head>
+<%@ include file="../../Basic/nav_Hotel.jsp" %>
 <body>
 <div align="right">
 		<c:choose>
@@ -73,10 +114,10 @@ function test(){
 			</c:otherwise>
 		</c:choose>
 	</div>
-	<div align="center">
+	<div class="boxContainer" align="center" style="margin-top:100px">
 	<c:forTokens var="file" items="${getHotel.filename}" delims="/">
 			<div>
-			 <img  width="40%" height="20%" class="slide" src="c:/hotelimg/${file}">
+			 <img  width="40%" height="20%" class="slide" src="${pageContext.request.contextPath}/resources/img/${file}">
 			</div>
 	</c:forTokens>
 	<table>
@@ -86,7 +127,7 @@ function test(){
 	</table>
 	</div>
 	<div align="center">
-		<form action="hotel_resvlist">
+		<form name="f" action="hotel_resvlist" onSubmit='return check();'>
 			<table border="1">
 				<tr>
 					<th><label>지역</label></th>
@@ -146,13 +187,20 @@ function test(){
 		</form>
 	</div>
 	<div align="left">
-	<form id="f"  name = "f" action="hotel_resvfinal">
+	<form id="fo"  name = "fo" action="hotel_resvfinal">
+	<input type="hidden" name="hotel_no" value="${hotel_no}"/>
+	<input type="hidden" name="stay" value="${stay}"/>
+	<input type="hidden" name="start_resv_date" value="${start_resv_date}"/>
+	<input type="hidden" name="end_resv_date" value="${end_resv_date}"/>
+	<input type="hidden" name="member_no" value="${sedto.member_no}"/>
+	<input type="hidden" name="d_roomno" value="${d_roomno}"/>
+	<input type="hidden" name="s_roomno" value="${s_roomno}"/>
+	<input type="hidden" name="f_roomno" value="${f_roomno}"/>
 		<table border="1" align="center">
 			<tr>
 				<th>객실 유형</th>
 				<th>정원</th>
 				<th>가격</th>
-				<th>선택사항</th>
 				<th>객실 선택</th>
 				<th>
 					<c:choose>
@@ -168,76 +216,134 @@ function test(){
 				</tr>
 				
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${1}', 'popup');">디럭스</a><br>
+				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${1}&stay=${stay}', 'popup');">디럭스</a><br>
 				${d.item}
 				</td>
 				<td>${d.sleeps}명</td>
-				<td>${d.price}원</td>
-				<td>조식 30,000원</td>
+				<td><f:formatNumber value="${d.price*stay}" type="number"/>원</td>
 				<td>
 				<select id="d_roomsu" name="d_roomsu">
 							<option value="0">0개 0원</option>
-							<option value="1">1개 ${d.price*1}원</option>
-							<option value="2">2개 ${d.price*2}원</option>
-							<option value="3">3개 ${d.price*3}원</option>
-							<option value="4">4개 ${d.price*4}원</option>
-							<option value="5">5개 ${d.price*5}원</option>
-							<option value="6">6개 ${d.price*6}원</option>
-							<option value="7">7개 ${d.price*7}원</option>
-							<option value="8">8개 ${d.price*8}원</option>
-							<option value="9">9개 ${d.price*9}원</option>
-							<option value="10">10개 ${d.price*10}원</option>
-				</select>
+							<option value="1">1개
+								<f:formatNumber value="${d.price*1*stay}" type="number" />원
+							</option>
+							<option value="2">2개
+								<f:formatNumber value="${d.price*2*stay}" type="number" />원
+							</option>
+							<option value="3">3개
+								<f:formatNumber value="${d.price*3*stay}" type="number" />원
+							</option>
+							<option value="4">4개
+								<f:formatNumber value="${d.price*4*stay}" type="number" />원
+							</option>
+							<option value="5">5개
+								<f:formatNumber value="${d.price*5*stay}" type="number" />원
+							</option>
+							<option value="6">6개
+								<f:formatNumber value="${d.price*6*stay}" type="number" />원
+							</option>
+							<option value="7">7개
+								<f:formatNumber value="${d.price*7*stay}" type="number" />원
+							</option>
+							<option value="8">8개
+								<f:formatNumber value="${d.price*8*stay}" type="number" />원
+							</option>
+							<option value="9">9개
+								<f:formatNumber value="${d.price*9*stay}" type="number" />원
+							</option>
+							<option value="10">10개
+								<f:formatNumber value="${d.price*10*stay}" type="number" />원
+							</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${2}', 'popup');">스탠다드</a><br>
+				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${2}&stay=${stay}', 'popup');">스탠다드</a><br>
 				${s.item}
 				</td>
 				<td>${s.sleeps}명</td>
-				<td>${s.price}원</td>
-				<td>조식 30,000원</td>
+				<td><f:formatNumber value="${s.price*stay}" type="number"/>원</td>
 				<td>
 					<select id="s_roomsu" name="s_roomsu">
 							<option value="0">0개 0원</option>
-							<option value="1">1개 ${s.price*1}원</option>
-							<option value="2">2개 ${s.price*2}원</option>
-							<option value="3">3개 ${s.price*3}원</option>
-							<option value="4">4개 ${s.price*4}원</option>
-							<option value="5">5개 ${s.price*5}원</option>
-							<option value="6">6개 ${s.price*6}원</option>
-							<option value="7">7개 ${s.price*7}원</option>
-							<option value="8">8개 ${s.price*8}원</option>
-							<option value="9">9개 ${s.price*9}원</option>
-							<option value="10">10개 ${s.price*10}원</option>
-				</select>
+							<option value="1">1개
+								<f:formatNumber value="${s.price*1*stay}" type="number" />원
+							</option>
+							<option value="2">2개
+								<f:formatNumber value="${s.price*2*stay}" type="number" />원
+							</option>
+							<option value="3">3개
+								<f:formatNumber value="${s.price*3*stay}" type="number" />원
+							</option>
+							<option value="4">4개
+								<f:formatNumber value="${s.price*4*stay}" type="number" />원
+							</option>
+							<option value="5">5개
+								<f:formatNumber value="${s.price*5*stay}" type="number" />원
+							</option>
+							<option value="6">6개
+								<f:formatNumber value="${s.price*6*stay}" type="number" />원
+							</option>
+							<option value="7">7개
+								<f:formatNumber value="${s.price*7*stay}" type="number" />원
+							</option>
+							<option value="8">8개
+								<f:formatNumber value="${s.price*8*stay}" type="number" />원
+							</option>
+							<option value="9">9개
+								<f:formatNumber value="${s.price*9*stay}" type="number" />원
+							</option>
+							<option value="10">10개
+								<f:formatNumber value="${s.price*10*stay}" type="number" />원
+							</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${3}', 'popup');">패밀리</a><br>
+				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${3}&stay=${stay}', 'popup');">패밀리</a><br>
 				${f.item} 
 				</td>
 				<td>${f.sleeps} 명</td>
-				<td>${f.price}원</td>
-				<td>조식 30,000원</td>
+				<td>
+				<f:formatNumber value="${f.price*stay}" type="number"/>원
+				</td>
 				<td>
 					<select id="f_roomsu" name="f_roomsu">
 							<option value="0">0개 0원</option>
-							<option value="1">1개 ${f.price*1}원</option>
-							<option value="2">2개 ${f.price*2}원</option>
-							<option value="3">3개 ${f.price*3}원</option>
-							<option value="4">4개 ${f.price*4}원</option>
-							<option value="5">5개 ${f.price*5}원</option>
-							<option value="6">6개 ${f.price*6}원</option>
-							<option value="7">7개 ${f.price*7}원</option>
-							<option value="8">8개 ${f.price*8}원</option>
-							<option value="9">9개 ${f.price*9}원</option>
-							<option value="10">10개 ${f.price*10}원</option>
-				</select>
+							<option value="1">1개
+								<f:formatNumber value="${f.price*1*stay}" type="number" />원
+							</option>
+							<option value="2">2개
+								<f:formatNumber value="${f.price*2*stay}" type="number" />원
+							</option>
+							<option value="3">3개
+								<f:formatNumber value="${f.price*3*stay}" type="number" />원
+							</option>
+							<option value="4">4개
+								<f:formatNumber value="${f.price*4*stay}" type="number" />원
+							</option>
+							<option value="5">5개
+								<f:formatNumber value="${f.price*5*stay}" type="number" />원
+							</option>
+							<option value="6">6개
+								<f:formatNumber value="${f.price*6*stay}" type="number" />원
+							</option>
+							<option value="7">7개
+								<f:formatNumber value="${f.price*7*stay}" type="number" />원
+							</option>
+							<option value="8">8개
+								<f:formatNumber value="${f.price*8*stay}" type="number" />원
+							</option>
+							<option value="9">9개
+								<f:formatNumber value="${f.price*9*stay}" type="number" />원
+							</option>
+							<option value="10">10개
+								<f:formatNumber value="${f.price*10*stay}" type="number" />원
+							</option>
+					</select>
 				</td>
 			</tr>
 		</table>
 		</form>
 	</div>
-</body>
-</html>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

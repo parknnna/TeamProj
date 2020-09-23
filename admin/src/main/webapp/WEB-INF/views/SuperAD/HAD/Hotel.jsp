@@ -10,6 +10,8 @@
 Calendar cal = Calendar.getInstance();
 int month = cal.get(Calendar.MONTH);
 int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+int cnt=0;
+List<hotelDTO> dto=(List)request.getAttribute("list");
 %>
 <div align="center"style="margin-top:70px">
 	<table width="100%">
@@ -44,8 +46,8 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 				<td>${dto.hotel_info}</td>
 				<td>${dto.star}</td>
 				<c:if test="${dto.filesize != 0}">
-					<td><img
-						src="${pageContext.request.contextPath}/resources/img/${dto.filename }" width="40">
+					<td>
+						<img src="${pageContext.request.contextPath}/resources/img/<%=dto.get(cnt).getFilename().split("/")[0] %>" width="40">
 					</td>
 				</c:if>
 				<c:if test="${dto.filesize == 0}">
@@ -66,6 +68,7 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 					<a href="ADhotel_update.do?hnum=${dto.hotel_no}">수정</a> | <a
 					href="ADhotel_delete.do?hnum=${dto.hotel_no}">삭제</a></td>
 			</tr>
+			<%cnt++; %>
 		</c:forEach>
 	</table>
 </div>

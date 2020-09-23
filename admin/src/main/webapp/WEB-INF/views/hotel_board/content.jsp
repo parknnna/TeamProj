@@ -230,7 +230,7 @@
 		String s=boarddto2.getMember_no();
 		boardno=Integer.parseInt(s);
 		hotelNO=boarddto2.getHotel_no();
-		getbod=boarddto2.getHotel_board_no();
+		getbod=Integer.parseInt(boarddto2.getHotel_board_no());
 	}
 	List<hotel_boardDTO> list=(List)request.getAttribute("listBoard");
 	List<hotel_boardDTO> list2=(List)request.getAttribute("listBoard2");

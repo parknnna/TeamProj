@@ -34,7 +34,7 @@
 					<td>터미널주소 : <input type="text" name="address" value="${station.address}"></td>
 				</tr>
 				<tr>
-					<td>터미널이미지 : <input type="file" name="filename" size="30" value="${dto.filename}"></td>
+					<td>터미널이미지 : <input type="file" name="file" size="30" value="${dto.filename}"></td>
 				</tr>
 				<tr>
 					<td><input type="button" value="수정" onclick="javascript:check()">

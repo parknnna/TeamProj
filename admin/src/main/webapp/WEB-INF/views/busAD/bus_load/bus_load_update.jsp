@@ -44,12 +44,21 @@ bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 					<td>버스번호 : 
 						<select name="bus_no">
 						<%
+							List<bus_loadDTO> list3=(List)request.getAttribute("bus_lord_list");
+							boolean a=true;
 							for(BusDTO dto : list){
+								a=true;
+								for(bus_loadDTO dto2 : list3){
+									if(dto2.getBus_no()==dto.getBus_no()){
+										a=false;
+									}
+								}
+							if(a){
 								if(dto.getBus_no()==LDTO.getBus_no()){%>
 									<option value="<%=dto.getBus_no()%>" selected><%=dto.getBus_no() %></option>
-						<%}else{%>
-								<option value="<%=dto.getBus_no()%>"><%=dto.getBus_no() %></option>
-						<%}}%>
+								<%}else{%>
+										<option value="<%=dto.getBus_no()%>"><%=dto.getBus_no() %></option>
+								<%}}}%>
 						</select>
 					</td>
 				</tr>
@@ -94,4 +103,3 @@ bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 			</table>
 		</form>
 	</div>
-<%@ include file="../../Basic/bottom_nav.jsp" %>

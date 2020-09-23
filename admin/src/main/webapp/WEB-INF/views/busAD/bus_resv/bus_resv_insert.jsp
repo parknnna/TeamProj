@@ -69,7 +69,10 @@ bus_loadDTO bdto=(bus_loadDTO)request.getAttribute("dto");
 					<td>적립 : <input type="text" name="save_point" value="${bus.save_point}"></td>
 				</tr>
 				<tr>
-					<td>날짜 : <input type="text" name="resv_date" value="${bus.resv_date}"></td>
+					<td>금액 : <input type="text" name="price" value="${bus.save_point}"></td>
+				</tr>
+				<tr>
+					<td>날짜 : <input type="date" name="resv_date" value="${bus.resv_date}"></td>
 				</tr>
 				<tr><td><input type="button" value="입력" onclick="javascript:check()">
 				<input type="reset" value="다시쓰기"></td></tr>

@@ -6,7 +6,9 @@
     <select id="listHotel_board"  resultType="hotel_boardDTO" parameterType="java.util.Map">
     	select * from (select rownum rn, A.* from (select * from hotel_board where re_level=0 and hotel_no=#{hotel_no} order by re_group desc, re_step asc)A) where rn between #{start} and #{end}
     </select>
-    
+    <select id="listHotel_boardup"  resultType="hotel_boardDTO" >
+    	select * from hotel_board order by up desc
+    </select>
     <select id="listHotel_board2"  resultType="hotel_boardDTO" parameterType="java.util.Map">
     	select * from (select rownum rn, A.* from (select * from hotel_board where re_level>0 and re_group=#{re_group} order by  re_step asc)A) where rn between #{start} and #{end}
     </select>
