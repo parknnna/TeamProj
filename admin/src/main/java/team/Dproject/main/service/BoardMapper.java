@@ -72,4 +72,8 @@ public class BoardMapper {
 	public int board_count() {
 		return sqlSession.selectOne("board_count");
 	}
+	
+	public int board_count_loc(int loc) {
+		return sqlSession.selectOne("board_count_loc",loc);
+	}
 }

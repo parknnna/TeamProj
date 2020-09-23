@@ -35,7 +35,7 @@
 	</select>
 	
 	<select id="getList" resultType="BoardDTO" parameterType="java.util.Map">
-		select * from (select rownum rn, A.* from (select * from main_board where location_no=#{location_no} and main_board_no=#{main_board_no} order by main_board_no desc)A) where rn between #{start} and #{end}
+		select * from (select rownum rn, A.* from (select * from main_board where location_no=#{location_no} order by main_board_no desc)A) where rn between #{start} and #{end}
 	</select>
 	
 	<update id="getCount" parameterType="int">
@@ -52,6 +52,10 @@
 	
 	<select id="board_count" resultType="int"><!-- 행의개수 파악 -->
 		select count(*) from main_board
+	</select>
+	
+	<select id="board_count_loc" resultType="int" parameterType="int"><!-- 행의개수 파악 -->
+		select count(*) from main_board where location_no=#{location_no}
 	</select>
 	
 	<!-- <select id="pre_board" parameterType="int">

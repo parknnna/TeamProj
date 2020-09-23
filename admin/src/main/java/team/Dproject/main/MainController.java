@@ -69,11 +69,13 @@ public class MainController {
 		int startRow = currentPage * pageSize - (pageSize-1);
 		int endRow = currentPage * pageSize;
 		int count = 0;
+		
+		
+		if(req.getParameter("location_no")==null||req.getParameter("location_no").equals("")) {
 		count = boardMapper.board_count();
 		if(endRow>count) {
 			endRow=count;
 		}
-		if(req.getParameter("location_no")==null||req.getParameter("location_no").equals("")) {
 		List<BoardDTO> list = boardMapper.board_list(startRow,endRow);
 			for(BoardDTO dto :list) {
 				MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
@@ -98,8 +100,11 @@ public class MainController {
 		mav.addObject("endPage",endPage);
 		return mav;
 		}
-		
 		int location_no=Integer.parseInt(req.getParameter("location_no"));
+		count = boardMapper.board_count_loc(location_no);
+		if(endRow>count) {
+			endRow=count;
+		}
 		List<BoardDTO> loclist = boardMapper.getList(startRow,endRow,location_no);
 		for(BoardDTO dto :loclist) {
 			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
