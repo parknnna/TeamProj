@@ -1,5 +1,7 @@
 package team.Dproject.main.model;
 
+import java.text.SimpleDateFormat;
+
 public class HotelResvDTO_sks {
 	private int hotel_resv_no;
 	private int member_no;
@@ -11,6 +13,7 @@ public class HotelResvDTO_sks {
 	private String start_resv_date;
 	private String end_resv_date;
 	private String resvdate;
+	private int total;
 	
 	public int getHotel_resv_no() {
 		return hotel_resv_no;
@@ -71,6 +74,12 @@ public class HotelResvDTO_sks {
 	}
 	public void setResvdate(String resvdate) {
 		this.resvdate = resvdate;
+	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
 	}
 	
 		

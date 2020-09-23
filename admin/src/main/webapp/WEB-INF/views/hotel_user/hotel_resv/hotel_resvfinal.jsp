@@ -3,8 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f" %> 
 <%@ include file="../../Basic/head.jsp" %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript"> 
+function check(){
+	if(document.getElementById("use_point").value==""){
+		document.getElementById("use_point").value=0;
+	}
+	document.f.submit();
+}
+
 function point(val){ //포인트계산 스크립트
+
 	var usepoint=parseInt(val);
 	var userpoint=${sedto.point};
 	if (document.getElementById("use_point").value==""){
@@ -19,7 +28,7 @@ function point(val){ //포인트계산 스크립트
 	}
 	var resetpoint=${sedto.point}-usepoint;
 	var price=${total}-usepoint;
-	var save_point=price*0.1;
+	var save_point=Math.floor(price*0.1);
 	document.getElementById("user_point").value = resetpoint;
 	document.getElementById("total").value=price;
 	document.getElementById("save_point").value=save_point;
@@ -27,8 +36,8 @@ function point(val){ //포인트계산 스크립트
 </script>
 <%@ include file="../../Basic/nav_Hotel.jsp" %>
 <div align="center">${sedto.name}님의 예약 내용</div>
-<div align="center">
-<form action="hotel_resvpayment">
+<div align="center" class="boxContainer" align="center" style="margin-top:100px">
+<form action="hotel_resvpayment" name ="f">
 <input type="hidden" name="start_resv_date" value="${start_resv_date}"/>
 <input type="hidden" name="end_resv_date" value="${end_resv_date}"/>
 <input type="hidden" name="member_no" value="${sedto.member_no}"/>
@@ -125,8 +134,8 @@ function point(val){ //포인트계산 스크립트
 </tr>
 </c:if>
 <tr>
-<td>사용 포인트 : <input  type="text" name="use_point"  onkeyup="point(this.value)" value="0" id="use_point"> </td>
-<td>남은 포인트 : <input type="text" id="user_point" name="user_point" value="${sedto.point}" readonly></td>
+<td align="right">사용 포인트 : <input type="text" name="use_point"  onkeyup="point(this.value)" value="0" id="use_point"> point</td>
+<td align="right">남은 포인트 : <input type="text" id="user_point" name="user_point" value="${sedto.point}" readonly> point</td>
 </tr>
 <tr>
 <td align="left">총 금액</td>
@@ -139,12 +148,12 @@ function point(val){ //포인트계산 스크립트
 </td>
 <td align="right">
 <f:parseNumber var="save_point" integerOnly="true" value="${(total-usepoint)*0.1}"/>
-<input type="text" id="save_point" name="save_point" value="${save_point}" readonly>
+<input type="text" id="save_point" name="save_point" value="${save_point}" readonly> point
 </td>
 </tr>
 </table> 
 <div align="center">
-<input type="submit" value="결제">
+<input type="submit" onclick="javascript:check();"value="결제">
 </div>
 </form>
 </div>

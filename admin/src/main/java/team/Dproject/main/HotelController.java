@@ -484,7 +484,7 @@ public class HotelController {
 			}
 			resp.addCookie(ck);
 			session.setAttribute("sedto", dto);
-			msg = dto.getName() + " 님 환영합니다. 확인을 누르시면 창을 닫습니다.";
+			msg = dto.getName() + "님 환영합니다. 확인을 누르시면 창을 닫습니다.";
 			url = "popup";
 			break;
 						
@@ -990,9 +990,10 @@ public class HotelController {
 			dto.setSave_point(save_point);
 			dto.setStart_resv_date(start_resv_date);
 			dto.setEnd_resv_date(end_resv_date);
+			dto.setTotal(total);
 			int res = hotelResvMapper.insertHotelResv_sks(dto);
 			
-			List<HotelResvDTO_sks> h_resvdto = hotelResvMapper.getHotelResv_sks(member_no);
+			/*List<HotelResvDTO_sks> h_resvdto = hotelResvMapper.getHotelResv_sks(member_no);*/
 			if(res<0){
 				String msg = "예약이 제대로 이루어지지 않았습니다. 다시 확인하시고 입력해 주세요";
 				String url = "hotel_resvfinal";
@@ -1024,13 +1025,142 @@ public class HotelController {
 			return "hotel_user/hotel_resv/hotel_paymentok";
 		}
 		
+		//예약된 내역 리스트 가져오기
 		@RequestMapping("/hotel_paymentoklist")
 		public String hotel_paymentoklist(HttpServletRequest req){
 			HttpSession session = req.getSession();
+			MemberDTO member = (MemberDTO) session.getAttribute("sedto");
+			int member_no = member.getMember_no();
+			/*int member_no = Integer.parseInt(req.getParameter("member_no"));*/
+			//예약된 번호 값 가져오기
+			List<Integer> hotel_resv_no = hotelResvMapper.getHotelResvNo_sks(member_no);
+			//예약된 만큼 예약된 테이블 가져오기
+			List<HotelResvDTO_sks> hotel_resv_dto = new ArrayList<HotelResvDTO_sks>();
+			HotelResvDTO_sks dto = new HotelResvDTO_sks();
+			for(int i = 0;i<hotel_resv_no.size();i++){
+				dto = hotelResvMapper.getHotelResv_sks(member_no, hotel_resv_no.get(i));
+				hotel_resv_dto.add(dto);
+			}
+			//예약된 호텔 이름 가져오기
+			List<String> hotel_name = new ArrayList<String>();
+			for(int i = 0;i<hotel_resv_no.size();i++){
+				HotelDTO_sks hdto = hotelMapper.getHotel_sks(hotel_resv_dto.get(i).getHotel_no());
+				hotel_name.add(hdto.getName());
+			}
 			
-			req.setAttribute("total", req.getParameter("total"));
-			
+			req.setAttribute("hotel_name", hotel_name);
+			req.setAttribute("hotel_resv_no", hotel_resv_no);
+			req.setAttribute("hotel_resv_dto", hotel_resv_dto);
 			return "hotel_user/hotel_resv/hotel_paymentoklist";
+		}
+		//예약된 내역 상세 보기
+		@RequestMapping("/hotel_resvcancel")
+		public String hotel_resvcancel(HttpServletRequest req){
+			int hotel_resv_no = Integer.parseInt(req.getParameter("hotel_resv_no"));
+			int member_no = Integer.parseInt(req.getParameter("member_no"));
+			String hotel_name = req.getParameter("hotel_name");
+			//예약된 테이블에서 dto하나 가져오기
+			HotelResvDTO_sks hrdto = hotelResvMapper.getHotelResv_sks(member_no, hotel_resv_no);
+			//호텔 별 룸 예약된 내역 보여주기
+			int hotel_no = hrdto.getHotel_no();
+			//해당 호텔 전체 룸 넘버 가져오기
+			List<String> droom_no = roomMapper.getResvRoomno_sks(hotel_no, 1);
+			List<String> sroom_no = roomMapper.getResvRoomno_sks(hotel_no, 2);
+			List<String> froom_no = roomMapper.getResvRoomno_sks(hotel_no, 3);
+			//예약 룸 넘버와 전체 룸 넘버 비교 하기 위해 사용
+			List<String> dr_no = new ArrayList();
+			List<String> sr_no = new ArrayList();
+			List<String> fr_no = new ArrayList();
+			//예약 테이블에 있는 룸 넘버 배열에 저장
+			String[] room_no = hrdto.getRoom_no().split("/");
+			//전체 룸 넘버와 예약 테이블에 있는 룸 비교 후 등급 별 같은 예약 룸 넘버 저장
+			for(String no : room_no){
+				if(droom_no.contains(no)){
+					dr_no.add(no);
+				}
+				if(sroom_no.contains(no)){
+					sr_no.add(no);
+				}
+				if(froom_no.contains(no)){
+					fr_no.add(no);
+				}
+			}
+			if(dr_no.size()>0){
+				RoomDTO_sks drdto = roomMapper.getRoom_sks(dr_no.get(0));
+				req.setAttribute("drdto", drdto);
+				req.setAttribute("dr_no", dr_no);
+				for(int i = 0;i<dr_no.size();i++){
+					System.out.println(dr_no.get(i));
+				}
+			}
+			if(sr_no.size()>0){
+				RoomDTO_sks srdto = roomMapper.getRoom_sks(sr_no.get(0));
+				req.setAttribute("srdto", srdto);
+				req.setAttribute("sr_no", sr_no);
+				for(int i = 0;i<sr_no.size();i++){
+					System.out.println(sr_no.get(i));
+				}
+			}
+			if(fr_no.size()>0){
+				RoomDTO_sks frdto = roomMapper.getRoom_sks(fr_no.get(0));
+				req.setAttribute("frdto", frdto);
+				req.setAttribute("fr_no", fr_no);
+				for(int i = 0;i<fr_no.size();i++){
+					System.out.println(fr_no.get(i));
+				}
+			}
+						
+			req.setAttribute("hrdto", hrdto);
+			req.setAttribute("hotel_name", hotel_name);
+			return "hotel_user/hotel_resv/hotel_resvcancel";
+		}
+		
+		//예약 취소 후 포인트 저장
+		@RequestMapping("/hotel_resvCancelok")
+		public String hotel_resvCancelok(HttpServletRequest req){
+			/* 세션에 저장되어 있는 member_no가져오기
+			 * HttpSession session = req.getSession();
+			MemberDTO member = (MemberDTO) session.getAttribute("sedto");
+			int member_no = member.getMember_no();*/
+			int member_no = Integer.parseInt(req.getParameter("member_no"));
+			int hotel_resv_no = Integer.parseInt(req.getParameter("hotel_resv_no"));
+			//예약된 테이블에서 dto하나 가져오기
+			HotelResvDTO_sks hrdto = hotelResvMapper.getHotelResv_sks(member_no, hotel_resv_no);
+			//결제 취소 후 포인트 비교 해주기
+			MemberDTO mdto1 = memberMapper.getMember_sks(member_no);
+			int befor_user_point = mdto1.getPoint();
+			int use_point = hrdto.getUse_point();
+			int save_point = hrdto.getSave_point();
+			int user_point = befor_user_point + use_point - save_point;
+			
+			int update_point = memberMapper.updateMemberPoint_sks(user_point, member_no);
+			if(update_point<0){
+				String msg = "고객님의 포인트가 제대로 변경되지 않았습니다. 관리자에게 문의해주세요.";
+				String url = "hotel_paymentoklist";
+				
+				req.setAttribute("msg", msg);
+				req.setAttribute("url", url);
+				return "message";
+			}
+			if(update_point>0){
+				HttpSession session = req.getSession();
+				session.removeAttribute("sedto");
+				MemberDTO mdto = memberMapper.getMember_sks(member_no);
+				session.setAttribute("sedto", mdto);
+			}
+			if(hrdto!=null){
+				int del = hotelResvMapper.deleteHotelResv_sks(member_no, hotel_resv_no);
+				if(del<0){
+					String msg = "결제 취소가 이루어지지 않았습니다. 관리자에게 문의해주세요.";
+					String url = "hotel_paymentoklist";
+					
+					req.setAttribute("msg", msg);
+					req.setAttribute("url", url);
+					return "message";
+				}
+			}
+			
+			return "hotel_user/hotel_resv/hotel_resvCancelok";
 		}
 
 }

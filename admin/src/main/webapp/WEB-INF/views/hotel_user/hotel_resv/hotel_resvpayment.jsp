@@ -12,7 +12,9 @@
 </head>
 <body>
 <script type="text/javascript">
-
+function successfail(){
+	document.location.href='hotel_resv';
+}
 function success() {
 	document.f.submit()
 }
@@ -37,18 +39,17 @@ function success() {
             if (rsp.success) {
                 var msg = '결제가 완료되었습니다.';
             
-                msg += '결제 금액 : ' + rsp.paid_amount + '                                  확인 버튼을 누르면 결제 내역 확인 페이지로 이동합니다.';
-              
+                msg += '결제 금액 : ' + rsp.paid_amount + '\n확인 버튼을 누르면 결제 내역 확인 페이지로 이동합니다.';
+                success();
            
             } else {
-                var msg = '결제에 실패하였습니다.';
+            	var msg = '결제에 실패하였습니다.\n검색 초기로 돌아갑니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
+                successfail();
             }
             
             alert(msg);
-          	//alert창 확인 후 이동할 url 설정
-          	success();
-            /* document.location.href= */ 
+          	
         });
     });
 </script>

@@ -40,20 +40,7 @@
 	}
 </script>
 <%@ include file="../../Basic/top_Hotel.jsp" %>
-	<div align="right">
-		<c:choose>
-			<c:when test="${empty sedto}">
-				<input type="button" value="로그인"
-					onClick="location.href='memberlogin'" />
-			</c:when>
-			<c:otherwise>
-				<input type="button" value="로그아웃"
-					onClick="location.href = 'memberlogout'" />
-			</c:otherwise>
-		</c:choose>
-	</div>
-
-	<div align="center">
+	<div align="center" class="boxContainer" align="center" style="margin-top:100px">
 		<form name="f" action="hotel_resvlist" onSubmit='return check();'>
 			<table border="1">
 				<tr>

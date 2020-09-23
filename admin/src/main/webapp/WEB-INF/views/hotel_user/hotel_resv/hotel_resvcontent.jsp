@@ -114,7 +114,7 @@ function test(){
 			</c:otherwise>
 		</c:choose>
 	</div>
-	<div align="center">
+	<div class="boxContainer" align="center" style="margin-top:100px">
 	<c:forTokens var="file" items="${getHotel.filename}" delims="/">
 			<div>
 			 <img  width="40%" height="20%" class="slide" src="${pageContext.request.contextPath}/resources/img/${file}">

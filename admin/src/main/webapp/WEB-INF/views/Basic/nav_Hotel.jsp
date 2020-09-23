@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light scolled sleep scrolled awake" id="ftco-navbar">
     <div class="container">
       <a class="navbar-brand" href="index">DProject</a>
@@ -15,7 +16,15 @@
       
       <div class="header-btns" id="ftco-nav">
       	<ul class="navbar-nav">
-      	<li class="nav-item cta"><a href="member_login.do" class="nav-link"><span>Login</span></a>
+      	<c:choose>
+			<c:when test="${empty sedto}">
+				<li class="nav-item cta"><a href="member_login.do" class="nav-link"><span>Login</span></a>
+			</c:when>
+			<c:otherwise>
+				<li class="nav-item cta"><a href="member_logout.do" class="nav-link"><span>Logout
+      	</span></a>
+			</c:otherwise>
+		</c:choose> 
       		<ul class="submenu">
       			<li><a href="member_mypage.do" class="submenu-1-first" style="color:black">My Page</a></li>
       			<li><a href="member_wishlist.do" class="submenu-1-second" style="color:black">Wish List</a></li>

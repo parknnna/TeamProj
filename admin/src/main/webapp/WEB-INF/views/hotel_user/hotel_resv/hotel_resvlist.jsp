@@ -159,16 +159,17 @@
 					<td>
 						<div align="right">
 						<%=rlist.get(i).getName() %> 정원 <%=rlist.get(i).getSleeps()%>명<br>
-						</div>
 						<c:set var="su" value="${stay}" ></c:set>
 						<%=su%>박 <%=df.format(rlist.get(i).getPrice()*su)%> 원<br>
+						</div>
+						<div align="center">
 						<a href="hotel_resvcontent?hotel_no=<%=hlist.get(i).getHotel_no()%>&room_no=<%=rlist.get(i).getRoom_no()%>
 								&stay=${stay}&address=${address}&roomsu=${roomsu}&sleeps=${sleeps}
 								&start_resv_date=${start_resv_date}&end_resv_date=${end_resv_date}">
-						<div align="center">
 							<input type="button" value="객실선택">
+							</a>
 						</div>
-						</a>
+						
 					</td>
 					</tr>
 				<%} %>
