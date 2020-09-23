@@ -583,6 +583,7 @@ public class HotelController {
 			return "hotel_user/hotel_resv/hotel_resvlist";
 		}
 		
+		//호텔 자세히 보기
 		@RequestMapping("/hotel_resvcontent")
 		public String hotel_resvcontent(HttpServletRequest req){
 			/*HttpSession session = req.getSession();*/
@@ -720,6 +721,18 @@ public class HotelController {
 			return "hotel_user/hotel_resv/hotel_resvcontent";
 		}
 		
+		//지도 api보기
+		@RequestMapping("/hotel_address")
+		public String hotel_address(HttpServletRequest req){
+			String address = req.getParameter("address");
+			String hotel_name = req.getParameter("name");
+			
+			req.setAttribute("address", address);
+			req.setAttribute("hotel_name", hotel_name);
+			return "hotel_user/hotel_resv/hotel_address";
+		}
+		
+		//호텔 별 룸 등급 상세 보기
 		@RequestMapping("/hotel_resvroomcontent")
 		public String hotel_resvroomcontent(HttpServletRequest req){
 			RoomDTO_sks rdto = roomMapper.getRoom2_sks(Integer.parseInt(req.getParameter("hotel_no")),Integer.parseInt(req.getParameter("grade")));
