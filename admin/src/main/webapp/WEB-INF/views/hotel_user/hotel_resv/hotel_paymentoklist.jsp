@@ -12,7 +12,7 @@
 			<th>호텔 이름</th>
 			<th>예약 날짜</th>
 			<th>가격</th>
-			<th>예약 취소</th>
+			<th>상세 보기 or 예약 취소</th>
 		</tr>
 		<c:forEach var="num" items="${hotel_resv_no}" varStatus="status">
 		<tr align="center">
@@ -22,7 +22,7 @@
 			<td>${hotel_resv_dto[status.index].total}</td>
 			<td>
 			<a href="hotel_resvcancel?hotel_resv_no=${num}&member_no=${sedto.member_no}&hotel_name=${hotel_name[status.index]}">
-			|취소|
+			|보기 or 취소|
 			</a>
 			</td>
 		</tr>
