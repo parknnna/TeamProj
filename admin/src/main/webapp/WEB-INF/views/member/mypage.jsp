@@ -33,7 +33,9 @@
 		<input type = "hidden" name = "filename" value = "${sedto.filename }">
 		<table class = "outline" border = "1">
 			<tr>
-				<td rowspan = "4"><img src="${pageContext.request.contextPath}/resources/img/${sedto.filename}" width = "80" height = "80"></td>
+				<td rowspan = "4" align = "center">
+					<img src="${pageContext.request.contextPath}/resources/img/${sedto.filename}" width = "80" height = "80">
+				</td>
 			</tr>
 			<tr>
 				<th align = "center">이름</th>

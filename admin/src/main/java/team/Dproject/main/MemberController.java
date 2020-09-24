@@ -151,6 +151,15 @@ public class MemberController {
 				}
 				filename = file.getOriginalFilename();
 				filesize = (int) file.getSize();
+			}else{
+				if(dto.getSex() == 0){
+					filename = "male.jpg";
+					
+				}else{
+					filename = "female.jpg";
+					
+				}
+				
 			}
 			dto.setFilename(filename);
 			dto.setFilesize(filesize);

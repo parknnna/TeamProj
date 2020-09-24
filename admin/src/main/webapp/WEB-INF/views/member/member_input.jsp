@@ -83,6 +83,7 @@ function check(){
 function reset(){
 	document.f.reset();
 	document.getElementById('id').readOnly = false;
+	idck = 0;
 	
 }
 	</script>
@@ -161,7 +162,7 @@ function reset(){
 						<label class="reg_form"  style="float:left">Id</label>
 					</h6>
 					<div class="id">
-						<input type = "text" class="form-control" name = "id" id = "id">
+						<input type = "text" class="form-control"  name = "id" id = "id">
 						<input type = "button" value = "중복체크" onClick = "javascript:checkId()">
 					</div>
 				</div>
@@ -222,7 +223,7 @@ function reset(){
 					</h6>
 					<div class="sex-wrap">
 						<select name="sex" class="form-control" style="padding:10px;">
-							<option value selected>성별</option>
+							<option selected>성별</option>
 							<option value="0">남자</option>
 							<option value="1">여자</option>
 						</select>
@@ -233,7 +234,7 @@ function reset(){
 					<h6 class="category">
 						<label class="reg_form" style="float:left">Profile</label>
 					</h6>
-					<div class="img-wrap">
+					<div class="img-wrap" style = "float:left">
 						<input type = "file" name = "filename">
 					</div>
 				</div>
