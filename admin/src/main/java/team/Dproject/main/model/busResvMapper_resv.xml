@@ -83,6 +83,9 @@
 		select count(*) from bus inner join bus_road on bus.bus_no=bus_road.bus_no where bus_road.arrival=#{arrival} and departure=#{departure} 
 	</select>
 	
+	<select id="bus_resv_seat_date_oneway" parameterType="java.util.Map" resultType="BusResvDTO_resv">
+		select * from bus_resv where resv_date=${resv_date}  
+	</select>
 	<select id="bus_resv_seat_count_oneway" parameterType="java.util.Map" resultType="BusResvDTO_resv">
 		select * from bus_resv where resv_date=${resv_date} and road_no=${road_no} 
 	</select>

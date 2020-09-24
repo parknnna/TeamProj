@@ -13,7 +13,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><a href="index" class="nav-link">Home</a></li>
           <li class="nav-item active"><a href="bus_main.do" class="nav-link">Bus</a></li>
-          <li class="nav-item"><a href="main" class="nav-link">Hotels</a></li>
+          <li class="nav-item"><a href="hotel_resv" class="nav-link">Hotels</a></li>
           <li class="nav-item"><a href="restaurant_main.do" class="nav-link">Restaurant</a></li>
           <li class="nav-item"><a href="board_list.do" class="nav-link">Forum</a></li>
          </ul>

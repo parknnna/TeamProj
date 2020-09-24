@@ -85,12 +85,12 @@ public class HotelController {
 	}
 	
 	/*
-	회원 컨트롤
+	�쉶�썝 而⑦듃濡�
 	*/
 	
 	@RequestMapping(value="/membercheck", method=RequestMethod.GET)
 	public ModelAndView member(){
-		String msg="회원 체크 페이지로 갑니다.";
+		String msg="�쉶�썝 泥댄겕 �럹�씠吏�濡� 媛묐땲�떎.";
 		String url="membercheckpage";
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("msg", msg);
@@ -114,13 +114,13 @@ public class HotelController {
 		
 		String msg = null,url=null;
 		if (chek){
-			msg = "현재 회원이십니다. 로그인을 해 주세요";
+			msg = "�쁽�옱 �쉶�썝�씠�떗�땲�떎. 濡쒓렇�씤�쓣 �빐 二쇱꽭�슂";
 			url = "memberlist";
 			req.setAttribute("msg", msg);
 			req.setAttribute("url", url);
 			return "message";
 		}else {
-			msg="회원가입 페이지로 갑니다.";
+			msg="�쉶�썝媛��엯 �럹�씠吏�濡� 媛묐땲�떎.";
 			req.setAttribute("msg", msg);		
 			req.setAttribute("name",name);
 			req.setAttribute("ssn1",ssn1);
@@ -136,10 +136,10 @@ public class HotelController {
 		int res = memberMapper.insertMember_sks(dto,sex);
 		String msg = null, url = null;
 		if (res > 0) {
-			msg = "회원가입성공!! 회원목록페이지로 이동합니다.";
+			msg = "�쉶�썝媛��엯�꽦怨�!! �쉶�썝紐⑸줉�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 			url = "memberlist";
 		} else {
-			msg = "회원가입실패!! 회원가입페이지로 이동합니다.";
+			msg = "�쉶�썝媛��엯�떎�뙣!! �쉶�썝媛��엯�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 			url = "membercheck";
 		}
 		req.setAttribute("msg", msg);
@@ -195,17 +195,17 @@ public class HotelController {
 			}
 			resp.addCookie(ck);
 			session.setAttribute("sedto", dto);
-			msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
+			msg = dto.getName() + "�떂 �솚�쁺�빀�땲�떎. 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 			url = "main";
 			break;
 			
 		case 1 :
-			msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요";
+			msg = "鍮꾨�踰덊샇瑜� �옒紐� �엯�젰�븯�뀲�뒿�땲�떎. �떎�떆 �엯�젰�빐 二쇱꽭�슂";
 			url = "member/login";
 			break;
 			
 		case 2 :
-			msg = "없는 아이디 입니다. 다시 확인하시고 입력해 주세요";
+			msg = "�뾾�뒗 �븘�씠�뵒 �엯�땲�떎. �떎�떆 �솗�씤�븯�떆怨� �엯�젰�빐 二쇱꽭�슂";
 			url = "member/login";
 			break;
 		
@@ -220,14 +220,14 @@ public class HotelController {
 	public String MemberLogout(HttpServletRequest req){
 		HttpSession session = req.getSession();
 		session.removeAttribute("sedto");
-		req.setAttribute("msg", "로그아웃 되었습니다. 메인페이지로 이동합니다.");
+		req.setAttribute("msg", "濡쒓렇�븘�썐 �릺�뿀�뒿�땲�떎. 硫붿씤�럹�씠吏�濡� �씠�룞�빀�땲�떎.");
 		req.setAttribute("url", "main");
 		return "message";
 		
 	}
 	
 	/*
-	호텔 컨트롤
+	�샇�뀛 而⑦듃濡�
 	*/
 	
 	@RequestMapping("/hotelcheck")
@@ -306,10 +306,10 @@ public class HotelController {
 		int res = hotelMapper.updateHotel_sks(dto);
 		String msg=null,url=null;
 		if (res > 0) {
-			msg = "호텔수정성공!! 호텔목록페이지로 이동합니다.";
+			msg = "�샇�뀛�닔�젙�꽦怨�!! �샇�뀛紐⑸줉�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 			url = "hotellist";
 		} else {
-			msg = "호텔수정실패!! 호텔목록페이지로 이동합니다.";
+			msg = "�샇�뀛�닔�젙�떎�뙣!! �샇�뀛紐⑸줉�럹�씠吏�濡� �씠�룞�빀�땲�떎.";
 			url = "hotellist";
 		}
 		req.setAttribute("msg", msg);
@@ -324,7 +324,7 @@ public class HotelController {
 		int member_num = dto.getMember_num();
 		MemberDTO_sks mdto = memberMapper.getMember_sks(member_num);
 		String name = mdto.getName();
-		//filename split사용해서 끊어서 보내기
+		//filename split�궗�슜�빐�꽌 �걡�뼱�꽌 蹂대궡湲�
 		/*String hotelfile = dto.getFilename();
 		String regex="/";
 		String [] filearr = hotelfile.split(regex);
@@ -349,7 +349,7 @@ public class HotelController {
 	}
 	
 	/*
-	룸 컨트롤
+	猷� 而⑦듃濡�
 	*/
 	
 	@RequestMapping("/roominsert")
@@ -419,7 +419,7 @@ public class HotelController {
 	public String roomcontent(HttpServletRequest req){
 		String room_no = req.getParameter("room_no");
 		RoomDTO_sks dto = roomMapper.getRoom_sks(room_no);
-		//룸 사진 여러장 가져오기
+		//猷� �궗吏� �뿬�윭�옣 媛��졇�삤湲�
 		String roomfile = dto.getFilename();
 		String regex="/";
 		String [] filearr = roomfile.split(regex);
@@ -431,12 +431,12 @@ public class HotelController {
 	}
 	
 	/*
-	호텔 예약 컨트롤
+	�샇�뀛 �삁�빟 而⑦듃濡�
 	*/
 	
 	@RequestMapping("/hotel_resv")
 	public String hotel_resvselect(){
-		return "hotel_resv/hotel_resv";
+		return "hotel_user/hotel_resv/hotel_resv";
 	}
 	
 	@RequestMapping("/hotel_resvlist")
@@ -445,7 +445,7 @@ public class HotelController {
 		List<HotelDTO_sks> hlist = new ArrayList<HotelDTO_sks>();
 		List<RoomDTO_sks> rlist = new ArrayList<RoomDTO_sks>();
 		int stay = 0;
-		//호텔,룸 리스트 가져오기(호텔 넘버와 인원 수 에 맞는 룸 가져오기)
+		//�샇�뀛,猷� 由ъ뒪�듃 媛��졇�삤湲�(�샇�뀛 �꽆踰꾩� �씤�썝 �닔 �뿉 留욌뒗 猷� 媛��졇�삤湲�)
 		for (String i : list){
 			RoomDTO_sks getroom = roomMapper.getRoom_sks(i);
 			HotelDTO_sks gethotel = hotelMapper.getHotel_sks(getroom.getHotel_no());
@@ -458,33 +458,33 @@ public class HotelController {
 			String[] arrname=name.split("/");
 			hdto.setFilename(arrname[0]);
 		}
-		//.replaceAll("[\\-\\+\\.\\^:,]","");특수문자 제거
+		//.replaceAll("[\\-\\+\\.\\^:,]","");�듅�닔臾몄옄 �젣嫄�
 		
-		//date 날짜 사이 값 계산(박수와 시작부터 끝 날짜 까지 불러오기)
+		//date �궇吏� �궗�씠 媛� 怨꾩궛(諛뺤닔�� �떆�옉遺��꽣 �걹 �궇吏� 源뚯� 遺덈윭�삤湲�)
 		String strStartDate = req.getParameter("start_resv_date").replaceAll("[\\-\\+\\.\\^:,]","");
         String strEndDate = req.getParameter("end_resv_date").replaceAll("[\\-\\+\\.\\^:,]","");
-        String strFormat = "yyyyMMdd";    //strStartDate 와 strEndDate 의 format
+        String strFormat = "yyyyMMdd";    //strStartDate �� strEndDate �쓽 format
         
-        //SimpleDateFormat 을 이용하여 startDate와 endDate의 Date 객체를 생성한다.
+        //SimpleDateFormat �쓣 �씠�슜�븯�뿬 startDate�� endDate�쓽 Date 媛앹껜瑜� �깮�꽦�븳�떎.
         SimpleDateFormat sdf = new SimpleDateFormat(strFormat);
         try{
             Date startDate = sdf.parse(strStartDate);
             Date endDate = sdf.parse(strEndDate);
  
-            //두날짜 사이의 시간 차이를 하루 동안의 (24시*60분*60초*1000밀리초) 로 나눈다.
+            //�몢�궇吏� �궗�씠�쓽 �떆媛� 李⑥씠瑜� �븯猷� �룞�븞�쓽 (24�떆*60遺�*60珥�*1000諛�由ъ큹) 濡� �굹�늿�떎.
             long diffDay = (startDate.getTime() - endDate.getTime()) / (24*60*60*1000);
            
             stay = (int)Math.abs(diffDay);
             Calendar c1 = Calendar.getInstance();
             Calendar c2 = Calendar.getInstance();
 
-            //Calendar 타입으로 변경 add()메소드로 1일씩 추가해 주기위해 변경
+            //Calendar ���엯�쑝濡� 蹂�寃� add()硫붿냼�뱶濡� 1�씪�뵫 異붽��빐 二쇨린�쐞�빐 蹂�寃�
             c1.setTime( startDate );
             c2.setTime( endDate );
             
             while( c1.compareTo( c2 ) !=1 ){
 
-                //시작날짜 + 1 일
+                //�떆�옉�궇吏� + 1 �씪
                 c1.add(Calendar.DATE, 1);
                 }
         }catch(ParseException e){
@@ -508,7 +508,7 @@ public class HotelController {
 		int hotel_no = Integer.parseInt(req.getParameter("hotel_no"));
 		HotelDTO_sks hdto = hotelMapper.getHotel_sks(hotel_no);
 		
-		//호텔의 룸 등급별 룸 하나 가져오기
+		//�샇�뀛�쓽 猷� �벑湲됰퀎 猷� �븯�굹 媛��졇�삤湲�
 		RoomDTO_sks rdto1 = roomMapper.getRoom2_sks(hotel_no,1);
 		RoomDTO_sks rdto2 = roomMapper.getRoom2_sks(hotel_no,2);
 		RoomDTO_sks rdto3 = roomMapper.getRoom2_sks(hotel_no,3);
@@ -541,18 +541,18 @@ public class HotelController {
             e.printStackTrace();
         }
 		
-		//검색 값 유지
+		//寃��깋 媛� �쑀吏�
 		req.setAttribute("stay", stay);
 		req.setAttribute("address", req.getParameter("address"));
 		req.setAttribute("roomsu", req.getParameter("roomsu"));
 		req.setAttribute("sleeps", req.getParameter("sleeps"));
 		req.setAttribute("start_resv_date", req.getParameter("start_resv_date"));
 		req.setAttribute("end_resv_date", req.getParameter("end_resv_date"));
-		//디럭스
+		//�뵒�윮�뒪
 		req.setAttribute("d", rdto1);
-		//스탠다드
+		//�뒪�깲�떎�뱶
 		req.setAttribute("s", rdto2);
-		//패밀리
+		//�뙣諛�由�
 		req.setAttribute("f", rdto3);
 		req.setAttribute("getHotel", hdto);
 		req.setAttribute("hotel_no", req.getParameter("hotel_no"));
@@ -579,7 +579,7 @@ public class HotelController {
 		return "hotel_resv/hotel_resvfinal";
 	}
 	
-	//예약하기 버튼 클릭 후 로그인 창,로그인창 닫기
+	//�삁�빟�븯湲� 踰꾪듉 �겢由� �썑 濡쒓렇�씤 李�,濡쒓렇�씤李� �떕湲�
 	@RequestMapping("/loginclear")
 	public String loginclear(HttpServletRequest req){
 		Cookie[] cks = req.getCookies();
@@ -626,17 +626,17 @@ public class HotelController {
 			}
 			resp.addCookie(ck);
 			session.setAttribute("sedto", dto);
-			msg = dto.getName() + "님 환영합니다. 로그인 창을 닫습니다.";
+			msg = dto.getName() + "�떂 �솚�쁺�빀�땲�떎. 濡쒓렇�씤 李쎌쓣 �떕�뒿�땲�떎.";
 			url = "popup";
 			break;
 			
 		case 1 :
-			msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요";
+			msg = "鍮꾨�踰덊샇瑜� �옒紐� �엯�젰�븯�뀲�뒿�땲�떎. �떎�떆 �엯�젰�빐 二쇱꽭�슂";
 			url = "loginclear";
 			break;
 			
 		case 2 :
-			msg = "없는 아이디 입니다. 다시 확인하시고 입력해 주세요";
+			msg = "�뾾�뒗 �븘�씠�뵒 �엯�땲�떎. �떎�떆 �솗�씤�븯�떆怨� �엯�젰�빐 二쇱꽭�슂";
 			url = "loginclear";
 			break;
 		

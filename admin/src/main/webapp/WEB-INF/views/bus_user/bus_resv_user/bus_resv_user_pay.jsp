@@ -27,6 +27,14 @@ function point(val){ //포인트계산 스크립트
 
 }
 
+function check(){
+	if(document.getElementById("use_point").value==""){
+		alert("사용포인트를 입력하세요")
+		return;
+	}
+	document.f.submit()
+}
+
 </script>
 
 <style>
@@ -96,7 +104,7 @@ function point(val){ //포인트계산 스크립트
 	<br><br>
 	<fmt:parseNumber var="save_point" integerOnly="true" value="${resv_dto.price*seat_no*0.1}"/> <!-- 저장될 포인트 int 형으로 변환 -->
 	<div align="center" style="width:100%" >
-		<form action="bus_resv_user_payok.do">
+		<form name="f" action="bus_resv_user_payok.do">
 		<input type="hidden" name="one_date" value="${one_date}">
 		<input type="hidden" name="road_no" value="${resv_dto.road_no}">
 		<input type="hidden" name="save_point" value="${save_point}"> <!-- 저장될 포인트 int 형으로 보내서 넘겨줌 -->
@@ -135,7 +143,7 @@ function point(val){ //포인트계산 스크립트
 				</tr>
 				
 				<tr align="right">
-					<td colspan="4"><input type="submit" value="결제" size="100"></td>
+					<td colspan="4"><input type="button" onclick="javscript:check()" value="결제" size="100"></td>
 				</tr>
 			</table>
 		</form>

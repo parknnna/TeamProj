@@ -186,6 +186,12 @@ public class BusResvMapper_resv {
 		   return sqlSession.selectOne("bus_busroad_resv_all_count_resv",map);
 	   }
 	   
+	   public List<BusResvDTO_resv> bus_resv_seat_date_oneway(String resv_date){
+		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+		   map.put("resv_date",resv_date);
+		   return sqlSession.selectList("bus_resv_seat_date_oneway",map);
+	   }
+	   
 	   public List<BusResvDTO_resv> bus_resv_seat_count_oneway(String resv_date,int road_no){
 		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
 		   map.put("resv_date",resv_date);

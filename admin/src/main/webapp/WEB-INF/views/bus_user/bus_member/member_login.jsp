@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 	function searchMember(mode){
-		window.open("member_search.do?mode="+mode, "", "width=650, height=400")
+		window.open("member_search_resv.do?mode="+mode, "", "width=650, height=400")
 	}
 	function loginCheck(){
 		if (f.id.value==""){
@@ -69,7 +69,7 @@
 		    </div> <!-- form-group// -->    
 		    
 		    <div class="form-group">
-		    	<a href="member_input.do" class="btn btn-outline-primary btn-block">Sign up</a>
+		    	<a href="member_input_resv.do" class="btn btn-outline-primary btn-block">Sign up</a>
 		    </div>                                                       
 </form>
 </article>

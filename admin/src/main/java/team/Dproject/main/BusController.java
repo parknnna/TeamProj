@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -134,6 +136,14 @@ public class BusController {
 		return "bus_user/bus_member/member_login";
 		
 	}
+	 @RequestMapping("/idcheck_resv.do")
+     @ResponseBody
+     public boolean idcheck(@RequestBody String id, HttpServletRequest req) {
+         boolean data = memberMapper.idcheck(id);
+         req.setAttribute("idck", 1);
+         return data;
+         
+     }
 	
 	@RequestMapping(value = "/member_login_ok_resv.do")//로그인 완료
 	public String MemberLoginOk(HttpServletRequest req, HttpServletResponse resp){
@@ -188,48 +198,63 @@ public class BusController {
 		
 	}
 	
+	@RequestMapping(value = "/member_input_resv.do")
+	   public String MemberInput(HttpServletRequest req) {
+	      req.setAttribute("idck", 0);
+	      return "bus_user/bus_member/member_input";
+
+	   }
 	
-	@RequestMapping(value = "/member_input_resv.do")//회원 가입 페이지 이동
-	public String MemberInput(){
-		return "bus_user/bus_member/member_input";
-		
-	}
-	@RequestMapping(value = "/member_input_ok_resv.do")//회원 가입 완료
-	public String MemberInputOk(HttpServletRequest req, MemberDTO dto){
-		boolean checkMember = memberMapper.checkMember(dto);
-		boolean isId;
-		String msg = null, url = null;
-		if(checkMember){
-			isId = memberMapper.checkId(dto);
-			if(isId){
-				int res = memberMapper.insertMember(dto);
-				if(res > 0){
-					msg = "회원가입성공! 로그인 페이지로 이동합니다.";
-					url = "member_login_resv.do";
-					
-				}else{
-					msg = "회원가입실패! 메인페이지로 이동합니다.";
-					url = "bus_main.do";
-					
-				}
-				
-			}else{
-				msg = "중복된 아이디가 있습니다. 다른 아이디로 가입해 주세요";
-				url = "member_input_resv.do";
-				
-			}
-			
-			
-		}else{
-			msg = "아이디가 너무 많습니다. 로그인 해주세요.";
-			url = "member_login_resv.do";
-			
-		}
-		req.setAttribute("msg", msg);
-		req.setAttribute("url", url);
-		return "message";
-		
-	}
+	@RequestMapping(value = "/member_input_ok_resv.do")
+	   public String MemberInputOk(HttpServletRequest req, MemberDTO dto, BindingResult result) {
+	      boolean checkMember = memberMapper.checkMember(dto);
+	      String msg = null, url = null;
+	      if (checkMember) {
+	         String filename = "";
+	         int filesize = 0;
+	         MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
+	         MultipartFile file = mr.getFile("filename");
+	         File target = new File(upLoadPath, file.getOriginalFilename());
+	         if (file.getSize() > 0) {
+	            try {
+	               file.transferTo(target);
+	            } catch (IOException e) {
+	            }
+	            filename = file.getOriginalFilename();
+	            filesize = (int) file.getSize();
+	         }else{
+	            if(dto.getSex() == 0){
+	               filename = "male.jpg";
+	               
+	            }else{
+	               filename = "female.jpg";
+	               
+	            }
+	            
+	         }
+	         dto.setFilename(filename);
+	         dto.setFilesize(filesize);
+	         int res = memberMapper.insertMember(dto);
+	         if (res > 0) {
+	            msg = "회원가입성공! 로그인 페이지로 이동합니다.";
+	            url = "member_login_resv.do";
+
+	         } else {
+	            msg = "회원가입실패! 메인페이지로 이동합니다.";
+	            url = "bus_main.do";
+
+	         }
+	         
+	      } else {
+	         msg = "아이디가 너무 많습니다. 로그인 해주세요.";
+	         url = "member_login_resv.do";
+
+	      }
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      return "message";
+
+	   }
 	
 	@RequestMapping(value = "/member_search_resv.do")//아이디 비밀번호 찾기 페이지 이동
 	public String MemberSearch(HttpServletRequest req){
@@ -268,43 +293,114 @@ public class BusController {
 	@RequestMapping(value = "/member_edit_ok_resv.do")//수정완료
 	public String MemberEditOk(HttpServletRequest req, MemberDTO dto){
 		String msg = null, url = null, mode = req.getParameter("mode");
-		if(mode == null){
-			mode = "";
-			
-		}
-		HttpSession session = req.getSession();
-		int res = memberMapper.editMember(dto);
-		if(res > 0){
-			session.removeAttribute("sedto");
-			session.setAttribute("sedto", dto);
-			if(mode.equals("mypage")){
-				msg = "회원수정성공! 마이페이지로 이동합니다.";
-				url = "member_mypage_resv.do";
-				
-			}else{
-				msg = "회원수정성공! 회원목록으로 이동합니다.";
-				url = "member_list_resv.do";
-				
-			}
-			
-		}else{
-			if(mode.equals("mypage")){
-				msg = "회원수정실패! 마이페이지로 이동합니다.";
-				url = "member_mypage_resv.do";
-				
-			}else{
-				msg = "회원수정실패! 회원수정페이지로 이동합니다.";
-				url = "member_edit_resv.do?id=" + dto.getId();
-				
-			}
-			
-		}
-		req.setAttribute("msg", msg);
-		req.setAttribute("url", url);
-		return "message";
-		
-	}
+	      HttpSession session = req.getSession();
+	      String filename = dto.getFilename();
+	      int filesize =dto.getFilesize();
+	      
+	      MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+	      MultipartFile file = mr.getFile("new_filename");
+	      File target = new File(upLoadPath, file.getOriginalFilename());
+	      if (file.getSize() > 0){
+	         try{
+	            file.transferTo(target);
+	            
+	         }catch(IOException e){}
+	         filename = file.getOriginalFilename();
+	         filesize = (int)file.getSize();
+	         dto.setFilename(filename);
+	         dto.setFilesize(filesize);
+	      }else if(dto.getFilename() == null){
+	         dto.setFilename("파일없음");
+	         dto.setFilesize(0);
+	         
+	      }
+	      int res = memberMapper.editMember(dto);
+	      if (res > 0) {
+	         session.removeAttribute("sedto");
+	         session.setAttribute("sedto", dto);
+	         if (mode.equals("mypage")) {
+	            msg = "회원수정성공! 마이페이지로 이동합니다.";
+	            url = "member_mypage_resv.do";
 
+	         } else {
+	            msg = "회원수정실패! 회원목록으로 이동합니다.";
+	            url = "member_mypage_resv.do";
+
+	         }
+
+	      } else {
+	         if (mode.equals("mypage")) {
+	            msg = "회원수정실패! 마이페이지로 이동합니다.";
+	            url = "member_mypage_resv.do";
+
+	         } else {
+	            msg = "회원수정실패! 회원수정페이지로 이동합니다.";
+	            url = "member_mypage_resv.do?id=" + dto.getId();
+
+	         }
+
+	      }
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      return "message";
+
+	   }
+	@RequestMapping(value = "/member_delete_resv.do")
+	   public String MemberDelete(HttpServletRequest req) {
+	      String mode = req.getParameter("mode");
+	      if(mode == null){
+	         mode = "";
+	         
+	      }
+	      HttpSession session = req.getSession();
+	      MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
+	      int res = 0;
+	      String msg = null, url = null;
+	      if(mode.equals("admin")){
+	         res = memberMapper.deleteMember(Integer.parseInt(req.getParameter("member_no")));
+	         if(res > 0){
+	            msg = "회원 삭제 성공! 회원목록으로 이동합니다.";
+	            url = "member_list.do";
+	            
+	         }else{
+	            msg = "회원 삭제 실패! 회원목록으로 이동합니다.";
+	            url = "member_list.do";
+	            
+	         }
+	         
+	      }else{
+	         String passwd = req.getParameter("passwd");
+	         if(passwd == null){
+	            msg = "비밀번호를 입력해주세요.";
+	            url = "member_mypage_resv.do";
+	            
+	         }else if(passwd.equals(dto.getPasswd())){
+	            msg = "회원 탈퇴 성공! 메인 페이지로 이동합니다.";
+	            url = "bus_main.do";
+	            
+	         }else{
+	            msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.";
+	            url = "member_mypage_resv.do";
+	            
+	         }
+	         res = memberMapper.deleteMember(dto.getMember_no());
+	         if (res > 0) {
+	            session.removeAttribute("sedto");
+	            msg = "회원탈퇴성공! 메인페이지로 이동합니다.";
+	            url = "bus_main.do";
+
+	         } else {
+	            msg = "회원탈퇴실패! 메인페이지로 이동합니다.";
+	            url = "bus_main.do";
+
+	         }
+	         
+	      }
+	      req.setAttribute("msg", msg);
+	      req.setAttribute("url", url);
+	      return "message";
+
+	   }
 	
 	
 	
@@ -1024,8 +1120,8 @@ public class BusController {
 				int endPage = startPage + pageBlock - 1;
 				if (endPage>pageCount) endPage = pageCount;
 				
-			
 				
+			BusResvDTO_resv resvdto = new BusResvDTO_resv();
 			for(Bus_BusRoadDTO roadDTO : dispatch_list){//숫자화 된 출발지 도착지를 한글로 변환
 				String arr=roadDTO.getArrival(); //숫자화된 출발지를 저장(dto arrival 이 string 으로 되어있음)
 				BusStationDTO_resv BDTO=busStationMapper_resv.getBus_station_resv(arr);//station_no 값을 이용해 해당하는 station_name 찾기
@@ -1033,7 +1129,10 @@ public class BusController {
 				String dep=roadDTO.getDeparture();
 				BusStationDTO_resv BDTO2=busStationMapper_resv.getBus_station_resv(dep);
 				roadDTO.setDeparture(BDTO2.getStation_name());
-			}
+					
+				}
+			
+			
 			
 			
 			

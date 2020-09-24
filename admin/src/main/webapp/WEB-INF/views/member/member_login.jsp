@@ -25,7 +25,7 @@
 <div class="card" style="width:400px;margin:0 auto;box-shadow: 3px 3px 13px;">
 <h4 class="card-title mb-4 mt-1" style="margin-top:1.25em !important">Welcome!</h4>
 <article class="card-body">
-		<form name="f" action="member_login_ok.do" method="post">
+		<form name="f" action="member_login_ok_resv.do" method="post">
 			<!-- form-group//ID -->
     		<div class="form-group">
     			<a class="float-right" href="javascript:searchMember('id')">Forgot?</a>
