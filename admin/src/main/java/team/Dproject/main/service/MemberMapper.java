@@ -102,7 +102,7 @@ public class MemberMapper {
 	public int memberLogin(String id, String passwd) {
 		MemberDTO dto = sqlSession.selectOne("getMemberPasswd", id);
 		if(dto == null){
-			return 1;//아이디 없음
+			return 2;//아이디 없음
 			
 		}else{
 			if(dto.getPasswd().equals(passwd)){

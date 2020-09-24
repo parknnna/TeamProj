@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    <%@ include file="../Basic/head.jsp" %>
+<%@ include file="../Basic/head.jsp" %>
 <script type="text/javascript">
 var idck = ${idck};
 function checkId(){
