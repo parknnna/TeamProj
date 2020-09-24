@@ -46,8 +46,8 @@
 						<td>${dto.allHp}</td>
 						<td>${dto.joindate}</td>
 						<td>
-							<a href = "member_edit.do?member_no=${dto.member_no}">수정</a> |
-							<a href = "member_delete.do?member_no=${dto.member_no}&mode=admin">삭제</a>
+							<a href = "member_edit.do?id=${dto.id}&mode=admin">수정</a> |
+							<a href = "member_delete.do?id=${dto.id}&mode=admin">삭제</a>
 						</td>
 					</tr>	
 				</c:forEach>

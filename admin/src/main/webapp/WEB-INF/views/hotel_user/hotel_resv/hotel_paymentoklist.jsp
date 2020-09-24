@@ -6,23 +6,23 @@
 <%@ include file="../../Basic/nav_Hotel.jsp" %>
 <h4 align="center">결제 내역</h4>
 <div class="boxContainer" align="center" style="margin-top:100px">
-		<table border="1">
-		<tr>
+		<table border="1" align="center" style="width:50%">
+		<tr bgcolor="#ebcbf7" align="center">
 			<th>예약 번호</th>
 			<th>호텔 이름</th>
 			<th>예약 날짜</th>
 			<th>가격</th>
-			<th>예약 취소</th>
+			<th>상세 보기 or 예약 취소</th>
 		</tr>
 		<c:forEach var="num" items="${hotel_resv_no}" varStatus="status">
-		<tr>
+		<tr align="center">
 			<td>${num}</td>
 			<td>${hotel_name[status.index]}</td>
 			<td>${hotel_resv_dto[status.index].resvdate}</td>
 			<td>${hotel_resv_dto[status.index].total}</td>
 			<td>
 			<a href="hotel_resvcancel?hotel_resv_no=${num}&member_no=${sedto.member_no}&hotel_name=${hotel_name[status.index]}">
-			<input type="button" value="예약 취소">
+			|보기 or 취소|
 			</a>
 			</td>
 		</tr>

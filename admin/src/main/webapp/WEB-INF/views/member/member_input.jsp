@@ -1,24 +1,91 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ include file="../Basic/head.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../Basic/head.jsp" %>
 <script type="text/javascript">
-		function check(){
-			if (f.id.value==""){
-				alert("아이디를 입력해 주세요!!")
-				f.id.focus()
-				return
+var idck = ${idck};
+function checkId(){
+	var id = document.getElementById("id").value;
+	if(id == ""){
+		alert("ID를 입력해 주세요");
+		f.id.focus();
+		
+	}else{
+		$.ajax({
+			async: true,
+	        type : 'POST',
+	        data : id,
+	        url : "idcheck.do",
+	        dataType : "json",
+	        contentType: "application/json; charset=UTF-8",
+	        success : function(data) {
+	            if (data) {
+	                alert("사용가능한 아이디입니다.");
+	                f.passwd.focus();
+	                document.getElementById('id').readOnly = true;
+	                idck = 1;
+	            
+	            } else {
+	                alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+					f.id.focus();
+	                
+	            }
+	            
+	        },
+	        error:function(request,status,error){
+	            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	            
 			}
-			if (f.passwd.value==""){
-				alert("비밀번호를 입력해 주세요!!")
-				f.passwd.focus()
-				return
-			}
-			document.f.submit()
-		}
-		function reset(){
-			document.f.reset()
+	
+	    });
+		
+	}
+
+}
+function check(){
+	if(idck == 1){
+		if(f.name.value == ""){
+			alert("이름을 입력해 주세요");
+			f.name.focus();
+			return;
 			
 		}
+		if(f.passwd.value == ""){
+			alert("비밀번호를 입력해 주세요");
+			f.passwd.focus();
+			return
+			
+		}
+		if(f.ssn1.value == ""){
+			alert("주민등록번호를 입력해 주세요");
+			f.ssn1.focus();
+			return;
+			
+		}
+		if(f.ssn2.value == ""){
+			alert("주민등록번호를 입력해 주세요");
+			f.ssn2.focus();
+			return;
+			
+		}
+		if(f.sex.value == ""){
+			alert("성별을 선택해 주세요");
+			return;
+			
+		}
+		document.f.submit();
+				
+	}else{
+		alert("아이디 중복체크를 해주세요");
+		
+	}
+	
+}
+
+function reset(){
+	document.f.reset();
+	document.getElementById('id').readOnly = false;
+	idck = 0;
+	
+}
 	</script>
 	<style>
 		.form-control{
@@ -86,7 +153,7 @@
 						<label class="reg_form" style="float:left">Name</label>
 					</h6>
 					<div class="name">
-						<input type = "text" class="form-control" name = "name" value = "${name}">
+						<input type = "text" class="form-control" name = "name">
 					</div>
 				</div>
 				 
@@ -95,7 +162,8 @@
 						<label class="reg_form"  style="float:left">Id</label>
 					</h6>
 					<div class="id">
-						<input type = "text" class="form-control" name = "id">
+						<input type = "text" class="form-control"  name = "id" id = "id">
+						<input type = "button" value = "중복체크" onClick = "javascript:checkId()">
 					</div>
 				</div>
 				
@@ -114,10 +182,10 @@
 					</h6>
 					<div class="idn-wrap">
 						<div class="first-ssn" style="float:left">
-							<input type = "text" class="form-control" name = "ssn1" value= "${ssn1}" maxlength ="6" style="width:250px">
+							<input type = "text" class="form-control" name = "ssn1" maxlength ="6" style="width:250px">
 						</div>
 						<div class="second-ssn" style="float:right">
-	 						<input type = "password" class="form-control" name = "ssn2" value = "${ssn2}"  maxlength ="7" style="width:260px">
+	 						<input type = "password" class="form-control" name = "ssn2" maxlength ="7" style="width:260px">
 						</div>
 					</div>
 				</div>
@@ -155,7 +223,7 @@
 					</h6>
 					<div class="sex-wrap">
 						<select name="sex" class="form-control" style="padding:10px;">
-							<option value selected>성별</option>
+							<option selected>성별</option>
 							<option value="0">남자</option>
 							<option value="1">여자</option>
 						</select>
@@ -166,8 +234,8 @@
 					<h6 class="category">
 						<label class="reg_form" style="float:left">Profile</label>
 					</h6>
-					<div class="img-wrap">
-						프로필 사진을 선택해주세요. <input type = "file" name = "filename">
+					<div class="img-wrap" style = "float:left">
+						<input type = "file" name = "filename">
 					</div>
 				</div>
 				

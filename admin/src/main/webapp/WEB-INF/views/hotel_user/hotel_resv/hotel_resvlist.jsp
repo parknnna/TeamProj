@@ -113,7 +113,7 @@
 	</div>
 	<div class="hotelContainer" style="width:100%;margin-top:30px;" align="center">
 		<table border="1" style="width:70%">
-			<tr bgcolor="green">
+			<tr bgcolor="#ebcbf7">
 				<th>사진</th>
 				<th>호텔이름</th>
 				<th>주소</th>
@@ -156,21 +156,19 @@
 					<td>
 						<%=hlist.get(i).getStar() %>
 					</td>
-					<td width="300">
+					<td>
 						<div align="right">
 						<%=rlist.get(i).getName() %> 정원 <%=rlist.get(i).getSleeps()%>명<br>
 						<c:set var="su" value="${stay}" ></c:set>
 						<%=su%>박 <%=df.format(rlist.get(i).getPrice()*su)%> 원<br>
 						</div>
-						<div align="center">
-							<a href="hotel_board_list.do?hotel_no=<%=hlist.get(i).getHotel_no()%>"><button style="margin-right:90px" type="button" value="호텔 리뷰 보기">호텔 게시판 보기</button></a>
-						
-							<a href="hotel_resvcontent?hotel_no=<%=hlist.get(i).getHotel_no()%>&room_no=<%=rlist.get(i).getRoom_no()%>
+						<div align="right">
+						<a href="hotel_board_list.do?hotel_no=<%=hlist.get(i).getHotel_no()%>"><input type="button" value="호텔 리뷰 보기"></a>
+						<a href="hotel_resvcontent?hotel_no=<%=hlist.get(i).getHotel_no()%>&room_no=<%=rlist.get(i).getRoom_no()%>
 								&stay=${stay}&address=${address}&roomsu=${roomsu}&sleeps=${sleeps}
 								&start_resv_date=${start_resv_date}&end_resv_date=${end_resv_date}">
 							<input type="button" value="객실선택">
 							</a>
-							
 						</div>
 						
 					</td>

@@ -233,7 +233,7 @@ public class SADController {
 		
 		String msg = null, url = null;
 		if (checkMember) {
-			isId = memberMapper.checkId(dto);
+			isId = memberMapper.idcheck(dto.getId());
 			if (isId) {
 				int res = memberMapper.insertMember(dto);
 				if (res > 0) {

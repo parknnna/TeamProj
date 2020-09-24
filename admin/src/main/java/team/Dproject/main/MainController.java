@@ -26,6 +26,7 @@ import team.Dproject.main.model.MemberDTO_sm;
 import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.model.hotel_boardDTO;
 import team.Dproject.main.service.BoardMapper;
+import team.Dproject.main.service.BusStaionMapper;
 import team.Dproject.main.service.BusStaionMapper_resv;
 import team.Dproject.main.service.CommentMapper;
 import team.Dproject.main.service.HotelMapper;
@@ -36,21 +37,21 @@ import team.Dproject.main.service.MemberMapper;
 public class MainController {
 	
 	@Autowired
+	private CommentMapper commentMapper;
+
+	@Autowired
 	private BoardMapper boardMapper;
 	
 	@Autowired
+	private MemberMapper memberMapper;
+	@Autowired
 	private BusStaionMapper_resv busStationMapper; 
 	@Autowired
-	private HotelMapper hotelMapper; 
+	private HotelMapper hotelMapper;
 	@Autowired
 	private Hotel_boardMapper hotelboardMapper;
-	
-	@Autowired
-	private MemberMapper memberMapper;
-	
-	@Autowired
-	private CommentMapper commentMapper;
 
+	
 	@RequestMapping(value = "/")
 	public String home(HttpServletRequest req) {
 		List<BusStationDTO_resv> list=busStationMapper.listBus_station_resv();
@@ -90,6 +91,9 @@ public class MainController {
 		
 		return "index";
 	}
+	
+	
+
 	
 	@Resource(name="upLoadPath")
 	private String upLoadPath;
@@ -145,7 +149,7 @@ public class MainController {
 		List<BoardDTO> loclist = boardMapper.getList(startRow,endRow,location_no);
 		for(BoardDTO dto :loclist) {
 			MemberDTO mdto=boardMapper.getUser(Integer.parseInt(dto.getMember_no()));
-			dto.setMember_no(mdto.getId()); 
+			dto.setMember_no(mdto.getId());
 			dto.setFilename(mdto.getFilename());
 			}
 		int startNum = count-((currentPage-1)*pageSize);
@@ -268,31 +272,39 @@ public class MainController {
 	
 	@RequestMapping(value="/board_update.do", method=RequestMethod.POST)
 	public String updateBoard(MultipartHttpServletRequest mtfRequest,HttpServletRequest req, BoardDTO dto,HttpSession session) {
+		String filename = "";
+		int filesize = 0; 
 		
 		//다중파일 업로드니까 list 배열에 저장 
-				List<MultipartFile> fileList = mtfRequest.getFiles("file");
-				//IP주소 가져오기 
-				dto.setIp(req.getRemoteAddr());
-		String filename = "";
-	      int filesize = 0;    
-	      for (MultipartFile mf : fileList) {
-	         String tempname = mf.getOriginalFilename();
-	         long tempsize = mf.getSize();    
-	         try {
-	        	 //upLoadPath 에 설정해놓은 경로로 파일 업로드 
-	            mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
-	            filename+=tempname+"/";
-	            filesize+=tempsize;
-	        
-	         } catch (IllegalStateException e) {
-	            e.printStackTrace();
-	         } catch (IOException e) {
-	            e.printStackTrace();
-	         }
-	      }
+		List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		
+		if(!(fileList.get(0).getOriginalFilename().equals(""))) {
+			//input 태그에 첨부된 이미지가 있을 때 
+			for (MultipartFile mf : fileList) {
+		         String tempname = mf.getOriginalFilename();
+		         long tempsize = mf.getSize();    
+		         try {
+		        	 //upLoadPath 에 설정해놓은 경로로 파일 업로드 
+		            mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
+		            filename+=tempname+"/";
+		            filesize+=tempsize;
+		        
+		         } catch (IllegalStateException e) {
+		            e.printStackTrace();
+		         } catch (IOException e) {
+		            e.printStackTrace();
+		         }
+			}
+		}else {
+			filename=req.getParameter("filename");
+		}
+					
+				
 	    dto.setFilename(filename);
 	    dto.setFilesize(filesize);
 	    
+	    //IP주소 가져오기 
+	    dto.setIp(req.getRemoteAddr());   
 	    int res= boardMapper.board_update(dto);
 		String msg = null, url = null;
 		if(res>0) {

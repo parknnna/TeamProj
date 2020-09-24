@@ -583,6 +583,7 @@ public class HotelController {
 			return "hotel_user/hotel_resv/hotel_resvlist";
 		}
 		
+		//호텔 자세히 보기
 		@RequestMapping("/hotel_resvcontent")
 		public String hotel_resvcontent(HttpServletRequest req){
 			/*HttpSession session = req.getSession();*/
@@ -720,6 +721,18 @@ public class HotelController {
 			return "hotel_user/hotel_resv/hotel_resvcontent";
 		}
 		
+		//지도 api보기
+		@RequestMapping("/hotel_address")
+		public String hotel_address(HttpServletRequest req){
+			String address = req.getParameter("address");
+			String hotel_name = req.getParameter("name");
+			
+			req.setAttribute("address", address);
+			req.setAttribute("hotel_name", hotel_name);
+			return "hotel_user/hotel_resv/hotel_address";
+		}
+		
+		//호텔 별 룸 등급 상세 보기
 		@RequestMapping("/hotel_resvroomcontent")
 		public String hotel_resvroomcontent(HttpServletRequest req){
 			RoomDTO_sks rdto = roomMapper.getRoom2_sks(Integer.parseInt(req.getParameter("hotel_no")),Integer.parseInt(req.getParameter("grade")));
@@ -1089,25 +1102,16 @@ public class HotelController {
 				RoomDTO_sks drdto = roomMapper.getRoom_sks(dr_no.get(0));
 				req.setAttribute("drdto", drdto);
 				req.setAttribute("dr_no", dr_no);
-				for(int i = 0;i<dr_no.size();i++){
-					System.out.println(dr_no.get(i));
-				}
 			}
 			if(sr_no.size()>0){
 				RoomDTO_sks srdto = roomMapper.getRoom_sks(sr_no.get(0));
 				req.setAttribute("srdto", srdto);
 				req.setAttribute("sr_no", sr_no);
-				for(int i = 0;i<sr_no.size();i++){
-					System.out.println(sr_no.get(i));
-				}
 			}
 			if(fr_no.size()>0){
 				RoomDTO_sks frdto = roomMapper.getRoom_sks(fr_no.get(0));
 				req.setAttribute("frdto", frdto);
 				req.setAttribute("fr_no", fr_no);
-				for(int i = 0;i<fr_no.size();i++){
-					System.out.println(fr_no.get(i));
-				}
 			}
 						
 			req.setAttribute("hrdto", hrdto);

@@ -791,6 +791,13 @@ public class HADController {
 		List<roomDTO> roomlist = roomMapper.listRoom(Integer.parseInt(hnum));
 		List<resvDTO> list = new ArrayList<resvDTO>();
 		for (resvDTO dto : resvlist) {
+			dto.setStart_resv_date(dto.getStart_resv_date().substring(0,10));
+			
+			dto.setEnd_resv_date(dto.getEnd_resv_date().substring(0,10));
+			
+			System.out.println(dto.getStart_resv_date());
+			System.out.println(dto.getEnd_resv_date());
+			
 			String[] startArr = dto.getStart_resv_date().split("-");
 			String start = "";
 			for(String i : startArr) start+=i;
@@ -873,12 +880,11 @@ public class HADController {
 		resvDTO dto = resvMapper.getResv(req.getParameter("hotel_resv_no"));
 		int HNO = dto.getHotel_no();
 		int MNO = dto.getMember_no();
-		String RNO = dto.getRoom_no();
+		String RNO = dto.getRoom_no().split("/")[0];
 
 		MemberDTO_sm MDTO = memberMapper.getMember2(String.valueOf(MNO));
 		hotelDTO HDTO = hotelMapper.getHotel(String.valueOf(HNO));
 		roomDTO RDTO = roomMapper.getRoom(RNO);
-
 		mav.setViewName("hotelAD/hotel_resv/resv_show");
 		mav.addObject("dto", dto);
 		mav.addObject("MDTO", MDTO);

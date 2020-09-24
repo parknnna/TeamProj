@@ -3,7 +3,9 @@ package team.Dproject.main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -14,7 +16,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -33,7 +37,11 @@ public class MemberController {
 	@Resource(name = "upLoadPath")
 	private String upLoadPath;
 
-	
+	@RequestMapping(value = "/index.do")
+	public String main() {
+		return "index";
+
+	}
 
 	@RequestMapping(value = "/member_login.do")
 	public String MemberLogin(HttpServletRequest req) {
@@ -79,7 +87,7 @@ public class MemberController {
 			session.setAttribute("sedto", dto);
 			session.setAttribute("MNUM", dto.getMember_no());
 			msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
-			url = "index.do";
+			url = "index";
 			break;
 
 		case 1:
@@ -105,57 +113,67 @@ public class MemberController {
 		session.removeAttribute("sedto");
 		session.removeAttribute("MNUM");
 		req.setAttribute("msg", "로그아웃 되었습니다. 메인페이지로 이동합니다.");
-		req.setAttribute("url", "index.do");
+		req.setAttribute("url", "index");
 		return "message";
 
 	}
 
 	@RequestMapping(value = "/member_input.do")
-	public String MemberInput() {
+	public String MemberInput(HttpServletRequest req) {
+		req.setAttribute("idck", 0);
 		return "member/member_input";
 
 	}
+	
+	 @RequestMapping("/idcheck.do")
+	    @ResponseBody
+	    public boolean idcheck(@RequestBody String id, HttpServletRequest req) {
+	        boolean data = memberMapper.idcheck(id);
+	        req.setAttribute("idck", 1);
+	        return data;
+	        
+	    }
 
 	@RequestMapping(value = "/member_input_ok.do")
 	public String MemberInputOk(HttpServletRequest req, MemberDTO dto, BindingResult result) {
 		boolean checkMember = memberMapper.checkMember(dto);
-		boolean isId;
 		String msg = null, url = null;
 		if (checkMember) {
-			isId = memberMapper.checkId(dto);
-			if (isId) {
-				String filename = "";
-				int filesize = 0;
-				MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
-				MultipartFile file = mr.getFile("filename");
-				File target = new File(upLoadPath, file.getOriginalFilename());
-				if (file.getSize() > 0) {
-					try {
-						file.transferTo(target);
-					} catch (IOException e) {
-					}
-					filename = file.getOriginalFilename();
-					filesize = (int) file.getSize();
+			String filename = "";
+			int filesize = 0;
+			MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
+			MultipartFile file = mr.getFile("filename");
+			File target = new File(upLoadPath, file.getOriginalFilename());
+			if (file.getSize() > 0) {
+				try {
+					file.transferTo(target);
+				} catch (IOException e) {
 				}
-				dto.setFilename(filename);
-				dto.setFilesize(filesize);
-				int res = memberMapper.insertMember(dto);
-				if (res > 0) {
-					msg = "회원가입성공! 로그인 페이지로 이동합니다.";
-					url = "member_login.do";
-
-				} else {
-					msg = "회원가입실패! 메인페이지로 이동합니다.";
-					url = "index.do";
-
+				filename = file.getOriginalFilename();
+				filesize = (int) file.getSize();
+			}else{
+				if(dto.getSex() == 0){
+					filename = "male.jpg";
+					
+				}else{
+					filename = "female.jpg";
+					
 				}
+				
+			}
+			dto.setFilename(filename);
+			dto.setFilesize(filesize);
+			int res = memberMapper.insertMember(dto);
+			if (res > 0) {
+				msg = "회원가입성공! 로그인 페이지로 이동합니다.";
+				url = "member_login.do";
 
 			} else {
-				msg = "중복된 아이디가 있습니다. 다른 아이디로 가입해 주세요";
-				url = "member_input.do";
+				msg = "회원가입실패! 메인페이지로 이동합니다.";
+				url = "index";
 
 			}
-
+			
 		} else {
 			msg = "아이디가 너무 많습니다. 로그인 해주세요.";
 			url = "member_login.do";
@@ -169,32 +187,42 @@ public class MemberController {
 
 	@RequestMapping(value = "/member_list.do")
 	public String MemberList(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
 		String mode = req.getParameter("mode");
 		List<MemberDTO> list = null;
-		if (mode == null) {
-			mode = "all";
-
-		}
-		if (mode.equals("all")) {
-			list = memberMapper.memberList();
-
-		} else {
-			String search = req.getParameter("search");
-			String searchString = req.getParameter("searchString");
-			if (search == null) {
-				search = "id";
+		if(dto.getPosition() == 0){
+			if (mode == null) {
+				mode = "all";
 
 			}
-			if (searchString == null) {
-				searchString = "";
+			if (mode.equals("all")) {
+				list = memberMapper.memberList();
+
+			} else {
+				String search = req.getParameter("search");
+				String searchString = req.getParameter("searchString");
+				if (search == null) {
+					search = "id";
+
+				}
+				if (searchString == null) {
+					searchString = "";
+
+				}
+				list = memberMapper.findMember(search, searchString);
 
 			}
-			list = memberMapper.findMember(search, searchString);
-
+			req.setAttribute("memberList", list);
+			req.setAttribute("mode", mode);
+			return "member/member_list";
+			
+		}else{
+			req.setAttribute("msg", "관리자만 볼 수 있는 페이지 입니다");
+			req.setAttribute("url", "index");
+			return "message";
+			
 		}
-		req.setAttribute("memberList", list);
-		req.setAttribute("mode", mode);
-		return "member/member_list";
 
 	}
 
@@ -202,6 +230,12 @@ public class MemberController {
 	public String MemberEdit(HttpServletRequest req) {
 		String id = req.getParameter("id");
 		MemberDTO dto = memberMapper.getMember(id);
+		if(dto == null){
+			req.setAttribute("msg", "회원 정보가 없습니다");
+			req.setAttribute("url", "member/member_list");
+			return "message";
+			
+		}
 		req.setAttribute("dto", dto);
 		return "member/member_edit";
 
@@ -265,20 +299,30 @@ public class MemberController {
 
 	@RequestMapping(value = "/member_mypage.do")
 	public String MemberMypage(HttpServletRequest req) {
+		if((MemberDTO) req.getSession().getAttribute("sedto") == null){
+			req.setAttribute("msg", "로그인 후 이용 가능한 페이지입니다.");
+			req.setAttribute("url", "member_login.do");
+			return "message";
+			
+		}
 		return "member/mypage";
 
 	}
-
-	// @RequestMapping(value = "/member_mypage.do")
-	// public String MemberMypage(HttpServletRequest req){
-	// return "mypage";
-	//
-	// }
+	
 	@RequestMapping(value = "/member_search.do")
 	public String MemberSearch(HttpServletRequest req) {
-		String mode = req.getParameter("mode");
-		req.setAttribute("mode", mode);
-		return "member/member_search";
+		MemberDTO dto = (MemberDTO) req.getSession().getAttribute("sedto");
+		if(dto.getPosition() == 0){
+			String mode = req.getParameter("mode");
+			req.setAttribute("mode", mode);
+			return "member/member_search";
+			
+		}else{
+			req.setAttribute("msg", "관리자만 볼 수 있는 페이지 입니다");
+			req.setAttribute("url", "index");
+			return "message";
+			
+		}
 
 	}
 
@@ -334,7 +378,7 @@ public class MemberController {
 				
 			}else if(passwd.equals(dto.getPasswd())){
 				msg = "회원 탈퇴 성공! 메인 페이지로 이동합니다.";
-				url = "index.do";
+				url = "index";
 				
 			}else{
 				msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.";
@@ -345,11 +389,11 @@ public class MemberController {
 			if (res > 0) {
 				session.removeAttribute("sedto");
 				msg = "회원탈퇴성공! 메인페이지로 이동합니다.";
-				url = "index.do";
+				url = "index";
 
 			} else {
 				msg = "회원탈퇴실패! 메인페이지로 이동합니다.";
-				url = "index.do";
+				url = "index";
 
 			}
 			

@@ -33,7 +33,9 @@
 		<input type = "hidden" name = "filename" value = "${sedto.filename }">
 		<table class = "outline" border = "1">
 			<tr>
-				<td rowspan = "4"><img src="${pageContext.request.contextPath}/resources/img/${sedto.filename}" width = "80" height = "80"></td>
+				<td rowspan = "4" align = "center">
+					<img src="${pageContext.request.contextPath}/resources/img/${sedto.filename}" width = "80" height = "80">
+				</td>
 			</tr>
 			<tr>
 				<th align = "center">이름</th>
@@ -83,7 +85,7 @@
 			<tr>
 				<td colspan = "4" align = "center">
 					<input type = "button" value = "수정" onclick = "javascript:check()">
-					<input type = "button" value = "위시리스트" style = "width : 100px;" onclick = "window.location='member_wishlist.do'">
+					<input type = "button" value = "호텔 예약 페이지" style = "width : 140px;" onclick = "window.location='hotel_paymentoklist'">
 					<input type = "button" value = "버스 예약 페이지" style = "width : 140px;" onclick = "window.location='bus_resv_user_resvlist.do'">
 					<input type="button" value="회원탈퇴" style = "width : 80px;" onclick="window.location='member_delete.do'">
 				</td>

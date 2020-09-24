@@ -36,18 +36,6 @@ public class MemberMapper {
 		}
 		
 	}
-
-	public boolean checkId(MemberDTO dto) {
-		int res = sqlSession.selectOne("checkId", dto.getId());
-		if(res == 0){
-			return true;
-			
-		}else{
-			return false;
-			
-		}
-		
-	}
 	
 	public List<MemberDTO> searchMemberId(String searchString, String ssn1, String ssn2) {
 		java.util.Map<String, String> map = new java.util.Hashtable<String, String>();
@@ -115,7 +103,7 @@ public class MemberMapper {
 	public int memberLogin(String id, String passwd) {
 		MemberDTO dto = sqlSession.selectOne("getMemberPasswd", id);
 		if(dto == null){
-			return 1;//아이디 없음
+			return 2;//아이디 없음
 			
 		}else{
 			if(dto.getPasswd().equals(passwd)){
@@ -159,5 +147,20 @@ public class MemberMapper {
 		return sqlSession.selectOne("getMember2", parameter);
 		
 	}
+
+	public boolean idcheck(String id) {
+		int res = sqlSession.selectOne("idcheck", id);
+		if(res == 0){
+			return true;
+			
+		}else{
+			return false;
+			
+		}
+		
+	}
+
+
+	
 	
 }

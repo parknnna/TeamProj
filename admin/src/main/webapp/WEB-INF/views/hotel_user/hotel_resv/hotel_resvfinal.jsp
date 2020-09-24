@@ -62,7 +62,7 @@ function point(val){ //포인트계산 스크립트
 </c:if>
 <table border="1">
 <c:if test="${not empty drdto}">
-<tr>
+<tr bgcolor="#ebcbf7">
 	<th>체크 인 : 15:00</th>
 	<th>체크 아웃 : 12:00</th>
 	<th>호텔</th>
@@ -86,7 +86,7 @@ function point(val){ //포인트계산 스크립트
 </tr>
 </c:if>
 <c:if test="${not empty srdto}">
-<tr>
+<tr bgcolor="#ebcbf7">
 	<th>체크 인 : 15:00</th>
 	<th>체크 아웃 : 12:00</th>
 	<th>호텔</th>
@@ -110,7 +110,7 @@ function point(val){ //포인트계산 스크립트
 </tr>
 </c:if>
 <c:if test="${not empty frdto}">
-<tr>
+<tr bgcolor="#ebcbf7">
 	<th>체크 인 : 15:00</th>
 	<th>체크 아웃 : 12:00</th>
 	<th>호텔</th>
@@ -153,7 +153,7 @@ function point(val){ //포인트계산 스크립트
 </tr>
 </table> 
 <div align="center">
-<input type="submit" onclick="javascript:check();"value="결제">
+<a href="javascript:check();">|결제|</a>
 </div>
 </form>
 </div>
