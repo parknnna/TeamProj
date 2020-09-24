@@ -50,6 +50,11 @@
 		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position}, point = #{point},
 		sex = #{sex}, filename = #{filename}, filesize = #{filesize} where member_no= #{member_no}
 	</update>
+	<update id = "Member_buspoint_update" parameterType = "memberDTO">
+		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
+		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position}, point = #{point},
+		sex = #{sex} where member_no= #{member_no}
+	</update>
 	<delete id = "deleteMember" parameterType = "Integer">
 		delete from member where member_no = #{member_no}
 	</delete>
