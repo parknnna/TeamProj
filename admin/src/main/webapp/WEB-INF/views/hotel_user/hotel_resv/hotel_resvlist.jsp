@@ -113,7 +113,7 @@
 	</div>
 	<div class="hotelContainer" style="width:100%;margin-top:30px;" align="center">
 		<table border="1" style="width:70%">
-			<tr bgcolor="green">
+			<tr bgcolor="#ebcbf7">
 				<th>사진</th>
 				<th>호텔이름</th>
 				<th>주소</th>
@@ -162,7 +162,7 @@
 						<c:set var="su" value="${stay}" ></c:set>
 						<%=su%>박 <%=df.format(rlist.get(i).getPrice()*su)%> 원<br>
 						</div>
-						<div align="center">
+						<div align="right">
 						<a href="hotel_resvcontent?hotel_no=<%=hlist.get(i).getHotel_no()%>&room_no=<%=rlist.get(i).getRoom_no()%>
 								&stay=${stay}&address=${address}&roomsu=${roomsu}&sleeps=${sleeps}
 								&start_resv_date=${start_resv_date}&end_resv_date=${end_resv_date}">

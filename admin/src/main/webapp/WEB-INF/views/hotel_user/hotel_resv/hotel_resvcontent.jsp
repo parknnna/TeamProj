@@ -114,8 +114,8 @@ function test(){
 	</c:forTokens>
 	<table>
 	<tr>
-		<th>지도 보러 가기~
-		<a href="javascript:openWindowPop2('hotel_address?address=${getHotel.address}&name=${getHotel.name}', 'popup');">${getHotel.address}</a>
+		<th>
+		지도 보러 가기 -> <a href="javascript:openWindowPop2('hotel_address?address=${getHotel.address}&name=${getHotel.name}', 'popup');">${getHotel.address}</a>
 		</th>
 	</tr>
 	<tr>
@@ -213,7 +213,9 @@ function test(){
 				</tr>
 				
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${1}&stay=${stay}', 'popup');">디럭스</a><br>
+				<td>
+				방 상세 보러 가기 -> <a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${1}&stay=${stay}', 'popup');">디럭스</a>
+				<br>
 				${d.item}
 				</td>
 				<td>${d.sleeps}명</td>
@@ -255,7 +257,8 @@ function test(){
 				</td>
 			</tr>
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${2}&stay=${stay}', 'popup');">스탠다드</a><br>
+				<td>
+				방 상세 보러 가기 -> <a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${2}&stay=${stay}', 'popup');">스탠다드</a><br>
 				${s.item}
 				</td>
 				<td>${s.sleeps}명</td>
@@ -297,7 +300,8 @@ function test(){
 				</td>
 			</tr>
 			<tr>
-				<td><a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${3}&stay=${stay}', 'popup');">패밀리</a><br>
+				<td>
+				방 상세 보러 가기 -> <a href="javascript:openWindowPop('hotel_resvroomcontent?hotel_no=${hotel_no}&grade=${3}&stay=${stay}', 'popup');">패밀리</a><br>
 				${f.item} 
 				</td>
 				<td>${f.sleeps} 명</td>
