@@ -231,31 +231,39 @@ public class MainController {
 	
 	@RequestMapping(value="/board_update.do", method=RequestMethod.POST)
 	public String updateBoard(MultipartHttpServletRequest mtfRequest,HttpServletRequest req, BoardDTO dto,HttpSession session) {
+		String filename = "";
+		int filesize = 0; 
 		
 		//다중파일 업로드니까 list 배열에 저장 
-				List<MultipartFile> fileList = mtfRequest.getFiles("file");
-				//IP주소 가져오기 
-				dto.setIp(req.getRemoteAddr());
-		String filename = "";
-	      int filesize = 0;    
-	      for (MultipartFile mf : fileList) {
-	         String tempname = mf.getOriginalFilename();
-	         long tempsize = mf.getSize();    
-	         try {
-	        	 //upLoadPath 에 설정해놓은 경로로 파일 업로드 
-	            mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
-	            filename+=tempname+"/";
-	            filesize+=tempsize;
-	        
-	         } catch (IllegalStateException e) {
-	            e.printStackTrace();
-	         } catch (IOException e) {
-	            e.printStackTrace();
-	         }
-	      }
+		List<MultipartFile> fileList = mtfRequest.getFiles("file");
+		
+		if(!(fileList.get(0).getOriginalFilename().equals(""))) {
+			//input 태그에 첨부된 이미지가 있을 때 
+			for (MultipartFile mf : fileList) {
+		         String tempname = mf.getOriginalFilename();
+		         long tempsize = mf.getSize();    
+		         try {
+		        	 //upLoadPath 에 설정해놓은 경로로 파일 업로드 
+		            mf.transferTo(new File(upLoadPath, mf.getOriginalFilename()));
+		            filename+=tempname+"/";
+		            filesize+=tempsize;
+		        
+		         } catch (IllegalStateException e) {
+		            e.printStackTrace();
+		         } catch (IOException e) {
+		            e.printStackTrace();
+		         }
+			}
+		}else {
+			filename=req.getParameter("filename");
+		}
+					
+				
 	    dto.setFilename(filename);
 	    dto.setFilesize(filesize);
 	    
+	    //IP주소 가져오기 
+	    dto.setIp(req.getRemoteAddr());   
 	    int res= boardMapper.board_update(dto);
 		String msg = null, url = null;
 		if(res>0) {

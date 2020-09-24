@@ -59,10 +59,10 @@ public class CommentController {
 		String msg = null, url = null;
 		if(res>0) {
 			msg = "댓글 작성 완료!";
-			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
+			url = "board_content.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}else {
 			msg = "댓글 작성 오류!";
-			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
+			url = "board_content.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}
 
 		req.setAttribute("msg", msg);
@@ -76,10 +76,10 @@ public class CommentController {
 		String msg = null, url = null;
 		if(res>0) {
 			msg = "댓글 삭제 완료!";
-			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
+			url = "board_content.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}else {
 			msg = "댓글 작성 오류!";
-			url = "comment_list.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
+			url = "board_content.do?main_board_no="+Integer.parseInt(req.getParameter("bno"));
 		}
 		
 		ModelAndView mav = new ModelAndView();
