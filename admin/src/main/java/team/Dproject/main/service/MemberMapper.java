@@ -35,18 +35,6 @@ public class MemberMapper {
 		}
 		
 	}
-
-	public boolean checkId(MemberDTO dto) {
-		int res = sqlSession.selectOne("checkId", dto.getId());
-		if(res == 0){
-			return true;
-			
-		}else{
-			return false;
-			
-		}
-		
-	}
 	
 	public List<MemberDTO> searchMemberId(String searchString, String ssn1, String ssn2) {
 		java.util.Map<String, String> map = new java.util.Hashtable<String, String>();
@@ -156,6 +144,18 @@ public class MemberMapper {
 
 	public MemberDTO getMember2(String parameter) {
 		return sqlSession.selectOne("getMember2", parameter);
+		
+	}
+
+	public boolean idcheck(String id) {
+		int res = sqlSession.selectOne("idcheck", id);
+		if(res == 0){
+			return true;
+			
+		}else{
+			return false;
+			
+		}
 		
 	}
 	

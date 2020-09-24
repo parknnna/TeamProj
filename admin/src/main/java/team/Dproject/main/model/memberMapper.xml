@@ -38,6 +38,9 @@
 	<select id = "getHotelReserveOk" parameterType = "java.util.Map" resultType = "hotelDTO_resv_ysm">
 		select hotel_resv_no, member_no, hotel_resv.hotel_no, hotel_resv.room_no, use_point, save_point, hotel.name, price from hotel_resv, hotel, room where hotel_resv.hotel_no=hotel.hotel_no and hotel_resv.member_no = #{member_no} and hotel_resv_no = #{hotel_resv_no} order by hotel_resv_no
 	</select>
+	<select id="idcheck" parameterType="String" resultType="Integer">
+      select count(*) from member where id = #{id}
+	</select>
 	<insert id = "insertMember" parameterType = "memberDTO">
 		insert into member values (member_seq.nextval, #{name}, #{id}, #{passwd},
 		#{ssn1}, #{ssn2}, #{email}, #{hp1}, #{hp2}, #{hp3}, 3, #{sex}, 0, sysdate, #{filename}, #{filesize})
