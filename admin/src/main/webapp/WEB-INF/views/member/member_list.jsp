@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- memberAll.jsp -->
-<%-- <%@ include file="top.jsp"%> --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../Basic/top.jsp" %>
 <div align="center">
 	<hr color="green" width="300">
 	<c:if test="${mode == 'all'}">
@@ -55,3 +54,4 @@
 		</c:choose>
 	</table>
 </div>
+<%@include file="../Basic/footer.jsp" %>

@@ -3,10 +3,10 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<div align="center">
-		<hr color="green" width="300">
+		<hr color="purple" width="300">
 		<c:if test="${mode == 'id'}">
 			<h2>아 이 디 검 색 결 과</h2>
-			<hr color="green" width="300">
+			<hr color="purple" width="300">
 			<table class = "outline" border = "1">
 				<tr align = "center">
 					<th>아이디</th>
@@ -36,7 +36,7 @@
 		</c:if>
 		<c:if test="${mode == 'passwd' }">
 			<h2>비 밀 번 호 검 색 결 과</h2>
-			<hr color = "green" width = "300">
+			<hr color="purple" width="300">
 			<table class = "outline" border = "1">
 				<tr align = "center">
 					<th>아이디</ht>

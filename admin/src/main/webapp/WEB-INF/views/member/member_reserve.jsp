@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="top.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../Basic/top.jsp" %>
 <div align = "center">
-<hr color="green" width="300">
+<hr color="purple" width="300">
 <h2>위 시 리 스 트</h2>
-<hr color="green" width="300">
+<hr color="purple" width="300">
 <form name = "f" method = "post" action="member_reserve_ok.do">
 	<table class = "outline" border = "1">
 		<tr align = "center">
@@ -45,4 +45,4 @@
 	</table>
 </form>
 </div>
-<%@ include file="bottom.jsp" %>
+<%@include file="../Basic/footer.jsp" %>

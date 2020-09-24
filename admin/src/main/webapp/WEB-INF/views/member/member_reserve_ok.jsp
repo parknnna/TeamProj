@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="top.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../Basic/top.jsp" %>
 <script type="text/javascript"> 
 	function point(val){ //포인트계산 스크립트
 		var usepoint = parseInt(val);
@@ -63,4 +63,4 @@
 		</table>
 	</form>
 </div>
-<%@ include file="bottom.jsp" %>
+<%@include file="../Basic/footer.jsp" %>

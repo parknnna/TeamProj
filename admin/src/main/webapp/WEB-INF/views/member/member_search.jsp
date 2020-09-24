@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 	<div align="center">
-		<hr color="green" width="300">
+		<hr color="purple" width="300">
 		<c:if test="${mode == 'id' }">
 		<h2>아 이 디 찾 기</h2>
 		</c:if>
 		<c:if test = "${mode == 'passwd' }">
 		<h2>비 밀 번 호 찾 기</h2>
 		</c:if>
-		<hr color="green" width="300">
+		<hr color="purple" width="300">
 		<form name="f" action="member_search_ok.do" method="post">
 			<input type = "hidden" name = "mode" value = "${mode}">
 			<table width = "500" class = "outline">
