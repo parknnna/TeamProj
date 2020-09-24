@@ -36,8 +36,8 @@
           			<c:if test="${sedto.position==0 || sedto.position==1}">
           			<li class="nav-item"><a href="bus_list.do" class="nav_link">버스리스트</a></li>&nbsp&nbsp&nbsp&nbsp&nbsp
           			<li class="nav-item"><a href="bus_station_list.do" class="nav_link">버스정류소 리스트</a></li>&nbsp&nbsp&nbsp&nbsp&nbsp
-          			<li class="nav-item"><a href="bus_road_list.do" class="nav_link">버스노선 리스트</a></li>&nbsp&nbsp&nbsp&nbsp&nbsp
-          			<li class="nav-item"><a href="bus_resv_list.do" class="nav_link">버스예약 리스트</a></li>
+          			<li class="nav-item"><a href="bus_road_list.do" class="nav_link">버스노선 리스트</a></li>
+          			
          			</c:if>
          		</ul>
       	</div>

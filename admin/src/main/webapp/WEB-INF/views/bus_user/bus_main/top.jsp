@@ -53,7 +53,7 @@
 							<a href="bus_list.do" >버스리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
 							<a href="bus_station_list.do" >버스정류소 리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
 							<a href="bus_road_list.do">버스노선 리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
-							<a href="bus_resv_list.do" >버스예약 리스트</a>&nbsp&nbsp&nbsp&nbsp&nbsp
+							
 						</c:if>
           			</li>
           		</ul>

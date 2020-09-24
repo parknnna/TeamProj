@@ -18,6 +18,7 @@ function point(val){ //포인트계산 스크립트
 		      document.getElementById("total_point").value = 0;
 		      document.getElementById("use_point").value=${sedto.point};
 	}
+	
 	var resetpoint=${sedto.point}-usepoint;
 	var price=${resv_dto.price*seat_no}-usepoint;      
 	document.getElementById("total_point").value = resetpoint;
@@ -31,6 +32,10 @@ function check(){
 	if(document.getElementById("use_point").value==""){
 		alert("사용포인트를 입력하세요")
 		return;
+	}
+	if(document.getElementById("price").value<0){
+		alert("가격이 음수일수 없으니 포인트를 조금만사용하시기 바랍니다")
+		return
 	}
 	document.f.submit()
 }

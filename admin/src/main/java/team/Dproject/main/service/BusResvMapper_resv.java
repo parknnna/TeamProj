@@ -24,6 +24,12 @@ public class BusResvMapper_resv {
 	   public int deletetBus_resv_resv_resv(int no){
 		      return sqlSession.insert("deleteBus_resv_resv_resv",no);
 	   }
+	   public int deleteBus_resv_resv_all(int member_no){
+		   return sqlSession.insert("deleteBus_resv_resv_all",member_no);
+	   }
+	   public BusResvDTO_resv bus_resv_bus_resv_no(int bus_resv_no){
+		   return sqlSession.selectOne("bus_resv_bus_resv_no",bus_resv_no);
+	   }
 	   public BusResvDTO_resv getBus_resv_resv_resv(String no){
 		   return sqlSession.selectOne("getBus_resv_resv_resv",no);
 	   }

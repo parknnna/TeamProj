@@ -13,6 +13,9 @@
 	<delete id="deleteBus_resv_resv_resv" parameterType="int">
 		delete from bus_resv where bus_resv_no=#{no}
 	</delete>
+	<select id="bus_resv_bus_resv_no" parameterType="int" resultType="BusResvDTO_resv">
+		select * from bus_resv where bus_resv_no=#{bus_resv_no}
+	</select>
 	<select id="getBus_resv_resv_resv" parameterType="String" resultType="BusResvDTO_resv">
 		select * from bus_resv where resv_no=#{no}
 	</select>
