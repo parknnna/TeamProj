@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.Dproject.main.model">
+	<select id="commentCount" resultType="int">
+		select count(*) from bcomment
+	</select>
+	
+	<select id="commentList" resultType="CommentDTO" parameterType="int">
+		select * from bcomment where bno=#{main_board_no} order by cno desc
+	</select>
+	
+	<insert id="commentInsert" parameterType="CommentDTO">
+		insert into bcomment values(cno_seq.nextval, #{bno}, #{content}, #{writer}, sysdate)
+	</insert>
+	
+	<update id="commentUpdate" parameterType="CommentDTO">
+		update bcomment set content=#{content} where cno=#{cno}
+	</update>
+	
+	<delete id="commentDelete" parameterType="int">
+		delete from bcomment where cno=#{cno}
+	</delete>
+</mapper>

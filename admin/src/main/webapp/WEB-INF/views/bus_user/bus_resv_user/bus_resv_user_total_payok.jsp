@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  
-<%@include file="../bus_main/top.jsp" %>
+
 <!-- 결제 api -->
- 
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-x.y.z.js"></script> 
 <script>
     $(function () {
         // getter
@@ -27,14 +29,15 @@
                 var msg = '결제가 완료되었습니다.';
             
                 msg += '결제 금액 : ' + rsp.paid_amount;
-              
+                document.location.href="bus_user_resv_totalpaytable.do?result_seat=${result_seat}&result_seat_reverse=${result_seat_reverse}&one_date=${one_date}&two_date=${two_date}&road_no=${road_no}&road_no_reverse=${road_no_reverse}&price=${price}&arr_price=${arr_price}&dep_price=${dep_price}"; //alert창 확인 후 이동할 url 설정
            
             } else {
                 var msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
+                document.location.href="bus_main.do"; //alert창 확인 후 이동할 url 설정
             }
             alert(msg);
-            document.location.href="bus_main.do"; //alert창 확인 후 이동할 url 설정
+            
         });
     });
 </script>

@@ -3,13 +3,17 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>
+<%@ include file="../top2.jsp" %> 
 <%
 Calendar cal = Calendar.getInstance();
 int month = cal.get(Calendar.MONTH);
 int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+int cnt=0;
+List<hotelDTO> dto=(List)request.getAttribute("list");
 %>
-<div align="center">
+<div align="center"style="margin-top:70px">
 	<table width="100%">
 		<tr align="right">
 			<td colspan="9"><a href="ADhotel_insert.do">추가</a></td>
@@ -25,6 +29,7 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 			<td>이미지</td>
 			<td>방정보</td>
 			<td>호텔 예약보기</td>
+			<td>호텔 게시판 보기</td>
 			<td>수정/삭제</td>
 		</tr>
 		<c:if test="${empty list}">
@@ -41,8 +46,8 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 				<td>${dto.hotel_info}</td>
 				<td>${dto.star}</td>
 				<c:if test="${dto.filesize != 0}">
-					<td><img
-						src="${pageContext.request.contextPath}/resources/img/${dto.filename }" width="40">
+					<td>
+						<img src="${pageContext.request.contextPath}/resources/img/<%=dto.get(cnt).getFilename().split("/")[0] %>" width="40">
 					</td>
 				</c:if>
 				<c:if test="${dto.filesize == 0}">
@@ -57,10 +62,14 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 					<a href="ADresv_list.do?hnum=${dto.hotel_no}">호텔예약 보기</a>
 				</td>
 				<td>
+					<a href="hotel_board_list.do?hotel_no=${dto.hotel_no}">호텔 게시판 보기</a>
+				</td>
+				<td>
 					<a href="ADhotel_update.do?hnum=${dto.hotel_no}">수정</a> | <a
 					href="ADhotel_delete.do?hnum=${dto.hotel_no}">삭제</a></td>
 			</tr>
+			<%cnt++; %>
 		</c:forEach>
 	</table>
 </div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

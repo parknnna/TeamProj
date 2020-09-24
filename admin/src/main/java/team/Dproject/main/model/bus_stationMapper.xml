@@ -7,7 +7,7 @@
 		select * from bus_station order by station_no
 	</select>
 	<insert id="insertBus_station1" parameterType="bus_stationDTO">
-		insert into bus_station values(bus_station_seq.nextval,#{station_name},#{address},#{filename},#{filesize})
+		insert into bus_station values(bus_station_seq.nextval,#{station_name},#{filename},#{filesize},#{address})
 	</insert>
 	<delete id="deleteBus_station1" parameterType="String">
 		delete from bus_station where station_no=#{no}

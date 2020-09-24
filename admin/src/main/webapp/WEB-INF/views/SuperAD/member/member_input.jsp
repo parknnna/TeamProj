@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>
 <script type="text/javascript">
 		function check(){
 			if (f.name.value==""){
@@ -61,9 +62,10 @@
 			
 		}
 	</script>
+<%@include file="../top2.jsp"%>
 <body>
 	<div align="center">
-		<form name="f" action="ADmember_input_ok.do" method="post">
+		<form name="f" action="ADmember_input_ok.do" method="post" enctype="multipart/form-data">
 			<table class="outline" border="1">
 				<tr>
 					<td colspan="2" align="center">회원가입</td>
@@ -100,6 +102,9 @@
 					</td>
 				</tr>
 				<tr>
+					<td>이미지 : <input type="file" name="file" size="30" value="${dto.filename}"></td>
+				</tr>
+				<tr>
 					<td>성별</td>
 					<td><label><input type="radio" name="sex" value="1">남자</label>
 						<label><input type="radio" name="sex" value="2">여자</label>
@@ -126,4 +131,4 @@
 		</form>
 	</div>
 </body>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

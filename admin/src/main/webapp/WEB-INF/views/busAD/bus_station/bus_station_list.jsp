@@ -1,18 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../top.jsp" %>
-	<div align="center">
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
+
+<%@ include file="../sm.jsp" %>
+
+	<div align="center"style="margin-top:62px"   >
 		<table width="70%" align="center">
 			<tr align="right">
-				<td colspan="4">
-					<a href="ADbus_station_insert.do">추가</a>
+				<td colspan="5">
+					<a href="ADbus_station_insert.do">추가</a> | 
+					<a href="#" onclick="goBack()">뒤로가기</a>
 				</td>
 			</tr>
 			<tr>
 				<td>터미널번호</td>
 				<td>터미널이름</td>
 				<td>터미널주소</td>
+				<td>이미지</td>
 				<td>수정/삭제</td>
 			</tr> 
 			<c:if test="${empty bus_station_list}">
@@ -41,4 +48,4 @@
 			</c:forEach>
 		</table>	
 	</div>
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

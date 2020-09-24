@@ -6,6 +6,9 @@
     <select id="listHotel"  resultType="hotelDTO" parameterType="String">
     	select * from hotel where member_num=#{mnum} order by hotel_no
     </select>
+     <select id="starList"  resultType="hotelDTO">
+    	select * from hotel order by star desc
+    </select>
     <select id="listHotel2"  resultType="hotelDTO" >
     	select * from hotel order by hotel_no
     </select>
@@ -18,6 +21,7 @@
     <select id="getHotel" parameterType="String" resultType="hotelDTO">
     	select * from hotel where hotel_no=#{no}
     </select>
+   
     <update id="updateHotel" parameterType="hotelDTO">
     	update hotel set name=#{name},address=#{address}, hp1=#{hp1}, hp2=#{hp2}, hp3=#{hp3}, hotel_info=#{hotel_info}, star=#{star}, filename=#{filename}, filesize=#{filesize} where hotel_no=#{hotel_no}
     </update>

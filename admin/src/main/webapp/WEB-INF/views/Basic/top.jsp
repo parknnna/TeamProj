@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ include file="head.jsp" %>
-<%
-	MemberDTO member=(MemberDTO)session.getAttribute("sedto");
-%>
+
   <body>
     
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -16,12 +14,12 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active"><a href="index" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="bus_main.do" class="nav-link">Bus</a></li>
-          <li class="nav-item"><a href="hotel_main.do" class="nav-link">Hotels</a></li>
-          <li class="nav-item"><a href="restaurant_main.do" class="nav-link">Restaurant</a></li>
+         <!--  <li class="nav-item"><a href="hotel_board_list.do?hotel_no=1" class="nav-link">Hotels</a></li> -->
+          <li class="nav-item"><a href="hotel_resv" class="nav-link">Hotels</a></li>
           <li class="nav-item"><a href="board_list.do" class="nav-link">Forum</a></li>
          </ul>
       </div>
-      
+      <%MemberDTO member=(MemberDTO)session.getAttribute("sedto");%>
       <div class="header-btns" id="ftco-nav">
       	<ul class="navbar-nav">
       	<%if(member==null){%>
@@ -34,7 +32,9 @@
       			<li><a href="member_mypage.do" class="submenu-1-first">My Page</a></li>
       			<li><a href="member_wishlist.do" class="submenu-1-second">Wish List</a></li>
                 <li><a href="member_input.do" class="submenu-1-third">Sign Up</a></li>
+               
                 <%if(member!=null){
+                	%><li><a href="loginProcess.do" class="submenu-1-third">Chat</a></li><%
                 	if(member.getPosition()==0){ %>
                 		<li><a href="ADsuperAD.do" class="submenu-1-second">Admin</a></li>
                 	<%} %>

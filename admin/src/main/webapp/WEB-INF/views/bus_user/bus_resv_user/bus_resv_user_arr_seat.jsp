@@ -3,15 +3,15 @@
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
 <style type="text/css">
-   div#left{
-   width:10%;
-   height:35px; 
+  div#left{
+   width:15%;
+   height:35px;
    float:left
    }
    
    div#right{ 
-   width:10%; 
-   height:35px;
+   width:15%;
+   height:35px; 
    float:right
    }
    
@@ -22,7 +22,8 @@
       border:1px solid blue;
    }
 </style>
-<%@ include file="../bus_main/top.jsp" %>
+ <%@ include file="../../Basic/top_Bus.jsp" %>
+ <%@ include file="../bus_main/top.jsp" %>
 
 <%
 	
@@ -33,10 +34,10 @@
 %>
 	
    <form action="bus_resv_user_total_pay.do">
-   <div>
+   <div align="center">
       <div style="border:1px solid gray; width:90%;">
-         <h3 style="width:80%;">${arr_seat_dto.arrival} ▶ ${arr_seat_dto.departure}  (${arr_date})</h3>
-         <input type="hidden" name="arr_date" value="${arr_date}">
+         <h3 style="width:80%;">${arr_seat_dto.arrival} ▶ ${arr_seat_dto.departure}  (${one_date}출발일)</h3>
+         <input type="hidden" name="one_date" value="${one_date}">
          <input type="hidden" name="road_no" value="${arr_seat_dto.road_no}">
          <input type="hidden" name="arrival" value="${arr_seat_dto.arrival}">
          <input type="hidden" name="departure" value="${arr_seat_dto.departure}">
@@ -94,7 +95,7 @@
             
          }%>
       
-         <br><br>
+          <br><br><br><br><br><br>
          <div style="float:right"><input type="submit" value="예매" style="width:200px;"></div>
       </div>
       </div>
@@ -111,12 +112,11 @@
 %>
 	
    <form action="bus_resv_user_dispatch.do">
-   <div>
+   <div align="center">
       <div style="border:1px solid gray; width:90%;">
-         <h3 style="width:80%;">${arr_seat_dto.arrival} ▶ ${arr_seat_dto.departure}  (${arr_date})</h3>
-         <input type="hidden" name ="arr_date" value="${arr_date}">
-         <input type="hidden" name="dep_date" value="${dep_date}">
-         <input type="hidden" name="one_date" value="${one_date}">
+         <h3 style="width:80%;">${arr_seat_dto.arrival} ▶ ${arr_seat_dto.departure}  (${one_date}출발일)</h3>
+         <input type="hidden" name ="one_date" value="${one_date}">
+         <input type="hidden" name="two_date" value="${two_date}">
          <input type="hidden" name="road_no" value="${arr_seat_dto.road_no}">
          <input type="hidden" name="seat_no" value="${seat_no}">
          <input type="hidden" name="mode" value="twoway">
@@ -184,4 +184,4 @@
 <%} %>
 
 
-<%@ include file="../bus_main/bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

@@ -12,11 +12,13 @@ public class hotelDTO {
 	private int star;
 	private String filename;
 	private int filesize;
+
 	
 	
 	public int getHotel_no() {
 		return hotel_no;
 	}
+	
 	public void setHotel_no(int hotel_no) {
 		this.hotel_no = hotel_no;
 	}

@@ -1,7 +1,11 @@
 package team.Dproject.main;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,15 +14,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import team.Dproject.main.model.MemberDTO;
+import team.Dproject.main.model.MemberDTO_sm;
 import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.service.HotelMapper;
 import team.Dproject.main.service.MemberMapper;
-import team.Dproject.main.service.ResvMapper;
-import team.Dproject.main.service.RoomMapper;
 
 @Controller
 public class SADController {
@@ -28,7 +32,8 @@ public class SADController {
 	private MemberMapper memberMapper;
 	
 	
-	
+	@Resource(name = "upLoadPath")
+	private String upLoadPath;
 	
 	
 	//================로그인==========================
@@ -147,6 +152,21 @@ public class SADController {
 
 	@RequestMapping(value = "/ADmember_edit_ok.do")
 	public String MemberEditOk(HttpServletRequest req, MemberDTO dto) {
+		String filename = "";
+		int filesize = 0;
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
+		MultipartFile file = mr.getFile("file");
+		File target = new File(upLoadPath, file.getOriginalFilename());
+		if (file.getSize() > 0) {
+			try {
+				file.transferTo(target);
+			} catch (IOException e) {
+			}
+			filename = file.getOriginalFilename();
+			filesize = (int) file.getSize();
+		}
+		dto.setFilename(filename);
+		dto.setFilesize(filesize);
 		String msg = null, url = null;
 		String mode = req.getParameter("mode");
 		if (mode == null) {
@@ -192,11 +212,28 @@ public class SADController {
 
 	@RequestMapping(value = "/ADmember_input_ok.do")
 	public String MemberInputOk(HttpServletRequest req, MemberDTO dto) {
+		String filename = "";
+		int filesize = 0;
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
+		MultipartFile file = mr.getFile("file");
+		File target = new File(upLoadPath, file.getOriginalFilename());
+		if (file.getSize() > 0) {
+			try {
+				file.transferTo(target);
+			} catch (IOException e) {
+			}
+			filename = file.getOriginalFilename();
+			filesize = (int) file.getSize();
+		}
+		dto.setFilename(filename);
+		dto.setFilesize(filesize);
+		
 		boolean checkMember = memberMapper.checkMember(dto);
 		boolean isId;
+		
 		String msg = null, url = null;
 		if (checkMember) {
-			isId = memberMapper.checkId(dto);
+			isId = memberMapper.idcheck(dto.getId());
 			if (isId) {
 				int res = memberMapper.insertMember(dto);
 				if (res > 0) {
@@ -229,8 +266,8 @@ public class SADController {
 
 	@RequestMapping(value = "/ADmember_show.do")
 	public ModelAndView Member_show(HttpServletRequest req) {
-		MemberDTO dto = memberMapper.getMember2(req.getParameter("no")); 
-
+		MemberDTO_sm dto = memberMapper.getMember2(req.getParameter("no")); 
+ 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("SuperAD/member/member_show");
 		req.setAttribute("page_name", "Member Show");
@@ -243,7 +280,10 @@ public class SADController {
 	// ---------------------------------------------------------------------------
 	@RequestMapping(value = "/ADBAD_list.do")
 	public ModelAndView Member_ADBAD(HttpServletRequest req) {
-		List<MemberDTO> list = memberMapper.getPosition(req.getParameter("pos"));
+		List<MemberDTO> list =new ArrayList<MemberDTO>();
+		if(memberMapper.getPosition(req.getParameter("pos"))!=null){
+			list= memberMapper.getPosition(req.getParameter("pos"));
+		}
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("SuperAD/BAD/BAD_list");
 		req.setAttribute("page_name", "Bus List");
@@ -253,7 +293,10 @@ public class SADController {
 
 	@RequestMapping(value = "/ADHAD_list.do")
 	public ModelAndView Member_ADHAD(HttpServletRequest req) {
-		List<MemberDTO> list = memberMapper.getPosition(req.getParameter("pos"));
+		List<MemberDTO> list =new ArrayList<MemberDTO>();
+		if(memberMapper.getPosition(req.getParameter("pos"))!=null){
+			list = memberMapper.getPosition(req.getParameter("pos"));
+		}
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("SuperAD/HAD/HAD_list");
 		req.setAttribute("page_name", "Hotel List");

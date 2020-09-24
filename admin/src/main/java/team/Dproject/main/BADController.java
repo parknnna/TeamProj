@@ -66,11 +66,7 @@ public class BADController {
 //		return "home";
 //	}
 	
-	
-	@RequestMapping("/home.do")
-	public String home(HttpSession session) {	
-		return "home";
-	}
+
 	
 	//버스관련---------------------------------------------------------------
 
@@ -87,7 +83,6 @@ public class BADController {
 	}
 	@RequestMapping(value="/ADbus_insert.do",method = RequestMethod.GET)
 	public String bus_insert(HttpServletRequest req) {
-		req.setAttribute("page_name", "Bus Insert");
 		return "busAD/bus/bus_insert";
 	}
 	@RequestMapping(value="/ADbus_insert.do",method = RequestMethod.POST)
@@ -218,11 +213,25 @@ public class BADController {
 	public ModelAndView bus_station_update(HttpServletRequest req) {
 		bus_stationDTO dto = bus_stationMapper.getBus_station(req.getParameter("no"));
 		ModelAndView mav = new ModelAndView("busAD/bus_station/bus_station_update", "station", dto);
-		req.setAttribute("page_name", "Bus Station List");
 		return mav;
 	}
 	@RequestMapping(value="/ADbus_station_update.do",method = RequestMethod.POST)
 	public String bus_station_updateOK(HttpServletRequest req, bus_stationDTO dto)  {
+		String filename = "";
+		int filesize = 0;
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
+		MultipartFile file = mr.getFile("file");
+		File target = new File(upLoadPath, file.getOriginalFilename());
+		if (file.getSize() > 0) {
+			try {
+				file.transferTo(target);
+			} catch (IOException e) {
+			}
+			filename = file.getOriginalFilename();
+			filesize = (int) file.getSize();
+		}
+		dto.setFilename(filename);
+		dto.setFilesize(filesize);
 		int res=bus_stationMapper.updateBus_station(dto); 
 		String msg = null, url = null;
 		if (res > 0) {
@@ -234,7 +243,6 @@ public class BADController {
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
-		req.setAttribute("page_name", "Bus Station List");
 		return "message";
 	}
 	
@@ -249,7 +257,6 @@ public class BADController {
 		}
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("busAD/bus_load/bus_load_list");
-		req.setAttribute("page_name", "Bus Road List");
 		mav.addObject("bus_load_list", list);
 		return mav;
 	}
@@ -263,12 +270,13 @@ public class BADController {
 		mav.addObject("bus_list", list);
 		mav.addObject("bus_station_list", list2);
 		mav.addObject("llist", llist);
-		req.setAttribute("page_name", "Bus Road Insert");
+		List<bus_loadDTO> list3 = bus_loadMapper.listBus_load();
+		mav.addObject("bus_lord_list", list3);
 		return mav;
 	}
 	@RequestMapping(value="/ADbus_load_insert.do",method = RequestMethod.POST)
 	public String bus_load_insertOK(HttpServletRequest req, bus_loadDTO dto,HttpSession session)  {
-		Integer MNUM=(Integer)session.getAttribute("MNUM");
+		int MNUM=(int)session.getAttribute("MNUM");
 		dto.setMember_no(MNUM);
 		int res=bus_loadMapper.insertBus_load(dto);
 		String msg = null, url = null;
@@ -303,18 +311,21 @@ public class BADController {
 	}
 	@RequestMapping(value="/ADbus_load_update.do",method = RequestMethod.GET)
 	public ModelAndView bus_load_update(HttpServletRequest req) {
+		List<bus_loadDTO> list3 = bus_loadMapper.listBus_load();
 		bus_loadDTO dto = bus_loadMapper.getBus_load(req.getParameter("no"));
 		ModelAndView mav = new ModelAndView("busAD/bus_load/bus_load_update", "bus", dto);
 		List<BusDTO> list = busMapper.listBus();
 		List<bus_stationDTO> list2 = bus_stationMapper.listBus_station();
 		mav.addObject("bus_list", list);
 		mav.addObject("bus_station_list", list2);
+		mav.addObject("bus_lord_list", list3);
 		mav.addObject("LDTO", dto);
-		req.setAttribute("page_name", "Bus Road Update");
 		return mav;
 	}
 	@RequestMapping(value="/ADbus_load_update.do",method = RequestMethod.POST)
-	public String bus_load_updateOK(HttpServletRequest req, bus_loadDTO dto)  {
+	public String bus_load_updateOK(HttpServletRequest req, bus_loadDTO dto,HttpSession session)  {
+		int MNUM=(int)session.getAttribute("MNUM");
+		dto.setMember_no(MNUM);
 		int res=bus_loadMapper.updateBus_load(dto); 
 		String msg = null, url = null;
 		if (res > 0) {

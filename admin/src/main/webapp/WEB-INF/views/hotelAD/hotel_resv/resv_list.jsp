@@ -4,6 +4,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
 <%
 	Calendar cal = Calendar.getInstance();
 	String strYear = (String) request.getParameter("year");
@@ -33,6 +35,7 @@
 	height/=roomlist.size();
 	int resv_no=0;
 %> 
+
 <style>
 	.roomname:link{
 		color:black;
@@ -62,8 +65,8 @@
 		  -o-transform: scale(1.4);
 	}
 </style>
-<%@ include file="../top.jsp"%>
-<DIV width="80%" height="40">
+
+<DIV width="80%" height="100%"style="margin-top:62px">
 	<table width="100%" height="40">
 		<tr>
 			<td height="60">
@@ -192,17 +195,16 @@
 								}
 								for (int i = l; i < end+7; i++) {
 									day=(i-cnt2)+1;
-									String sUseDate = Integer.toString(year) + "";
+									String sUseDate = Integer.toString(year) + "-";
 
-									sUseDate += Integer.toString(month + 1).length() == 1 ? "0" + Integer.toString(month + 1) + ""
-											: Integer.toString(month + 1) + "";
+									sUseDate += Integer.toString(month + 1).length() == 1 ? "0" + Integer.toString(month + 1) + "-"
+											: Integer.toString(month + 1) + "-";
 
 									sUseDate += Integer.toString(day).length() == 1 ? "0" + Integer.toString(day) + ""
 											: Integer.toString(day) + "";
 									int temp=0;
 									List<resvDTO> resvlist = (List) request.getAttribute("resvlist");
-									for (resvDTO resvDTO : resvlist) {										
-										temp=Integer.parseInt(resvDTO.getEnd_resv_date());
+									for (resvDTO resvDTO : resvlist) {	
 										if (resvDTO.getStart_resv_date().equals(sUseDate)
 												&& resvDTO.getRoom_no().equals( roomDTO.getRoom_no())) {  
 											check = true;
@@ -252,4 +254,3 @@
 	</TABLE>
 </DIV>
 
-<%@ include file="../bottom.jsp"%>

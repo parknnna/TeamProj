@@ -3,14 +3,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
+
+<%@ include file="../sm.jsp" %>
 <%
 List<bus_resvDTO> list=(List)request.getAttribute("list");
 List<bus_loadDTO> llist=(List)request.getAttribute("llist");
 int temp=0;
 %>
-	<div align="center">
+	<div align="center"style="margin-top:62px"  >
 		<table width="70%">
+			<tr><td align="right" colspan="10"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr>
 				<td>예약번호</td>
 				<td>예약한 사람</td>
@@ -32,7 +37,7 @@ int temp=0;
 			for(bus_resvDTO dto : list){
 			%>
 			<tr>
-				<td><%=dto.getResv_no() %></td>
+				<td><%=dto.getBus_resv_no() %></td> 
 				<td><%=dto.getMember_no() %></td>
 				<td><%=dto.getBus_no() %></td>
 				<td><%=llist.get(temp).getArrival()%> >> <%=llist.get(temp).getDeparture() %></td>
@@ -42,8 +47,8 @@ int temp=0;
 				<td><%=dto.getResv_date() %></td>
 				<td><%=dto.getPrice() %></td>
 				<td>
-					<a href="ADbus_resv_update.do?no=<%=dto.getResv_no()%>">수정</a> | 
-					<a href="ADbus_resv_delete.do?no=<%=dto.getResv_no()%>">삭제</a>
+					<a href="ADbus_resv_update.do?no=<%=dto.getBus_resv_no()%>">수정</a> | 
+					<a href="ADbus_resv_delete.do?no=<%=dto.getBus_resv_no()%>">삭제</a>
 				</td>
 			</tr>
 			<%
@@ -51,4 +56,4 @@ int temp=0;
 			%>
 		</table>	
 	</div>
-<%@ include file="../bottom.jsp" %> 
+<%@ include file="../../Basic/bottom_nav.jsp" %>

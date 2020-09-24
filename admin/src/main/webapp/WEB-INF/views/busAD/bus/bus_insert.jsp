@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
 <script>
 	function check(){
 		if (f.seat.value == "") {
@@ -13,7 +15,15 @@
 		document.f.submit()
 	}
 </script>
-	<div align="center">
+<style>
+
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+</style>
+
+	<div width="50%" align="center">
 		<form name="f" action="ADbus_insert.do" method="post">
 			<table width="50%" align="center">
 				<tr align="center">
@@ -34,4 +44,4 @@
 			</table>
 		</form>
 	</div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

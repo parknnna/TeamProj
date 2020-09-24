@@ -7,7 +7,9 @@
     	select * from room where hotel_no=#{hnum} order by room_no
     </select>
     <insert id="insertRoom" parameterType="roomDTO">
-    	insert into room values(#{room_no},#{hotel_no},#{name},#{roomsize},#{sleeps},#{item},#{filename},#{filesize},#{rooms},#{price})
+    	insert into room values(#{room_no},
+		#{hotel_no},#{name},#{roomsize}, #{sleeps}, 
+		#{item}, #{filename}, #{filesize},  #{rooms}, #{price}, #{grade})
     </insert>
     <delete id="deleteRoom" parameterType="String">
     	delete from room where room_no=#{no}
@@ -19,7 +21,7 @@
     	select * from room where room_no=#{no}
     </select>
     <update id="updateRoom" parameterType="roomDTO">
-    	update room set name=#{name}, roomsize=#{roomsize}, sleeps=#{sleeps}, item=#{item}, filename=#{filename}, filesize=#{filesize}, price=#{price} where room_no=#{room_no}
+    	update room set name=#{name}, roomsize=#{roomsize}, sleeps=#{sleeps}, item=#{item}, filename=#{filename}, filesize=#{filesize},grade=#{grade} where room_no=#{room_no}
     </update>
     
     <insert id="seqUP" >

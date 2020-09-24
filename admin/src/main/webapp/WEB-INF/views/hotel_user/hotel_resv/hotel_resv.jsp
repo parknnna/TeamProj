@@ -1,32 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+<%@ include file="../../Basic/head.jsp" %>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>호텔검색</title>
-</head>
-<body>
-	<div align="right">
-		<c:choose>
-			<c:when test="${empty sedto}">
-				<input type="button" value="로그인"
-					onClick="location.href='memberlogin'" />
-			</c:when>
-			<c:otherwise>
-				<input type="button" value="로그아웃"
-					onClick="location.href = 'memberlogout'" />
-			</c:otherwise>
-		</c:choose>
-	</div>
-
-	<div>
-		<form action="hotel_resvlist">
+<script type="text/javascript">
+	function check() {
+		var start = f.start_resv_date.value;
+		var end = f.end_resv_date.value;
+		var date = new Date();
+		var year = date.getFullYear(); //년도
+		var month = date.getMonth() + 1; //월
+		var day = date.getDate(); //일
+		if ((day + "").length < 2) { // 일이 한자리 수인 경우 앞에 0을 붙여주기 위해
+			day = "0" + day;
+		}
+		var today = year + "-" + month + "-" + day; // 오늘 날짜 (2017-02-07)
+		if (start == "") {
+			alert("입실 시작 날짜를 입력 해 주세요!!")
+			return false;
+		}
+		if (end == "") {
+			alert("퇴실 시작 날짜를  입력 해 주세요!!")
+			return false;
+		}
+		if (start >= end) {
+			alert("퇴실 날짜를 입실날짜 이후로 지정해주세요!!")
+			return false;
+		}
+		var s = new Date(start);
+		var t = new Date(today);
+		if (s < t) {
+			alert("이전 날짜는 예약할 수 없습니다.")
+			return false;
+		}
+		return true;
+	}
+</script>
+<%@ include file="../../Basic/top_Hotel.jsp" %>
+	<div align="center" class="boxContainer" align="center" style="margin-top:100px">
+		<form name="f" action="hotel_resvlist" onSubmit='return check();'>
 			<table border="1">
 				<tr>
 					<th><label>지역</label></th>
@@ -84,5 +99,4 @@
 			</table>
 		</form>
 	</div>
-</body>
-</html>
+<%@ include file="../../Basic/bottom_top.jsp" %>

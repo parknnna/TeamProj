@@ -20,6 +20,7 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+
 	
 	<context:component-scan base-package="team.Dproject.main" />
 	
@@ -29,7 +30,7 @@
 	</beans:bean>
 	
 	<beans:bean id="upLoadPath" class="java.lang.String">
-		<beans:constructor-arg value="C:\Users\ookkj\git\Dproject_sumin\admin\src\main\webapp\resources\img" />
+		<beans:constructor-arg value="C:\Users\ookkj\git\TeamProj\admin\src\main\webapp\resources\img" />
 	</beans:bean>
 	
 	

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="../top.jsp"%> 
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
 <script>
 	function check(){
 		if (f.name.value == "") {
@@ -37,39 +38,62 @@
 		
 		document.f.submit()
 	}
-</script>
+	function goBack() {
+		  window.history.back();
+		}
 
-<div align="center">
-	<form name="f" action="ADroom_insert.do" method="post" enctype="multipart/form-data">
+</script>
+<style>
+	td{
+		vertical-align:top;
+		    padding: 5px;
+	}
+	th{
+		align:left;
+	}
+</style>
+
+<div align="center"style="margin-top:90px" width="50%" >
+	<form name="f" action="ADroom_insert.do" method="post" enctype="multipart/form-data" width="50%">
 		<input type="hidden" name="hotel_no" value="<%=request.getParameter("hnum")%>">
-		<table width="100%">
-			<tr>
-				<td><input multiple="multiple" type="file" name="file" /></td>	
+		<table width="60%" >
+		<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
+			<tr align="center">
+				<td align="right">방이름 : </td><td align="left"><input type="text" name="name"></td>
 			</tr>
-			<tr>
-				<td>방이름 : <input type="text" name="name"></td>
+			<tr align="center">
+				<td align="right">방 평수 : </td><td align="left"><input type="text" name="roomsize"></td>
 			</tr>
-			<tr>
-				<td>방 평수 : <input type="text" name="roomsize"></td>
+			<tr align="center">
+				<td align="right">인원수 : </td><td align="left"><input type="text" name="sleeps"></td>
 			</tr>
-			<tr>
-				<td>인원수 : <input type="text" name="sleeps"></td>
+			<tr align="center">
+				<td align="right">구비 물품 : </td><td align="left"><input type="text" name="item"></td>
+			</tr >
+			<tr align="center">
+				<td align="right">방가격 : </td><td align="left"><input type="text" name="price" size="30"></td>
 			</tr>
-			<tr>
-				<td>구비 물품 : <input type="text" name="item"></td>
+			<tr align="center">
+				<td align="right">방의 수 : </td><td align="left"><input type="text" name="rooms" size="30"></td>
 			</tr>
-			<tr>
-				<td>방가격 : <input type="text" name="price" size="30"></td>
+			<tr align="center">
+				<td align="right">방등급 : </td><td align="left">
+					<select name="grade">
+						<option value="1">디럭스</option>
+						<option value="2">스텐다드</option>
+						<option value="3">패밀리</option>
+					</select>
+				</td>	
 			</tr>
-			<tr>
-				<td>방의 수 : <input type="text" name="rooms" size="30"></td>
+			<tr align="center">
+				<td align="right">방이미지 : </td><td align="left"><input multiple="multiple" type="file" name="file" /></td>	
 			</tr>
-			<tr>
-			<td><input type="button" value="추가" onclick="javascript:check()">
+			<tr align="center">
+			<td colspan="2"><input type="button" value="추가" onclick="javascript:check()">
 			<input type="reset" value="다시쓰기"></td>
 			</tr>
 
 		</table>
 	</form>
 </div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

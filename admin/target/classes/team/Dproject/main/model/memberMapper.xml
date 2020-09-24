@@ -11,37 +11,57 @@
 	<select id = "memberList" resultType = "memberDTO">
 		select * from member order by member_no
 	</select>
-	<select id = "findMember" parameterType = "java.util.Map" resultType = "memberDTO">
-		select * from member where #{search} = #{searchString}
-	</select>
-	<select id = "getMember" parameterType = "String" resultType ="memberDTO">
+	<select id = "getMemberPasswd" parameterType = "String" resultType = "memberDTO">
 		select * from member where id = #{id}
 	</select>
-	<select id = "getMember2" parameterType = "String" resultType ="memberDTO">
+	<select id = "getPosition" parameterType = "String" resultType = "memberDTO">
+		select * from member where position = #{position} or position =0
+	</select>
+	<select id = "findMemberId" parameterType = "String" resultType = "memberDTO">
+		select * from member where id = #{searchString}
+	</select>
+	<select id = "findMemberName" parameterType = "String" resultType = "memberDTO">
+		select * from member where name = #{searchString}
+	</select>
+		<select id = "getMember" parameterType = "String" resultType ="memberDTO">
+		select * from member where id = #{id}
+	</select>
+	<select id = "getMember2" parameterType = "Integer" resultType ="memberDTO_sm">
 		select * from member where member_no = #{member_no}
 	</select>
-	<select id = "getMemberPasswd" parameterType = "String" resultType = "String">
-		select passwd from member where id = #{id}
+	<select id = "searchMemberId" parameterType = "java.util.Map" resultType = "memberDTO">
+		select * from member where name = #{searchString} and ssn1 = #{ssn1} and ssn2 = #{ssn2}
 	</select>
-	<select id = "searchMember" parameterType = "java.util.Map" resultType = "memberDTO">
-		select * from member where #{search} = #{searchString} and ssn1 = #{ssn1} and ssn2 = #{ssn2}
+	<select id = "searchMemberPasswd" parameterType = "java.util.Map" resultType = "memberDTO">
+		select * from member where id = #{searchString} and ssn1 = #{ssn1} and ssn2 = #{ssn2}
+	</select>
+	<select id = "getHotelReserve" parameterType = "Integer" resultType = "hotelDTO_resv_ysm">
+		select hotel_resv_no, member_no, hotel_resv.hotel_no, hotel_resv.room_no, use_point, save_point, hotel.name, price from hotel_resv, hotel, room where hotel_resv.room_no = room.room_no and hotel_resv.member_no = #{member_no} order by hotel_resv_no
+	</select>
+	<select id = "getHotelReserveOk" parameterType = "java.util.Map" resultType = "hotelDTO_resv_ysm">
+		select hotel_resv_no, member_no, hotel_resv.hotel_no, hotel_resv.room_no, use_point, save_point, hotel.name, price from hotel_resv, hotel, room where hotel_resv.hotel_no=hotel.hotel_no and hotel_resv.member_no = #{member_no} and hotel_resv_no = #{hotel_resv_no} order by hotel_resv_no
+	</select>
+	<select id="idcheck" parameterType="String" resultType="Integer">
+      select count(*) from member where id = #{id}
 	</select>
 	<insert id = "insertMember" parameterType = "memberDTO">
 		insert into member values (member_seq.nextval, #{name}, #{id}, #{passwd},
-		#{ssn1}, #{ssn2}, #{email}, #{hp1}, #{hp2}, #{hp3}, #{position}, #{sex}, 0, sysdate)
+		#{ssn1}, #{ssn2}, #{email}, #{hp1}, #{hp2}, #{hp3}, 3, #{sex}, 0, sysdate, #{filename}, #{filesize})
 	</insert>
 	<update id = "editMember" parameterType = "memberDTO">
 		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
-		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position} where member_no= #{member_no}
+		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position}, point = #{point},
+		sex = #{sex}, filename = #{filename}, filesize = #{filesize} where member_no= #{member_no}
 	</update>
-	
-	<select id = "getPosition" parameterType = "int" resultType = "memberDTO">
-		select * from member where position=#{position}
-	</select>
-	
 	<update id = "Member_buspoint_update" parameterType = "memberDTO">
 		update member set passwd = #{passwd}, email = #{email}, hp1 = #{hp1},
 		hp2 = #{hp2}, hp3 = #{hp3}, position = #{position}, point = #{point},
 		sex = #{sex} where member_no= #{member_no}
 	</update>
+	<delete id = "deleteMember" parameterType = "Integer">
+		delete from member where member_no = #{member_no}
+	</delete>
+	<delete id = "deleteResv" parameterType = "Integer">
+		delete from hotel_resv where hotel_resv_no = #{hotel_resv_no}
+	</delete>
 </mapper>

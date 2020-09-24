@@ -1,7 +1,7 @@
 package team.Dproject.main.model;
 
 public class hotel_boardDTO {
-	private int hotel_board_no;
+	private String hotel_board_no;
 	private String member_no;
 	private int hotel_no;
 	private int readcount;
@@ -13,21 +13,36 @@ public class hotel_boardDTO {
 	private int re_step;
 	private int re_level;
 	private String title;
+	private int up;
+	private int down;
 	
 	
+	public int getDown() {
+		return down;
+	}
+	public void setDown(int down) {
+		this.down = down;
+	}
+	public int getUp() {
+		return up;
+	}
+	public void setUp(int up) {
+		this.up = up;
+	}
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public int getHotel_board_no() {
+	
+	
+	public String getHotel_board_no() {
 		return hotel_board_no;
 	}
-	public void setHotel_board_no(int hotel_board_no) {
+	public void setHotel_board_no(String hotel_board_no) {
 		this.hotel_board_no = hotel_board_no;
 	}
-	
 	public String getMember_no() {
 		return member_no;
 	}

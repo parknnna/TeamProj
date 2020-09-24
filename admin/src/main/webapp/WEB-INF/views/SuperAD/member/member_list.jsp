@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- memberAll.jsp -->
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 th {
     text-align: center;
 }
 </style>
+
+
+<%@include file="../top2.jsp"%>
 <div align="center">
 
 	<c:if test="${mode == 'all'}">
@@ -51,14 +55,14 @@ th {
 			<c:otherwise>
 				<c:forEach var="dto" items="${memberList}">
 					<tr align = "center">
-						<td>${dto.member_no}</td>
-						<td>${dto.id}</td>
-						<td><a href="ADmember_show.do?no=${dto.member_no }">${dto.name}</a></td>
-						<td>${dto.email}</td>
-						<td>${dto.allHp}</td>
-						<td>${dto.joindate}</td>
-						<td>${dto.position}</td>
-						<td>
+						<td class="m2">${dto.member_no}</td>
+						<td class="m2">${dto.id}</td>
+						<td class="m2"><a href="ADmember_show.do?no=${dto.member_no }">${dto.name}</a></td>
+						<td class="m2">${dto.email}</td>
+						<td class="m2">${dto.allHp}</td>
+						<td class="m2">${dto.joindate}</td>
+						<td class="m2">${dto.position}</td>
+						<td class="m2">
 							<a href = "ADmember_edit.do?id=${dto.id}">수정</a> |
 							<a href = "ADmember_delete.do?id=${dto.id}">삭제</a>
 						</td>
@@ -68,4 +72,4 @@ th {
 		</c:choose>
 	</table>
 </div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>

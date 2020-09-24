@@ -3,12 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
-<%@ include file="../top.jsp" %>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>    
+<%@ include file="../top2.jsp" %>
 <%
 List<BusDTO> list=(List)request.getAttribute("bus_list");
 List<bus_stationDTO> list2=(List)request.getAttribute("bus_station_list");
 bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 %>
+
+<%@ include file="../sm.jsp" %>
 <script>
 	function check(){
 		if (f.price.value == "") {
@@ -31,20 +35,30 @@ bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 		document.f.submit()
 	}
 </script>
-	<div align="center">
+	<div align="center"style="margin-top:62px"  >
 		<form name="f" action="ADbus_load_update.do" method="post">
 		<input type="hidden" name="road_no" value="${bus.road_no }">
-			<table width="100%">
+			<table width="50%">
+				<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 				<tr>
 					<td>버스번호 : 
 						<select name="bus_no">
 						<%
+							List<bus_loadDTO> list3=(List)request.getAttribute("bus_lord_list");
+							boolean a=true;
 							for(BusDTO dto : list){
+								a=true;
+								for(bus_loadDTO dto2 : list3){
+									if(dto2.getBus_no()==dto.getBus_no()){
+										a=false;
+									}
+								}
+							if(a){
 								if(dto.getBus_no()==LDTO.getBus_no()){%>
 									<option value="<%=dto.getBus_no()%>" selected><%=dto.getBus_no() %></option>
-						<%}else{%>
-								<option value="<%=dto.getBus_no()%>"><%=dto.getBus_no() %></option>
-						<%}}%>
+								<%}else{%>
+										<option value="<%=dto.getBus_no()%>"><%=dto.getBus_no() %></option>
+								<%}}}%>
 						</select>
 					</td>
 				</tr>
@@ -89,5 +103,3 @@ bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 			</table>
 		</form>
 	</div>
-
-<%@ include file="../bottom.jsp" %> 

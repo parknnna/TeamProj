@@ -5,7 +5,8 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<%@ include file="../top.jsp"%>
+<%@ include file="../../Basic/head.jsp" %>   
+<%@ include file="../../Basic/nav_AD.jsp" %>   
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -221,18 +222,19 @@
 	});
 
 </script>
+
 </head>
-<div>
+<div style="margin-top:90px">
+<%
+roomDTO dto=(roomDTO)request.getAttribute("RDTO");
+String img=dto.getFilename();  
+String cla="slide slide";
+String[] SPimg;
+if(img!=null){
+%>
 <div id="slider">
-	<%
-	roomDTO dto=(roomDTO)request.getAttribute("RDTO");
-	String img=dto.getFilename();  
-	%>
 	<ul class="slides">
 		<%
-
-		String cla="slide slide";
-		String[] SPimg;
 		if(img!=null){
 			SPimg=img.split("/");
 			cla=cla+SPimg.length;
@@ -269,8 +271,10 @@
 		</div>
 	</div>
 </div>
+<%} %>
+
 <div align="center">
-	<table width="100%" height="100%" align="center">
+	<table width="30%" height="100%" align="center">
 	<tr align="center">
 	<%
 		if(img!=null){
@@ -286,18 +290,17 @@
 			%><td>이미지 없음</td><%
 		}%>
 	</tr>
-	<tr align="center"><td>예약번호 : ${dto.hotel_resv_no}</td></tr>
-	<tr align="center"><td>멤버이름 : ${MDTO.name}</td></tr>
-	<tr align="center"><td>호텔이름 : ${HDTO.name}</td></tr>
-	<tr align="center"><td>방이름 : ${RDTO.name}</td></tr>
-	<tr align="center"><td>사용 포인트 : ${dto.use_point}</td></tr>
-	<tr align="center"><td>적립 포인트 : ${dto.save_point}</td></tr>
-	<tr align="center"><td>결제여부 : ${dto.pay}</td></tr>
-	<tr align="center"><td>체크인 : ${dto.start_resv_date}</td></tr>
-	<tr align="center"><td>체크아웃 : ${dto.end_resv_date}</td></tr>
-	<tr align="center"><td><input type="button" value="돌아가기" onclick="window.location='ADresv_list.do?hnum=${dto.hotel_no}'">	
+	<tr><td>예약번호 : ${dto.hotel_resv_no}</td></tr>
+	<tr><td>멤버이름 : ${MDTO.name}</td></tr>
+	<tr><td>호텔이름 : ${HDTO.name}</td></tr>
+	<tr><td>방이름 : ${RDTO.name}</td></tr>
+	<tr><td>사용 포인트 : ${dto.use_point}</td></tr>
+	<tr><td>적립 포인트 : ${dto.save_point}</td></tr>
+	<tr><td>결제여부 : ${dto.pay}</td></tr>
+	<tr><td>숙박 일자 : ${dto.start_resv_date} ~ ${dto.end_resv_date}</td></tr>
+	<tr><td><input type="button" value="돌아가기" onclick="window.location='ADresv_list.do?hnum=${dto.hotel_no}'">	
 </table>
 </div>
 </div>
-<%@ include file="../bottom.jsp"%>
+<%@ include file="../../Basic/bottom_nav.jsp" %>
  

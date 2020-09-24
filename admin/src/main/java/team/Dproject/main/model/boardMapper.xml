@@ -2,12 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="team.Dproject.test.model">
-	<select id="board_list" resultType="BoardDTO">
-		select * from main_board order by main_board_no desc
+	<select id="board_list" resultType="BoardDTO" parameterType="java.util.Map">
+		select * from (select rownum rn, A.* from (select * from main_board order by main_board_no desc)A) where rn between #{start} and #{end}
+	</select>
+	<select id="board_list2" resultType="BoardDTO">
+		select * from main_board
 	</select>
 	
 	<insert id="board_insert" parameterType="BoardDTO">
-		insert into main_board values(main_board_seq.nextval, #{member_no}, #{location_no}, #{title}, #{content}, #{filename}, #{filesize}, #{ip}, 0, sysdate, #{re_group}, #{re_step}, #{re_level})
+		insert into main_board values(main_board_no_seq.nextval, #{member_no}, #{location_no}, #{title}, #{content}, #{filename}, #{filesize}, #{ip}, 0, sysdate, #{re_group}, #{re_step}, #{re_level})
 	</insert>
 	
 	<select id="getBoard" parameterType="int" resultType="BoardDTO">
@@ -18,7 +21,47 @@
 		select * from member where member_no=#{member_no}
 	</select>
 	
-	<select id="getList" parameterType="int" resultType="BoardDTO">
-		select * from main_board where locaion_no=#{location_no}
+	<select id="prevNum" parameterType="String" resultType="int">
+		select max(main_board_no) from main_board where main_board_no <![CDATA[<]]>#{main_board_no}
 	</select>
+	
+	<select id="nextNum" parameterType="String" resultType="int">
+		select min(main_board_no) from main_board where main_board_no <![CDATA[>]]>#{main_board_no}
+	</select>
+	
+	<select id="MAX" resultType="int">
+		select max(main_board_no) from main_board 
+	</select>
+	
+	<select id="MIN" resultType="int">
+		select min(main_board_no) from main_board 
+	</select>
+	
+	<select id="getList" resultType="BoardDTO" parameterType="java.util.Map">
+		select * from (select rownum rn, A.* from (select * from main_board where location_no=#{location_no} order by main_board_no desc)A) where rn between #{start} and #{end}
+	</select>
+	
+	<update id="getCount" parameterType="int">
+		update main_board set readcount = readcount+1 where main_board_no=#{main_board_no}
+	</update>
+	
+	<update id="board_update" parameterType="BoardDTO">
+		update main_board set location_no=#{location_no}, title=#{title}, content=#{content}, filename=#{filename}, filesize=#{filesize} where main_board_no=#{main_board_no}
+	</update>
+	
+	<delete id="board_delete" parameterType="int">
+		delete from main_board where main_board_no=#{main_board_no}
+	</delete>
+	
+	<select id="board_count" resultType="int"><!-- 행의개수 파악 -->
+		select count(*) from main_board
+	</select>
+	
+	<select id="board_count_loc" resultType="int" parameterType="int"><!-- 행의개수 파악 -->
+		select count(*) from main_board where location_no=#{location_no}
+	</select>
+	
+	<!-- <select id="pre_board" parameterType="int">
+		select * from main_board where main_board_no=(select max(main_board_no) from main_board where main_board_no < ?)
+	</select> -->
 </mapper>
