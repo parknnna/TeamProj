@@ -1102,25 +1102,16 @@ public class HotelController {
 				RoomDTO_sks drdto = roomMapper.getRoom_sks(dr_no.get(0));
 				req.setAttribute("drdto", drdto);
 				req.setAttribute("dr_no", dr_no);
-				for(int i = 0;i<dr_no.size();i++){
-					System.out.println(dr_no.get(i));
-				}
 			}
 			if(sr_no.size()>0){
 				RoomDTO_sks srdto = roomMapper.getRoom_sks(sr_no.get(0));
 				req.setAttribute("srdto", srdto);
 				req.setAttribute("sr_no", sr_no);
-				for(int i = 0;i<sr_no.size();i++){
-					System.out.println(sr_no.get(i));
-				}
 			}
 			if(fr_no.size()>0){
 				RoomDTO_sks frdto = roomMapper.getRoom_sks(fr_no.get(0));
 				req.setAttribute("frdto", frdto);
 				req.setAttribute("fr_no", fr_no);
-				for(int i = 0;i<fr_no.size();i++){
-					System.out.println(fr_no.get(i));
-				}
 			}
 						
 			req.setAttribute("hrdto", hrdto);

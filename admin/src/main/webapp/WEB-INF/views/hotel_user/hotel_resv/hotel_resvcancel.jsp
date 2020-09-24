@@ -14,25 +14,31 @@
 <c:if test="${not empty drdto}">
 <tr>
 <th>${drdto.name}</th>
+<td>
 <c:forEach var="ho" items="${dr_no}">
-<td>${ho}호<br></td>
+${ho}호<br>
 </c:forEach>
+</td>
 </tr>
 </c:if>
 <c:if test="${not empty srdto}">
 <tr>
 <th>${srdto.name}</th>
+<td>
 <c:forEach var="ho" items="${sr_no}">
-<td>${ho}호<br></td>
+${ho}호<br>
 </c:forEach>
+</td>
 </tr>
 </c:if>
 <c:if test="${not empty frdto}">
 <tr>
 <th>${frdto.name}</th>
+<td>
 <c:forEach var="ho" items="${fr_no}">
-<td>${ho}호<br></td>
+${ho}호<br>
 </c:forEach>
+</td>
 </tr>
 </c:if>
 <tr>
