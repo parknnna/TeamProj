@@ -355,7 +355,77 @@
     	</div>
     </section>
 
-    <section class="ftco-section testimony-section bg-light">
+   
+
+
+    <section class="ftco-section">
+    	<div class="container">
+				<div class="row justify-content-start mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate">
+          	<span class="subheading">Content</span>
+            <h2 class="mb-4"><strong>Hotel</strong> Content</h2>
+          </div>
+        </div>    		
+    	</div>
+    	<div class="container-fluid">
+    		<div class="row">
+    		<%
+    			List<String> hotel = (List)request.getAttribute("hotel");
+    			List<hotel_boardDTO> list4 = (List)request.getAttribute("list4");
+    			if(list4!=null){
+    				int cnt=0;
+    			for(hotel_boardDTO dto : list4){
+    			%> 
+    			<div class="col-sm col-md-6 col-lg ftco-animate">
+    				<div class="destination">
+    					<%if(dto.getFilename()!=null){ %>
+    					<a href="hotel_content.do?hotel_board_no=<%=dto.getHotel_board_no() %>&hotel_no=<%=dto.getHotel_no() %>" class="img img-2 d-flex justify-content-center align-items-center"  style="background-image: url(${pageContext.request.contextPath}/resources/img/<%=dto.getFilename().split("/")[0]%>);">
+    						<div class="icon d-flex justify-content-center align-items-center">
+    							<span class="icon-search2"></span>
+    						</div>
+    					</a>
+    					<%}else{ %>
+    					<a href="hotel_content.do?hotel_board_no=<%=dto.getHotel_board_no() %>&hotel_no=<%=dto.getHotel_no() %>" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/qwe.png);">
+    						<div class="icon d-flex justify-content-center align-items-center">
+    							<span class="icon-search2"></span>
+    						</div>
+    					</a>
+    					<%} %>
+    					<div class="text p-3">
+    						<div class="d-flex">
+    							<div class="one">
+		    						<h3><a href="board_content.do?main_board_no=<%=dto.getHotel_board_no() %>"><%=dto.getTitle() %></a></h3>
+	    						</div>		
+		    					<div class="two">
+	    							<i class="far fa-thumbs-up"></i><span class="price"><%=dto.getUp() %></span>
+	    							<i class="far fa-thumbs-down"></i><span class="price"><%=dto.getDown() %></span>
+    							</div>
+    						</div>
+    					<%
+    						String b=dto.getContent();
+    						if(b.length()>20){
+    							b=dto.getContent().substring(0,20);
+    							b+="...";
+    						}
+    						%>
+    						<p><%=b %></p>
+    						<hr>
+    						<p class="bottom-area d-flex">
+    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;&nbsp;<%=hotel.get(cnt)%></span> 
+    						</p>
+    					</div>
+    				</div>
+    			</div>
+    		<%cnt++;}} %>
+    		</div>
+    	</div>
+    </section>
+
+
+
+
+
+	 <section class="ftco-section testimony-section bg-light">
       <div class="container">
         <div class="row justify-content-start">
           <div class="col-md-5 heading-section ftco-animate">
@@ -422,71 +492,6 @@
         </div>
       </div>
     </section>
-
-
-    <section class="ftco-section">
-    	<div class="container">
-				<div class="row justify-content-start mb-5 pb-3">
-          <div class="col-md-7 heading-section ftco-animate">
-          	<span class="subheading">Content</span>
-            <h2 class="mb-4"><strong>Hotel</strong> Content</h2>
-          </div>
-        </div>    		
-    	</div>
-    	<div class="container-fluid">
-    		<div class="row">
-    		<%
-    			List<String> hotel = (List)request.getAttribute("hotel");
-    			List<hotel_boardDTO> list4 = (List)request.getAttribute("list4");
-    			if(list4!=null){
-    				int cnt=0;
-    			for(hotel_boardDTO dto : list4){
-    			%> 
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<%if(dto.getFilename()!=null){ %>
-    					<a href="hotel_content.do?hotel_board_no=<%=dto.getHotel_board_no() %>&hotel_no=<%=dto.getHotel_no() %>" class="img img-2 d-flex justify-content-center align-items-center"  style="background-image: url(${pageContext.request.contextPath}/resources/img/<%=dto.getFilename().split("/")[0]%>);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<%}else{ %>
-    					<a href="hotel_content.do?hotel_board_no=<%=dto.getHotel_board_no() %>&hotel_no=<%=dto.getHotel_no() %>" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/qwe.png);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<%} %>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="board_content.do?main_board_no=<%=dto.getHotel_board_no() %>"><%=dto.getTitle() %></a></h3>
-	    						</div>		
-		    					<div class="two">
-	    							<i class="far fa-thumbs-up"></i><span class="price"><%=dto.getUp() %></span>
-	    							<i class="far fa-thumbs-down"></i><span class="price"><%=dto.getDown() %></span>
-    							</div>
-    						</div>
-    					<%
-    						String b=dto.getContent();
-    						if(b.length()>20){
-    							b=dto.getContent().substring(0,20);
-    							b+="...";
-    						}
-    						%>
-    						<p><%=b %></p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i>&nbsp;&nbsp;&nbsp;<%=hotel.get(cnt)%></span> 
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    		<%cnt++;}} %>
-    		</div>
-    	</div>
-    </section>
-
 <%@include file="Basic/footer.jsp" %>
     
   
