@@ -343,11 +343,11 @@
 						</tr>
 						<%
 						boolean up=(boolean)request.getAttribute("up");
-						boolean down=(boolean)request.getAttribute("down");
-						%>
+						boolean down=(boolean)request.getAttribute("down");  
+						%> 
 						<tr align="center">
 							<td colspan="4">
-								<%if(up){ %>
+								<%if(up){ %> 
 									<a href="javascript:check2(<%=a %>,'hotel_board_up.do?hotel_board_no=<%=dto.getHotel_board_no()%>&hotel_no=<%=Integer.parseInt(request.getParameter("hotel_no")) %>')"><i class="far fa-laugh-squint fa-3x"></i></a>
 								<%}else{ %>
 									<a href="hotel_board_up_re.do?hotel_board_no=<%=dto.getHotel_board_no()%>&hotel_no=<%=Integer.parseInt(request.getParameter("hotel_no")) %>"><i class="fas fa-laugh-squint fa-3x"></i></a>

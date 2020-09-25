@@ -169,7 +169,7 @@
     		%>
     			<div class="col-sm col-md-6 col-lg ftco-animate">
     				<div class="destination">
-    				<%if(a!=null){ %>
+    				<%if(a!=null ){ %>
     					<a href="hotel_show.do?hnum=<%=list2.get(i).getHotel_no() %>" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/img/<%=list2.get(i).getFilename().split("/")[0]%>);">
     						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
@@ -194,11 +194,16 @@
 		    							<%} %>
 		    						</p>
 	    						</div>
-	    						<div class="two">
-	    							<span class="price">$200</span>
-    							</div>
+	    						
     						</div>
-    						<p><%=list2.get(i).getHotel_info() %></p>
+    						
+    						<%
+    						String c=list2.get(i).getHotel_info();
+    						if(list2.get(i).getHotel_info().length()>50){
+    							c=list2.get(i).getHotel_info().substring(0,50)+"...";
+    						}
+    						%>
+    						<p><%=c %></p>
     						
     						<hr>
     						<p class="bottom-area d-flex">
@@ -288,7 +293,7 @@
     							<span class="icon-search2"></span>
     						</div>
     					</a><%}else{ %>
-    					<a href=board_content.do?main_board_no=<%=dto.getMain_board_no()%>" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/qwe.png);">
+    					<a href="board_content.do?main_board_no=<%=dto.getMain_board_no()%>" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/qwe.png);">
     						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
     						</div>
@@ -440,13 +445,13 @@
     			<div class="col-sm col-md-6 col-lg ftco-animate">
     				<div class="destination">
     					<%if(dto.getFilename()!=null){ %>
-    					<a href="board_content.do?hotel_board_no=" class="img img-2 d-flex justify-content-center align-items-center"  style="background-image: url(${pageContext.request.contextPath}/resources/img/<%=dto.getFilename().split("/")[0]%>);">
+    					<a href="hotel_content.do?hotel_board_no=<%=dto.getHotel_board_no() %>&hotel_no=<%=dto.getHotel_no() %>" class="img img-2 d-flex justify-content-center align-items-center"  style="background-image: url(${pageContext.request.contextPath}/resources/img/<%=dto.getFilename().split("/")[0]%>);">
     						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
     						</div>
     					</a>
     					<%}else{ %>
-    					<a href="board_content.do?main_board_no=" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/qwe.png);">
+    					<a href="hotel_content.do?hotel_board_no=<%=dto.getHotel_board_no() %>&hotel_no=<%=dto.getHotel_no() %>" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(${pageContext.request.contextPath}/resources/images/qwe.png);">
     						<div class="icon d-flex justify-content-center align-items-center">
     							<span class="icon-search2"></span>
     						</div>
@@ -455,7 +460,7 @@
     					<div class="text p-3">
     						<div class="d-flex">
     							<div class="one">
-		    						<h3><a href="board_content.do?main_board_no="><%=dto.getTitle() %></a></h3>
+		    						<h3><a href="board_content.do?main_board_no=<%=dto.getHotel_board_no() %>"><%=dto.getTitle() %></a></h3>
 	    						</div>		
 		    					<div class="two">
 	    							<i class="far fa-thumbs-up"></i><span class="price"><%=dto.getUp() %></span>

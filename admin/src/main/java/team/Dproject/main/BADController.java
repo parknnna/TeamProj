@@ -276,7 +276,7 @@ public class BADController {
 	}
 	@RequestMapping(value="/ADbus_load_insert.do",method = RequestMethod.POST)
 	public String bus_load_insertOK(HttpServletRequest req, bus_loadDTO dto,HttpSession session)  {
-		int MNUM=(int)session.getAttribute("MNUM");
+		int MNUM=(Integer)session.getAttribute("MNUM");
 		dto.setMember_no(MNUM);
 		int res=bus_loadMapper.insertBus_load(dto);
 		String msg = null, url = null;
@@ -286,7 +286,7 @@ public class BADController {
 		} else {
 			msg = "노선등록 실패";
 			url = "ADbus_load_list.do";
-		}
+		} 
 		req.setAttribute("page_name", "Bus Road List");
 
 		req.setAttribute("msg", msg);
@@ -324,7 +324,7 @@ public class BADController {
 	}
 	@RequestMapping(value="/ADbus_load_update.do",method = RequestMethod.POST)
 	public String bus_load_updateOK(HttpServletRequest req, bus_loadDTO dto,HttpSession session)  {
-		int MNUM=(int)session.getAttribute("MNUM");
+		int MNUM=(Integer)session.getAttribute("MNUM");
 		dto.setMember_no(MNUM);
 		int res=bus_loadMapper.updateBus_load(dto); 
 		String msg = null, url = null;

@@ -104,7 +104,7 @@
        					
        					<tbody>
        					<%List<BusRoadDTO_resv> brlist = (List<BusRoadDTO_resv>)request.getAttribute("brlist");
-       					  int size=(int)request.getAttribute("size");
+       					  int size=(Integer)request.getAttribute("size");
        					  
        					  for(int i=0; i<size; i++){
    							if(i%2==0){
