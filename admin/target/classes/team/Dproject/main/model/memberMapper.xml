@@ -11,9 +11,6 @@
 	<select id = "memberList" resultType = "memberDTO">
 		select * from member order by member_no
 	</select>
-	<select id = "getMemberPasswd" parameterType = "String" resultType = "memberDTO">
-		select * from member where id = #{id}
-	</select>
 	<select id = "findMemberId" parameterType = "String" resultType = "memberDTO">
 		select * from member where id = #{searchString}
 	</select>

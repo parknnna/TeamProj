@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../Basic/top_Login.jsp" %>
+<%@ include file="../Basic/head.jsp" %>
+<%@ include file="../Basic/top.jsp" %>
 <script type="text/javascript">
 	function check(){
 		if(f.passwd.value == ""){
@@ -18,40 +19,10 @@
 		
 	}
 </script>
-	<div class="hero-wrap js-fullheight" style="background-image: url('${pageContext.request.contextPath}/resources/images/bgi_2.jpg');">
-		<div class="overlay"></div>
-			<div class="container">
-				<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-					<div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-						<h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Let's Explore!</strong></h1>
-						<div class="block-17 my-4">
-							<form action="search.do" method="post" class="d-block d-flex">
-								<div class="fields d-block d-flex">
-									<div class="select-wrap one-third">
-										<div class="icon"><span class="ion-ios-arrow-down"></span></div>
-											<select name="map-category" class="form-control">
-                  	  <option value="">What are you finding?</option>
-                      <option value="지하철">Subway</option>
-                      <option value="식당">Restaurant</option>
-                      <option value="호텔">Hotel</option>
-                      <option value="카페">Cafe</option>
-                      <option value="관광명소">Attraction</option>
-                    </select>
-                  </div>
-                  <div class="select-wrap one-third">
-                  	<div>
-                  		<input type="text" name="map-location" class="form-control" placeholder="Where to">
-                  	</div>
-                  </div>
-                </div>
-                <input type="submit" class="search-submit btn btn-primary" value="Search">  
-              </form> 
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-<div align = "center">
+<div class="hero-wrap js-fullheight" style="background-image: url('${pageContext.request.contextPath}/resources/images/bgi_2.jpg');">
+<br><br><br><br><br><br><br><br><br>
+	<div align = "center">
+	<h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">My Page</h1>
 	<form name = "f" action = "member_edit_ok.do?mode=mypage" method = "post" enctype="multipart/form-data">
 		<input type="hidden" name="member_no" value="${sedto.member_no}">
 		<input type = "hidden" name = "id" value = "${sedto.id}">
@@ -63,7 +34,7 @@
 		<input type = "hidden" name = "point" value = "${sedto.point}">
 		<input type = "hidden" name = "joindate" value = "${sedto.joindate}">
 		<input type = "hidden" name = "filename" value = "${sedto.filename }">
-		<table class = "outline" border = "1">
+		<table class = "outline" border = "1" bgcolor = "white">
 			<tr>
 				<td rowspan = "4" align = "center">
 					<img src="${pageContext.request.contextPath}/resources/img/${sedto.filename}" width = "80" height = "80">
@@ -124,5 +95,6 @@
 			</tr>
 		</table>
 	</form>
+	</div>
 </div>
 <%@include file="../Basic/footer.jsp" %>

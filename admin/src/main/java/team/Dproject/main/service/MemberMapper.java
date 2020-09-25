@@ -99,24 +99,6 @@ public class MemberMapper {
 		
 	}
 
-	public int memberLogin(String id, String passwd) {
-		MemberDTO dto = sqlSession.selectOne("getMemberPasswd", id);
-		if(dto == null){
-			return 2;//아이디 없음
-			
-		}else{
-			if(dto.getPasswd().equals(passwd)){
-				return 0;//로그인 성공
-				
-			}else{
-				return 1;//비밀번호 틀림
-				
-			}
-			
-		}
-		
-	}
-
 	public MemberDTO getMember(String id) {
 		return sqlSession.selectOne("getMember", id);
 		

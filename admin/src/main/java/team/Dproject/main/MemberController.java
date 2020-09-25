@@ -66,15 +66,21 @@ public class MemberController {
 
 	@RequestMapping(value = "/member_login_ok.do")
 	public String MemberLoginOk(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession session = req.getSession();
 		String id = req.getParameter("id");
 		String passwd = req.getParameter("passwd");
 		String saveId = req.getParameter("saveId");
-		int res = memberMapper.memberLogin(id, passwd);
+		MemberDTO dto = memberMapper.getMember(id);
 		String msg = null, url = null;
-		switch (res) {
-		case 0:
-			MemberDTO dto = memberMapper.getMember(id);
-			HttpSession session = req.getSession();
+		if(dto == null){
+			msg = "해당하는 아이디가 없습니다.";
+			url = "member_login.do";
+						
+		}else if(!(dto.getPasswd().equals(passwd))){
+			msg = "비밀번호를 잘못 입력하였습니다.";
+			url = "member_login.do";
+			
+		}else{
 			Cookie ck = new Cookie("id", id);
 			if (saveId != null) {
 				ck.setMaxAge(10 * 60);
@@ -88,18 +94,7 @@ public class MemberController {
 			session.setAttribute("MNUM", dto.getMember_no());
 			msg = dto.getName() + "님 환영합니다. 메인페이지로 이동합니다.";
 			url = "index.do";
-			break;
-
-		case 1:
-			msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해 주세요";
-			url = "member_login.do";
-			break;
-
-		case 2:
-			msg = "없는 아이디 입니다. 다시 확인하시고 입력해 주세요";
-			url = "member_login.do";
-			break;
-
+			
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
