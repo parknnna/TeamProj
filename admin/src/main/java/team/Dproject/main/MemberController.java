@@ -22,8 +22,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import team.Dproject.main.model.BoardDTO;
+import team.Dproject.main.model.BusStationDTO_resv;
 import team.Dproject.main.model.MemberDTO;
+import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.model.hotelDTO_resv_ysm;
+import team.Dproject.main.model.hotel_boardDTO;
+import team.Dproject.main.service.BoardMapper;
+import team.Dproject.main.service.BusStaionMapper_resv;
+import team.Dproject.main.service.CommentMapper;
+import team.Dproject.main.service.HotelMapper;
+import team.Dproject.main.service.Hotel_boardMapper;
 import team.Dproject.main.service.MemberMapper;
 
 /**
@@ -34,11 +43,38 @@ public class MemberController {
 	@Autowired
 	private MemberMapper memberMapper;
 
+	
+	@Autowired
+	private CommentMapper commentMapper;
+
+	@Autowired
+	private BoardMapper boardMapper;
+
+	@Autowired
+	private BusStaionMapper_resv busStationMapper; 
+	@Autowired
+	private HotelMapper hotelMapper;
+	@Autowired
+	private Hotel_boardMapper hotelboardMapper;
+
 	@Resource(name = "upLoadPath")
 	private String upLoadPath;
 
 	@RequestMapping(value = "/index.do")
-	public String main() {
+	public String main(HttpServletRequest req) {
+		List<BusStationDTO_resv> list=busStationMapper.listBus_station_resv();
+		req.setAttribute("list", list);
+		List<hotelDTO> list2=hotelMapper.listHotel2();
+		req.setAttribute("list2", list2);
+		List<BoardDTO> list3=boardMapper.board_list2();
+		req.setAttribute("list3", list3);
+		List<hotel_boardDTO> list4=hotelboardMapper.listHotel_boardup();
+		req.setAttribute("list4", list4);
+		List<String> hotelList = new ArrayList<String>();
+		for(hotel_boardDTO dto:list4){
+			hotelList.add(hotelMapper.getHotel(String.valueOf(dto.getHotel_no())).getName());
+		}
+		req.setAttribute("hotel", hotelList);
 		return "index";
 
 	}

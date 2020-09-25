@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- memberAll.jsp -->
-<%-- <%@ include file="top.jsp"%> --%>
+ <%@ include file="../Basic/head.jsp" %>
+ <%@ include file="../Basic/nav_Login.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div align="center">
+<%@ include file="top.jsp" %>
+<div align="center"style="margin-top:90px">
 	<hr color="green" width="300">
 	<c:if test="${mode == 'all'}">
 	<h2>회 원 목 록 보 기</h2>
@@ -55,3 +57,5 @@
 		</c:choose>
 	</table>
 </div>
+
+  <%@ include file="../Basic/bottom_nav.jsp" %>

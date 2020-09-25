@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="top.jsp" %>
+ <%@ include file="../Basic/head.jsp" %>
+ <%@ include file="../Basic/nav_Login.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div align = "center">
+<%@ include file="top.jsp" %>
+<div align = "center" style="margin-top:90px">
 <hr color="green" width="300">
 <h2>위 시 리 스 트</h2>
 <hr color="green" width="300">
@@ -45,4 +47,5 @@
 	</table>
 </form>
 </div>
-<%@ include file="bottom.jsp" %>
+
+  <%@ include file="../Basic/bottom_nav.jsp" %>

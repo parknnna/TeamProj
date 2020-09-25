@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-	<div align="center">
+ <%@ include file="../Basic/head.jsp" %>
+ <%@ include file="../Basic/nav_Login.jsp" %>
+ <%@ include file="top.jsp" %>
+	<div align="center"style="margin-top:90px">
 		<hr color="green" width="300">
 		<c:if test="${mode == 'id' }">
 		<h2>아 이 디 찾 기</h2>
@@ -39,3 +41,4 @@
 		</form>
 		
 	</div>
+  <%@ include file="../Basic/bottom_nav.jsp" %>

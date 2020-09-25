@@ -8,7 +8,7 @@
 	<select id = "checkId" parameterType = "String" resultType = "Integer">
 		select count(*) from member where id = #{id}
 	</select>
-	<select id = "memberList" resultType = "memberDTO">
+	<select id = "memberList" resultType = "memberDTO">//포인트
 		select * from member order by member_no
 	</select>
 	<select id = "getMemberPasswd" parameterType = "String" resultType = "memberDTO">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="top.jsp" %>
+ <%@ include file="../Basic/head.jsp" %>
+ <%@ include file="../Basic/nav_Login.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript"> 
 	function point(val){ //포인트계산 스크립트
@@ -24,7 +25,8 @@
 		
 	}
 </script>
-<div align = "center">
+<%@ include file="top.jsp" %>
+<div align = "center"style="margin-top:90px">
 	<form name = "f" method = "post" action="member_reserve_ok.do">
 		<table class = "outline" border = "1">
 			<tr>
@@ -63,4 +65,5 @@
 		</table>
 	</form>
 </div>
-<%@ include file="bottom.jsp" %>
+
+  <%@ include file="../Basic/bottom_nav.jsp" %>

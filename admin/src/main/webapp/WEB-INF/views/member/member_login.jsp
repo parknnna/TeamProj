@@ -20,6 +20,7 @@
 	}
 </script>
 <%@ include file="../Basic/top_Login.jsp" %>
+<%@ include file="top.jsp" %>
 <div align="center" style="margin:50px auto 30px auto;">
 	<div class="row" align="center" style="display:block;margin:0 auto;">
 <div class="card" style="width:400px;margin:0 auto;box-shadow: 3px 3px 13px;">
