@@ -1137,21 +1137,33 @@ public class HotelController {
 			int save_point = hrdto.getSave_point();
 			int user_point = befor_user_point + use_point - save_point;
 			
-			int update_point = memberMapper.updateMemberPoint_sks(user_point, member_no);
-			if(update_point<0){
-				String msg = "고객님의 포인트가 제대로 변경되지 않았습니다. 관리자에게 문의해주세요.";
+			if(user_point<0){
+				String msg = "개새끼야!!!";
 				String url = "hotel_paymentoklist";
 				
 				req.setAttribute("msg", msg);
 				req.setAttribute("url", url);
 				return "message";
+			}else{
+				int update_point = memberMapper.updateMemberPoint_sks(user_point, member_no);
+				
+				if(update_point<0){
+					String msg = "고객님의 포인트가 제대로 변경되지 않았습니다. 관리자에게 문의해주세요.";
+					String url = "hotel_paymentoklist";
+					
+					req.setAttribute("msg", msg);
+					req.setAttribute("url", url);
+					return "message";
+				}
+				if(update_point>0){
+					HttpSession session = req.getSession();
+					session.removeAttribute("sedto");
+					MemberDTO mdto = memberMapper.getMember_sks(member_no);
+					session.setAttribute("sedto", mdto);
+				}
 			}
-			if(update_point>0){
-				HttpSession session = req.getSession();
-				session.removeAttribute("sedto");
-				MemberDTO mdto = memberMapper.getMember_sks(member_no);
-				session.setAttribute("sedto", mdto);
-			}
+			
+			
 			if(hrdto!=null){
 				int del = hotelResvMapper.deleteHotelResv_sks(member_no, hotel_resv_no);
 				if(del<0){
