@@ -68,7 +68,7 @@
 				<td align="right">인원수 : </td><td align="left"><input type="text" name="sleeps"></td>
 			</tr>
 			<tr align="center">
-				<td align="right">구비 물품 : </td><td align="left"><input type="text" name="item"></td>
+				<td align="right">구비 물품 : </td><td align="left"><textarea name="item"></textarea></td>
 			</tr >
 			<tr align="center">
 				<td align="right">방가격 : </td><td align="left"><input type="text" name="price" size="30"></td>
@@ -96,4 +96,4 @@
 		</table>
 	</form>
 </div>
-<%@ include file="../../Basic/bottom_nav.jsp" %>
+<%-- <%@ include file="../../Basic/bottom_nav.jsp" %> --%>

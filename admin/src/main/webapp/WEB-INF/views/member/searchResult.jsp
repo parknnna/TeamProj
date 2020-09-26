@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+     <%@ include file="../Basic/head.jsp" %>
+   <%@ include file="../Basic/nav_Login.jsp" %>
+   <%@ include file="top.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<div align="center">
+	<div align="center"style="margin-top:90px">
 		<hr color="green" width="300">
 		<c:if test="${mode == 'id'}">
 			<h2>아 이 디 검 색 결 과</h2>
@@ -66,3 +68,5 @@
 		</c:if>
 	</div>
 
+
+  <%@ include file="../Basic/bottom_nav.jsp" %>  

@@ -28,5 +28,7 @@
 	<bean id="sqlSession" 
 				class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>				
-	</bean>		
+	</bean>	
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />	
 </beans>

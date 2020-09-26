@@ -111,6 +111,12 @@
 								size="4" maxlength="4" value="${dto.hp3}">
 			</td>
   		</tr>
+  		<tr>
+  			<td>
+  			
+  				<input type="text" name="point" value="${dto.point }">
+  			</td>
+  		</tr>
   		
   			<tr>
 					<td>이미지 : <input type="file" name="file" size="30" value="${dto.filename}"></td>

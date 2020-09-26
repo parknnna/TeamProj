@@ -12,187 +12,199 @@ import team.Dproject.main.model.Bus_BusRoadDTO;
 
 @Service
 public class BusResvMapper_resv {
-	   @Autowired
-	   private SqlSession sqlSession;
-	   
-	   public List<BusResvDTO_resv> listBus_resv_resv_resv(){
-		      return sqlSession.selectList("listBus_resv_resv_resv");
-	   }
-	   public int insertBus_resv_resv_resv(BusResvDTO_resv dto){
-		      return sqlSession.insert("insertBus_resv_resv_resv",dto);
-	   }
-	   public int deletetBus_resv_resv_resv(int no){
-		      return sqlSession.insert("deleteBus_resv_resv_resv",no);
-	   }
-	   public BusResvDTO_resv getBus_resv_resv_resv(String no){
-		   return sqlSession.selectOne("getBus_resv_resv_resv",no);
-	   }
-	   public int updateBus_resv_resv(BusResvDTO_resv dto){
-		      return sqlSession.insert("updateBus_resv_resv_resv",dto);
-	   }
-	   public List<Bus_BusRoadDTO> listdispatch_resv_resv(int arrival,int departure,String grade){
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-		  
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("grade",grade);
-	
-		   
-		   return sqlSession.selectList("listDispatch_resv_resv",map);
-	   }
-	   public List<BusResv_BusRoadDTO> resvlist_resv(int member_no){
-		   
-		   return sqlSession.selectList("resvlist_resv",member_no);
-	   }
-	   public List<Bus_BusRoadDTO> listdispatch_resv_count_resv(int arrival,int departure,String grade,int start,int end){//list 5°³¾¿Ãâ·Â ¿ìµî,ÀÏ¹İ ¹ö½ºÁß ÇÏ³ª
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-		  
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("grade",grade);
-		   map.put("start",start);
-		   map.put("end",end);
-		   
-		   return sqlSession.selectList("listDispatch_resv_count_resv",map);
-	   }
-	   public List<Bus_BusRoadDTO> listdispatch_resv_reverse_count_resv(int arrival,int departure,String grade,int start,int end){//list 5°³¾¿Ãâ·Â ¿ìµî,ÀÏ¹İ ¹ö½ºÁß ÇÏ³ª(Ãâ¹ßÁö µµÂøÁö ¹İ´ë·Î Ç¥½Ã)
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-		  
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("grade",grade);
-		   map.put("start",start);
-		   map.put("end",end);
-		   
-		   return sqlSession.selectList("listDispatch_resv_reverse_count_resv",map);
-	   }
-	   
-	   
-	   
-	   public List<Bus_BusRoadDTO> listdispatch_resv_all_count_resv(int arrival,int departure,int start,int end){//list 5°³¾¿ Ãâ·Â ¸ğµçÁ¾·ù ¹ö½º
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-		  
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("start",start);
-		   map.put("end",end);
-		   
-		   return sqlSession.selectList("listDispatch_resv_all_count_resv",map);
-	   }
-	   
-	   public List<Bus_BusRoadDTO> listdispatch_resv_reverse_all_count_resv(int arrival,int departure,int start,int end){//list 5°³¾¿ Ãâ·Â ¸ğµçÁ¾·ù ¹ö½º(Ãâ¹ßÁö,µµÂøÁö ¹İ´ë·Î)
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-		  
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("start",start);
-		   map.put("end",end);
-		   
-		   return sqlSession.selectList("listDispatch_resv_all_reverse_count_resv",map);
-	   }
-	   
+      @Autowired
+      private SqlSession sqlSession;
+      
+      public List<BusResvDTO_resv> listBus_resv_resv_resv(){
+            return sqlSession.selectList("listBus_resv_resv_resv");
+      }
+      public int insertBus_resv_resv_resv(BusResvDTO_resv dto){
+            return sqlSession.insert("insertBus_resv_resv_resv",dto);
+      }
+      public int deletetBus_resv_resv_resv(int no){
+            return sqlSession.insert("deleteBus_resv_resv_resv",no);
+      }
+      public int deleteBus_resv_resv_all(int member_no){
+         return sqlSession.insert("deleteBus_resv_resv_all",member_no);
+      }
+      public BusResvDTO_resv bus_resv_bus_resv_no(int bus_resv_no){
+         return sqlSession.selectOne("bus_resv_bus_resv_no",bus_resv_no);
+      }
+      public BusResvDTO_resv getBus_resv_resv_resv(String no){
+         return sqlSession.selectOne("getBus_resv_resv_resv",no);
+      }
+      public int updateBus_resv_resv(BusResvDTO_resv dto){
+            return sqlSession.insert("updateBus_resv_resv_resv",dto);
+      }
+      public List<Bus_BusRoadDTO> listdispatch_resv_resv(int arrival,int departure,String grade){
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+        
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("grade",grade);
+   
+         
+         return sqlSession.selectList("listDispatch_resv_resv",map);
+      }
+      public List<BusResv_BusRoadDTO> resvlist_resv(int member_no){
+         
+         return sqlSession.selectList("resvlist_resv",member_no);
+      }
+      public List<Bus_BusRoadDTO> listdispatch_resv_count_resv(int arrival,int departure,String grade,int start,int end){//list 5ê°œì”©ì¶œë ¥ ìš°ë“±,ì¼ë°˜ ë²„ìŠ¤ì¤‘ í•˜ë‚˜
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+        
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("grade",grade);
+         map.put("start",start);
+         map.put("end",end);
+         
+         return sqlSession.selectList("listDispatch_resv_count_resv",map);
+      }
+      public List<Bus_BusRoadDTO> listdispatch_resv_reverse_count_resv(int arrival,int departure,String grade,int start,int end){//list 5ê°œì”©ì¶œë ¥ ìš°ë“±,ì¼ë°˜ ë²„ìŠ¤ì¤‘ í•˜ë‚˜(ì¶œë°œì§€ ë„ì°©ì§€ ë°˜ëŒ€ë¡œ í‘œì‹œ)
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+        
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("grade",grade);
+         map.put("start",start);
+         map.put("end",end);
+         
+         return sqlSession.selectList("listDispatch_resv_reverse_count_resv",map);
+      }
+      
+      
+      
+      public List<Bus_BusRoadDTO> listdispatch_resv_all_count_resv(int arrival,int departure,int start,int end){//list 5ê°œì”© ì¶œë ¥ ëª¨ë“ ì¢…ë¥˜ ë²„ìŠ¤
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+        
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("start",start);
+         map.put("end",end);
+         
+         return sqlSession.selectList("listDispatch_resv_all_count_resv",map);
+      }
+      
+      public List<Bus_BusRoadDTO> listdispatch_resv_reverse_all_count_resv(int arrival,int departure,int start,int end){//list 5ê°œì”© ì¶œë ¥ ëª¨ë“ ì¢…ë¥˜ ë²„ìŠ¤(ì¶œë°œì§€,ë„ì°©ì§€ ë°˜ëŒ€ë¡œ)
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+        
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("start",start);
+         map.put("end",end);
+         
+         return sqlSession.selectList("listDispatch_resv_all_reverse_count_resv",map);
+      }
+      
 
-	   
-	   public List<Bus_BusRoadDTO> listDispatch_resv_reverse_resv(int arrival,int departure,String grade){
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("grade",grade);
-		   
-		   return sqlSession.selectList("listDispatch_resv_reverse_resv",map);
-	   }
-	   
-	   public List<Bus_BusRoadDTO> listDispatch_resv_all_resv(int arrival,int departure){
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-			  
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		  
-		   
-		   return sqlSession.selectList("listDispatch_resv_all_resv",map);
-	   }
-	   
-	   public List<Bus_BusRoadDTO> listDispatch_resv_all_reverse_resv(int arrival,int departure){
-		   java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
-		   
-			  
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		  
-		   
-		   return sqlSession.selectList("listDispatch_resv_all_reverse_resv",map);
-		   
-	   }
-	   
-	   public Bus_BusRoadDTO resv_user_seat_select_resv(int road_no){
-		   
-	   return sqlSession.selectOne("resv_user_seat_select_resv",road_no);
-	   }
-	   
-	   public int insertBus_resv_user_resv(BusResvDTO_resv dto){//bus_Resv Å×ÀÌºí insert ÈÄ °áÁ¦ÇÏ±â À§ÇØ
-		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
-		   map.put("bus_no",dto.getBus_no());
-		   map.put("road_no",dto.getRoad_no());
-		   map.put("seat",dto.getSeat());
-		   map.put("resv_date",dto.getResv_date());
-		   map.put("member_no",dto.getMember_no());
-		   map.put("use_point",dto.getUse_point());
-		   map.put("save_point",dto.getSave_point());
-		   map.put("price",dto.getPrice());
-		   
-		   return sqlSession.insert("insertBus_resv_user_resv",map);
-	   }
-	   
-	   public List<BusResvDTO_resv> list_seat_resv_user_resv(String resv_date,int road_no){//¿¹¾àÁÂ¼® ¼±ÅÃ ¸øÇÏ°ÔÇÏ±â
-		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
-		   map.put("resv_date",resv_date);
-		   map.put("road_no",road_no);
-		   return sqlSession.selectList("list_seat_resv_user_resv",map);
-	   }
-	   
-	   public int bus_busroad_resv_count_resv(int arrival,int departure,String grade){//Á¶ÀÎÇÑ Å×ÀÌºí Ãâ¹ßÁö,µµÂøÁö,¹ö½º µî±Ş ÀÏÄ¡ ÇÑÇà Ä«¿îÆ®
-		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("grade", grade);
-		   return sqlSession.selectOne("bus_busroad_resv_count_resv",map);
-	   }
-	   public int bus_busroad_resv_resverse_count_resv(int arrival,int departure,String grade){//Á¶ÀÎÇÑ Å×ÀÌºí Ãâ¹ßÁö,µµÂøÁö,¹ö½º µî±Ş ÀÏÄ¡ ÇÑÇà Ä«¿îÆ®(Ãâ¹ßÁö µµÂøÁö ¼ø¼­ º¯°æ)
-		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   map.put("grade", grade);
-		   return sqlSession.selectOne("bus_busroad_resv_resverse_count_resv",map);
-	   }
-	   public int bus_busroad_resv_resverse_all_count_resv(int arrival,int departure){
-		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   return sqlSession.selectOne("bus_busroad_resv_resverse_all_count_resv",map);
-	   }
-	   
-	   public int bus_busroad_resv_all_count_resv(int arrival,int departure){//Á¶ÀÎÇÑ Å×ÀÌºí Ãâ¹ßÁö,µµÂøÁö ÀÏÄ¡ ÇÑÇà Ä«¿îÆ®
-		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
-		   map.put("arrival",arrival);
-		   map.put("departure",departure);
-		   
-		   return sqlSession.selectOne("bus_busroad_resv_all_count_resv",map);
-	   }
-	   
-	   public List<BusResvDTO_resv> bus_resv_seat_count_oneway(String resv_date,int road_no){
-		   java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
-		   map.put("resv_date",resv_date);
-		   map.put("road_no",road_no);
-		   
-		   return sqlSession.selectList("bus_resv_seat_count_oneway",map);
-	   }
-	   
-	    
+      
+      public List<Bus_BusRoadDTO> listDispatch_resv_reverse_resv(int arrival,int departure,String grade){
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("grade",grade);
+         
+         return sqlSession.selectList("listDispatch_resv_reverse_resv",map);
+      }
+      
+      public List<Bus_BusRoadDTO> listDispatch_resv_all_resv(int arrival,int departure){
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+           
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+        
+         
+         return sqlSession.selectList("listDispatch_resv_all_resv",map);
+      }
+      
+      public List<Bus_BusRoadDTO> listDispatch_resv_all_reverse_resv(int arrival,int departure){
+         java.util.Map<String,Object> map =new java.util.Hashtable<String,Object>();
+         
+           
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+        
+         
+         return sqlSession.selectList("listDispatch_resv_all_reverse_resv",map);
+         
+      }
+      
+      public Bus_BusRoadDTO resv_user_seat_select_resv(int road_no){
+         
+      return sqlSession.selectOne("resv_user_seat_select_resv",road_no);
+      }
+      
+      public int insertBus_resv_user_resv(BusResvDTO_resv dto){//bus_Resv í…Œì´ë¸” insert í›„ ê²°ì œí•˜ê¸° ìœ„í•´
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("bus_no",dto.getBus_no());
+         map.put("road_no",dto.getRoad_no());
+         map.put("seat",dto.getSeat());
+         map.put("resv_date",dto.getResv_date());
+         map.put("member_no",dto.getMember_no());
+         map.put("use_point",dto.getUse_point());
+         map.put("save_point",dto.getSave_point());
+         map.put("price",dto.getPrice());
+         
+         return sqlSession.insert("insertBus_resv_user_resv",map);
+      }
+      
+      public List<BusResvDTO_resv> list_seat_resv_user_resv(String resv_date,int road_no){//ì˜ˆì•½ì¢Œì„ ì„ íƒ ëª»í•˜ê²Œí•˜ê¸°
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("resv_date",resv_date);
+         map.put("road_no",road_no);
+         return sqlSession.selectList("list_seat_resv_user_resv",map);
+      }
+      
+      public int bus_busroad_resv_count_resv(int arrival,int departure,String grade){//ì¡°ì¸í•œ í…Œì´ë¸” ì¶œë°œì§€,ë„ì°©ì§€,ë²„ìŠ¤ ë“±ê¸‰ ì¼ì¹˜ í•œí–‰ ì¹´ìš´íŠ¸
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("grade", grade);
+         return sqlSession.selectOne("bus_busroad_resv_count_resv",map);
+      }
+      public int bus_busroad_resv_resverse_count_resv(int arrival,int departure,String grade){//ì¡°ì¸í•œ í…Œì´ë¸” ì¶œë°œì§€,ë„ì°©ì§€,ë²„ìŠ¤ ë“±ê¸‰ ì¼ì¹˜ í•œí–‰ ì¹´ìš´íŠ¸(ì¶œë°œì§€ ë„ì°©ì§€ ìˆœì„œ ë³€ê²½)
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         map.put("grade", grade);
+         return sqlSession.selectOne("bus_busroad_resv_resverse_count_resv",map);
+      }
+      public int bus_busroad_resv_resverse_all_count_resv(int arrival,int departure){
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         return sqlSession.selectOne("bus_busroad_resv_resverse_all_count_resv",map);
+      }
+      
+      public int bus_busroad_resv_all_count_resv(int arrival,int departure){//ì¡°ì¸í•œ í…Œì´ë¸” ì¶œë°œì§€,ë„ì°©ì§€ ì¼ì¹˜ í•œí–‰ ì¹´ìš´íŠ¸
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("arrival",arrival);
+         map.put("departure",departure);
+         
+         return sqlSession.selectOne("bus_busroad_resv_all_count_resv",map);
+      }
+      
+      public List<BusResvDTO_resv> bus_resv_seat_date_oneway(String resv_date){
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("resv_date",resv_date);
+         return sqlSession.selectList("bus_resv_seat_date_oneway",map);
+      }
+      
+      public List<BusResvDTO_resv> bus_resv_seat_count_oneway(String resv_date,int road_no){
+         java.util.Map<String,Object> map = new java.util.Hashtable<String,Object>();
+         map.put("resv_date",resv_date);
+         map.put("road_no",road_no);
+         
+         return sqlSession.selectList("bus_resv_seat_count_oneway",map);
+      }
+      
+       
 }

@@ -26,11 +26,6 @@
 		list-style-type: none;
 	}
 
-	.slide1 {background: red;}
-	.slide2 {background: blue;}
-	.slide3 {background: green;}
-	.slide4 {background: purple;}
-	.slide5 {background: pink;}
 
 	#slider-nav {
 	position:absolute;
@@ -92,8 +87,8 @@
 	$(function() {
 
 		//이 부분을 자신의 상황에 맞게 수정
-		var width = 720; //슬라이드 한 개의 폭
-		var height = 400; //슬라이드 높이
+		var width = 600; //슬라이드 한 개의 폭
+		var height = 300; //슬라이드 높이
 		var animationSpeed = 1000; //화면전환 속도
 		var pause = 3000; //화면전환 후 일시 정지 속도
 		var totalSlides = 7; //복제 슬라이드를 포함한 전체 슬라이드 개수
@@ -225,9 +220,14 @@
 <%
 roomDTO dto =(roomDTO)request.getAttribute("dto"); 
 String img=dto.getFilename();
+String name=(String)request.getAttribute("hotelname");
 if(img!=null){
 %>
-<div id="slider"style="margin-top:62px">
+
+<div style="margin-top:80px;" align="center">
+	<h5><%=name %></h5>
+</div>
+<div id="slider"style="margin-top:10px;">
 	<ul class="slides">
 		<%
 		String cla="slide slide";
@@ -242,7 +242,7 @@ if(img!=null){
 				cla=cla+temp;
 				%>
 				<li class="<%=cla%>">
-				<img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[i] %>" width="720" height="400">
+				<img src="${pageContext.request.contextPath}/resources/img/<%=SPimg[i] %>" width="600" height="300">
 				</li>
 				<% 
 			}
@@ -273,13 +273,14 @@ if(img!=null){
 <%}else{ %>
 <div align="center" style=" width:720px; height:200px"><p>이미지 없음</p></div>
 <%} %>
+
 <div align="center">
 	<table align="center">
 		<tr align="center"><td>방 이름 : <%=dto.getName() %></td></tr>
-		<tr align="center"><td>방 평수 : <%=dto.getRoomsize() %></td></tr>
-		<tr align="center"><td>인원 수 : <%=dto.getSleeps() %></td></tr>
+		<tr align="center"><td>방 평수 : <%=dto.getRoomsize() %>평</td></tr>
+		<tr align="center"><td>인원 수 : <%=dto.getSleeps() %>명</td></tr>
 		<tr align="center"><td>상세설명</td></tr>
-		<tr align="center"><td><textarea rows="5" cols="30" readonly><%=dto.getItem() %></textarea></td></tr>
+		<tr align="center"><td><textarea rows="6" cols="60" style="width:550px;"readonly><%=dto.getItem() %></textarea></td></tr>
 		<tr align="center"><td><a href="ADroom_update.do?no=<%=dto.getRoom_no()%>">수정</a> | 
 						<a href="ADroom_delete.do?no=<%=dto.getRoom_no()%>">삭제</a> | 
 						<a href="#" onclick="goBack()">뒤로가기</a></td></tr>
@@ -291,4 +292,4 @@ function goBack() {
 }
 </script> 
 </html>
-<%@ include file="../../Basic/bottom_nav.jsp" %>
+<%-- <%@ include file="../../Basic/bottom_nav.jsp" %> --%>

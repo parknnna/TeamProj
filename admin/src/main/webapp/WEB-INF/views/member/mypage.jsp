@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ include file="../Basic/head.jsp" %>
+ <%@ include file="../Basic/top_Login.jsp" %>
  <%@ include file="top.jsp" %>
 <script type="text/javascript">
 	function check(){
@@ -19,7 +21,7 @@
 		
 	}
 </script>
-<div align = "center">
+<div align = "center"style="margin-top:90px">
 	<form name = "f" action = "member_edit_ok.do?mode=mypage" method = "post" enctype="multipart/form-data">
 		<input type="hidden" name="member_no" value="${sedto.member_no}">
 		<input type = "hidden" name = "id" value = "${sedto.id}">
@@ -93,4 +95,4 @@
 		</table>
 	</form>
 </div>
-<%@ include file="bottom.jsp" %>
+<%@ include file="../Basic/bottom_top.jsp" %>

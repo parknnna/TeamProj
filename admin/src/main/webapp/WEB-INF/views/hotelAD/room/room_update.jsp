@@ -42,14 +42,10 @@
 	} 
 %>
 <style>
-	td{
-		vertical-align:top;
-		    padding: 5px;
-		    align:left;
-	}
-	th{
-		align:right;
-	}
+	  .updateTable td {
+   	border-bottom: 1px solid #444444;
+    padding: 10px 0;
+  }
 </style>
 <a href="#" onclick="goBack()">Back</a>
 
@@ -59,29 +55,45 @@ function goBack() {
 }
 </script>
 
-<div align="center"style="margin-top:90px" width="50%" >
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+<div align="center" class="mainContainer" style="width: 90%;margin: 90px auto 10px auto;">
+<div class="firstbox">
+	<div class="titleContainer" style="width:100%">
+		<h6 style="font-family: 'Nanum Gothic', sans-serif;float: left;border-radius: 10px;border: 2px solid #c94dff;padding: 5px;color: #696969;">방 정보 수정</h6>
+	</div>
+</div>
+<br>
+<br>
+<div class="secbox">
+<div class="tableContainer" align="center" style="width:90%">
 		<form name="f" action="ADroom_update.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="member_num" value="2">
 		<input type="hidden" name="room_no" value="${dto.room_no}">
-		<table width="40%" align="center">
+		<table style="width:100%;font-size:14px;" class="updateTable">
 			<tr><td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr>
-				<td align="right" width="30%">방이름 : </td><td width="50%"><input type="text" name="name" value="${dto.name }"></td>
+				<td>방 이름</td>
+				<td><input type="text" style="width:100px" name="name" value="${dto.name }"></td>
 			</tr>
 			<tr>
-				<td align="right">방 평수 : </td><td><input type="text" name="roomsize" value="${dto.roomsize}"></td>
+				<td>방 평수</td>
+				<td><input type="text" style="width:50px" name="roomsize" value="${dto.roomsize}">평</td>
 			</tr>
 			<tr>
-				<td align="right">인원수 : </td><td><input type="text" name="sleeps" value="${dto.sleeps }"></td>
+				<td>인원 수</td>
+				<td><input type="text" style="width:40px" name="sleeps" value="${dto.sleeps }">명</td>
 			</tr>
 			<tr>
-				<td align="right">구비 물품 : </td><td><input type="text" name="item" value="${dto.item }"></td>
+				<td>구비 물품</td>
+				<td><textarea cols="60" rows="5" style="width:90%;" name="item">${dto.item}</textarea></td>
 			</tr>
 			<tr>
-				<td align="right">방가격 : </td><td><input type="text" name="price" value="${dto.price }"></td>
+				<td>방 가격</td>
+				<td><input type="text" name="price" value="${dto.price }"></td>
 			</tr>
-			<tr align="center">
-				<td align="right">방등급 : </td><td align="left">
+			<tr>
+				<td>방 등급</td>
+				<td>
 					<select name="grade">
 						<option value="1">디럭스</option>
 						<option value="2">스텐다드</option>
@@ -90,14 +102,18 @@ function goBack() {
 				</td>	
 			</tr>
 			<tr>
-				<td align="right">이미지 : </td><td><input multiple="multiple" type="file" name="file" /></td>	
+				<td>이미지</td>
+				<td><input multiple="multiple" type="file" name="file" /></td>	
 			</tr>
 			<tr>
-			<td colspan="2" align="center"><input type="button" value="수정" onclick="javascript:check()">
+			<td colspan="2" align="center">
+			<input type="button" value="수정" onclick="javascript:check()">
 			<input type="reset" value="다시쓰기"></td>
 			</tr>
 		</table>
 	</form>
 	</div>
-
-<%@ include file="../../Basic/bottom_nav.jsp" %>
+</div>
+</div>
+<%-- 
+<%@ include file="../../Basic/bottom_nav.jsp" %> --%>

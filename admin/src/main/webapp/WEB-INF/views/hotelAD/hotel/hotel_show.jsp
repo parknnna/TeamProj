@@ -291,7 +291,7 @@ if(img!=null){
 	<table width="60%">
 		<tr align="right">
 			<th>${dto.name} 호텔의 정보</th>
-			<td><a href="ADhotel_list.do">뒤로가기</a></td>
+			<td><a href="hotel_board_list.do?hotel_no=${dto.hotel_no }">게시판 이동  </a><a href="ADhotel_list.do">뒤로가기</a></td>
 		</tr>
 		<tr align="center" >
 			<td>호텔번호</td><td>${dto.hotel_no}</td>

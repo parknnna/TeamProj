@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
     <footer class="ftco-footer ftco-bg-dark ftco-section">
-		<div class="row">
+		<div class="row" style="width:100%;">
 		 <div class="weatherAPI" align="left" style="margin-left:120px;width:70%">
 		 <div style="width:30%; float:left">
         	<table>
@@ -26,12 +26,12 @@
         		</tr>
         	</table>  
         </div>   		
-       	<div class="subBox" style="text-align:center ;width:70%;float:left;">
-              <h4>Subscribe to our Newsletter</h4>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+       	<div class="subBox" style="text-align:center;width:70%;float:left;">
+              <h4 style="colot:#3b3b3b">Subscribe to our Newsletter</h4>
+              <p style="color:#515251">“Traveling – it leaves you speechless, then turns you into a storyteller.” – Ibn Battuta</p>
                   <form action="#">
                     <div>
-                      <input type="text" placeholder="Enter email address" style="width:170px;">
+                      <input type="text" placeholder="Enter email address" style="width:170px;padding:0px 0px 0px 5px;">
                       <input type="submit" value="Subscribe" class="submit px-3">
                     </div>
             	</form>
@@ -48,6 +48,7 @@
         </div>
       
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
 $.getJSON('http://api.openweathermap.org/data/2.5/weather?q=seoul&units=metric&appid=70393e52400da4753a885b68792731f4',
          function(data) {

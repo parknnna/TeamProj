@@ -15,23 +15,22 @@
           <li class="nav-item"><a href="board_list.do" class="nav-link">Forum</a></li>
          </ul>
       </div>
-      
-      <%@page import="team.Dproject.main.model.*"%>
      
       <div class="header-btns" id="ftco-nav">
       	<ul class="navbar-nav">
       	<%if(member==null){%>
       	<li class="nav-item cta"><a href="member_login.do" class="nav-link"><span>Login</span></a>
       	<%}else {%>
-      	<li class="nav-item cta"><a href="member_logout.do" class="nav-link"><span>Logout
+      	<li class="nav-item cta"><a href="member_logout.do" class="nav-link"><span>Admin
       	</span></a>
       	<%} %>
       		<ul class="submenu">
-      			<li><a href="member_mypage.do" class="submenu-1-first">My Page</a></li>
-      			<li><a href="member_wishlist.do" class="submenu-1-second">Wish List</a></li>
-                <li><a href="member_input.do" class="submenu-1-third">Sign Up</a></li>
+      			<li><a href="member_input.do" class="submenu-1-third">Sign Up</a></li>
                 <%if(member!=null){
-                	%><li><a href="loginProcess.do" class="submenu-1-third">Chat</a></li><%
+                	%>
+	      			<li><a href="member_mypage.do" class="submenu-1-first">My Page</a></li>
+	      			<li><a href="member_wishlist.do" class="submenu-1-second">Wish List</a></li>
+                	<li><a href="loginProcess.do" class="submenu-1-third">Chat</a></li><%
                 	if(member.getPosition()==0){ %>
                 		<li><a href="ADsuperAD.do" class="submenu-1-second" style="color:black">Admin</a></li>
                 	<%} %>

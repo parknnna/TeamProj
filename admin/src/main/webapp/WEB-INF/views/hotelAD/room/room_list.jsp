@@ -21,8 +21,20 @@
 <%
 List<roomDTO> list = (List) request.getAttribute("list");
 %>
-<div align="center"style="margin-top:90px" >
-	<table width="70%" border="1">
+
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+<div align="center" class="mainContainer" style="width: 90%;margin: 90px auto 10px auto;">
+<div class="firstbox">
+	<div class="titleContainer" style="width:100%">
+		<h6 style="font-family: 'Nanum Gothic', sans-serif;float: left;border-radius: 10px;border: 2px solid #c94dff;padding: 5px;color: #696969;">호텔 룸 추가</h6>
+	</div>
+</div>	
+<br>
+<br>
+
+<div class="secbox">	
+	<div class="tableContainer" style="width:100%;" align="center">
+		<table style="width:100%;font-size:14px;" class="infoTable">
 		<tr align="right">
 			<td colspan="7"><a href="ADroom_insert.do?hnum=<%=request.getParameter("hnum")%>">추가&nbsp;&nbsp;</a><a href="ADhotel_list.do">뒤로가기</a>
 		</td>
@@ -51,13 +63,14 @@ List<roomDTO> list = (List) request.getAttribute("list");
 				String[] arrtemp=temp.split("-");
 				if(num.equals(arrtemp[0])||num==arrtemp[0]){
 					%>
-					<TR id="<%=dto.getRoom_no() %>" style="display:none; background-color:#c4fffd;'">
-					<td>└<%=dto.getRoom_no() %></td>
+					<TR id="<%=dto.getRoom_no() %>" style="display:none;">
+					<td>└ <%=dto.getRoom_no() %></td>
 					<%
 				}else{
 					%>
-					<TR style="background-color:#00cfc8;">
-					<td><%=dto.getRoom_no() %><input type="button" onclick="javascript:show(<%=arrtemp[0]%>,<%=dto.getRooms() %>);" value="보기"></td>
+					<TR style="border-top:2px solid #bc72db; border-bottom:2px solid #bc72db;">
+					<td><%=dto.getRoom_no() %>
+					&nbsp;<input type="button" onclick="javascript:show(<%=arrtemp[0]%>,<%=dto.getRooms() %>);" value="보기"></td>
 					<%
 				}
 				%>
@@ -80,4 +93,5 @@ List<roomDTO> list = (List) request.getAttribute("list");
 		%>		
 	</table>
 </div>
-<%@ include file="../../Basic/bottom_nav.jsp" %>
+<%-- <%@ include file="../../Basic/bottom_nav.jsp" %>
+ --%>

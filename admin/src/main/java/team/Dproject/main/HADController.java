@@ -770,6 +770,9 @@ public class HADController {
 	@RequestMapping(value = "/ADroom_show.do", method = RequestMethod.GET)
 	public ModelAndView room_show(HttpServletRequest req) {
 		roomDTO dto = roomMapper.getRoom(req.getParameter("no"));
+		
+		String hotel=hotelMapper.getHotel(String.valueOf(dto.getHotel_no())).getName();
+		req.setAttribute("hotelname", hotel);
 		ModelAndView mav = new ModelAndView("hotelAD/room/room_show", "dto", dto);
 		req.setAttribute("page_name", "Room Show");
 		return mav;

@@ -141,6 +141,7 @@ function reset(){
 		
 	</style>
 <%@ include file="../Basic/nav_Login.jsp" %>
+<%@ include file="top.jsp" %>
 <div align="center" style="margin:90px auto 30px auto;">
 	<div class="row" align="center" style="display:block;margin:0 auto;">
 <div class="card" style="width:700px;margin:0 auto;border:none;">
