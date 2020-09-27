@@ -4,7 +4,7 @@
 
 <%@page import="java.net.InetAddress"%>
 <%@ include file="Basic/head.jsp" %>   
-<%@ include file="Basic/nav_AD.jsp" %>   
+<%@ include file="Basic/nav_Chat.jsp" %>   
 <%@page import="team.Dproject.main.model.*"%>
 
 

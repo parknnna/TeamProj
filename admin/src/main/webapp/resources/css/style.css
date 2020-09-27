@@ -2522,6 +2522,18 @@ ul{
 .submenu-1-third{
 	color:#fff;
 }
+.submenu-1-chat{
+	color:#fff;
+}
+.submenu-1-admin{
+	color:#fff;
+}
+.submenu-1-busAD{
+	color:#fff;
+}
+.submenu-1-hotelAD{
+	color:#fff;
+}
 
 .submenu-1-first:hover{
 	font-weight:600;
@@ -2532,6 +2544,20 @@ ul{
 .submenu-1-third:hover{
 	font-weight:600;
 }
+.submenu-1-chat:hover{
+	font-weight:600;
+}
+.submenu-1-admin:hover{
+	font-weight:600;
+}
+.submenu-1-busAD:hover{
+	font-weight:600;
+}
+.submenu-1-hotelAD:hover{
+	font-weight:600;
+}
+
+
 .submenu-1-first:hover::after{
 	content: "\f4fe";
 	font-family: "Font Awesome 5 Free";
@@ -2548,6 +2574,34 @@ ul{
 }
 .submenu-1-third:hover::after{
 	content: "\f234";
+	font-family: "Font Awesome 5 Free";
+	color: #c94dff;
+	margin-left: 10px;
+	font-weight: 900; 
+}
+.submenu-1-admin:hover::after{
+	content: "\f4fe";
+	font-family: "Font Awesome 5 Free";
+	color: #c94dff;
+	margin-left: 10px;
+	font-weight: 900;
+}
+.submenu-1-busAD:hover::after{
+	content: "\f55e";
+	font-family: "Font Awesome 5 Free";
+	color: #c94dff;
+	margin-left: 10px;
+	font-weight: 900;
+}
+.submenu-1-hotelAD:hover::after{
+	content: "\f594";
+	font-family: "Font Awesome 5 Free";
+	color: #c94dff;
+	margin-left: 10px;
+	font-weight: 900;
+}
+.submenu-1-chat:hover::after{
+	content: "\f086";
 	font-family: "Font Awesome 5 Free";
 	color: #c94dff;
 	margin-left: 10px;

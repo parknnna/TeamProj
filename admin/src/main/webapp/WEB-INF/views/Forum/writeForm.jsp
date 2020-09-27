@@ -11,7 +11,7 @@
 		
 			<label class="forumLoc">
 				<div class="labelText" align="left">LOCATION</div>
-				<select name="location_no" style="padding:3px 10px 3.6px 10px;margin-right:14px;">
+				<select name="location_no" style="padding:3px 10px 3.6px 10px;margin-right:30px;">
 					<option value="" selected>지역선택</option>
 					<option value="0">서울</option>
 					<option value="1">경기</option>

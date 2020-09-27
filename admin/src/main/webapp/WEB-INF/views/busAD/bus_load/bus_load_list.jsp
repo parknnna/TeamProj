@@ -5,14 +5,21 @@
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
 
-<%@ include file="../sm.jsp" %>
-	<div align="center"style="margin-top:62px"   >
-		<table width="80%">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+<style>
+.listBox tr td{
+	border-bottom: 1px solid #444444;
+    padding: 10px;
+    }
+</style>
+	<div align="center" width="70%" align="center" >
+		<h4 style="font-family: 'Nanum Gothic', sans-serif;margin-top:20px">버스 노선 리스트</h4>
+		<table style="width:60%;" class="listBox">
 	
 			<tr align="right">
-				<td colspan="8">
-				<td align="right" colspan="2"><a href="#" onclick="goBack()">뒤로가기</a>
-					<a href="ADbus_load_insert.do">추가</a>
+				<td colspan="9">
+					<a href="ADbus_insert.do">추가</a> | 
+				<a href="#" onclick="goBack()">뒤로가기</a>
 				</td>
 			</tr>
 			<tr>
@@ -24,11 +31,11 @@
 				<td>가격</td>
 				<td>출발시간</td>
 				<td>도착시간</td>
-				<td>예약하기 | 수정 | 삭제</td>
+				<td>예약 | 수정 | 삭제</td>
 			</tr> 
 			<c:if test="${empty bus_load_list}">
 				<tr>
-					<td colspan="8">등록된 노선이 없습니다.</td>
+					<td colspan="9">등록된 노선이 없습니다.</td>
 				</tr>	
 			</c:if>
 			<c:forEach var="dto" items="${bus_load_list}">			
@@ -42,7 +49,7 @@
 				<td>${dto.arr_time}</td>
 				<td>${dto.tot_time}</td>
 				<td>
-					<a href="ADbus_resv_insert.do?no=${dto.road_no}">예약하기</a> | 
+					<a href="ADbus_resv_insert.do?no=${dto.road_no}">예약</a> | 
 					<a href="ADbus_load_update.do?no=${dto.road_no}">수정</a> | 
 					<a href="ADbus_load_delete.do?no=${dto.road_no}">삭제</a>
 				</td>
@@ -50,4 +57,4 @@
 			</c:forEach>
 		</table>	
 	</div>
-<%@ include file="../../Basic/bottom_nav.jsp" %>
+<%-- <%@ include file="../../Basic/bottom_nav.jsp" %> --%>

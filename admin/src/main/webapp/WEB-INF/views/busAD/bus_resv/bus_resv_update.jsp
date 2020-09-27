@@ -7,7 +7,6 @@
 <%@page import="java.util.*"%>
 <%@page import="team.Dproject.main.model.*"%>
 
-<%@ include file="../sm.jsp" %>
 <%
 List<MemberDTO> mlist=(List)request.getAttribute("mlist");
 List<bus_loadDTO> llist=(List)request.getAttribute("llist");

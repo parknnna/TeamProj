@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-<%@ include file="head.jsp" %>
-  <body>
-    
-  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<%@page import="team.Dproject.main.model.*"%>
+<%
+	MemberDTO member=(MemberDTO)session.getAttribute("sedto");
+%>
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light scolled sleep scrolled awake" id="ftco-navbar">
     <div class="container">
       <a class="navbar-brand" href="index">DProject</a>
       <div class="collapse navbar-collapse" id="ftco-nav">
@@ -13,11 +12,10 @@
           <li class="nav-item"><a href="index" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="bus_main.do" class="nav-link">Bus</a></li>
           <li class="nav-item"><a href="hotel_resv" class="nav-link">Hotels</a></li>
-          <li class="nav-item active"><a href="board_list.do" class="nav-link">Forum</a></li>
+          <li class="nav-item"><a href="board_list.do" class="nav-link">Forum</a></li>
          </ul>
       </div>
-      
-      <%MemberDTO member=(MemberDTO)session.getAttribute("sedto");%>
+     
       <div class="header-btns" id="ftco-nav">
       	<ul class="navbar-nav">
       	<%if(member==null){%>
@@ -34,38 +32,18 @@
 	      			<li><a href="member_wishlist.do" class="submenu-1-second">Wish List</a></li>
                 	<li><a href="loginProcess.do" class="submenu-1-chat">Chat</a></li><%
                 	if(member.getPosition()==0){ %>
-                		<li><a href="ADsuperAD.do" class="submenu-1-admin">Admin</a></li>
+                		<li><a href="ADsuperAD.do" class="submenu-1-admin" style="color:black">Admin</a></li>
                 	<%} %>
                 	<%if(member.getPosition()==1){ %>
-                		<li><a href="ADbus_list.do" class="submenu-1-busAD">Bus AD</a></li>
+                		<li><a href="ADbus_list.do" class="submenu-1-busAD" style="color:black">Bus AD</a></li>
                		<%} %>
                		<%if(member.getPosition()==2){ %>
-                		<li><a href="ADhotel_list.do" class="submenu-1-hotelAD">Hotel AD</a></li>
+                		<li><a href="ADhotel_list.do" class="submenu-1-hotelAD" style="color:black">Hotel AD</a></li>
                 	<%} 
                 }%>
       		</ul>
       	</li>
       	</ul>
       </div>
-      </div>
+      </div> 
   </nav>
-  
-  	<div class="hero-wrap js-fullheight"
-		style="background-image: url('${pageContext.request.contextPath}/resources/images/forum_img.jpg'); height:70%;">
-		<div class="container">
-			<div
-				class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-				data-scrollax-parent="true">
-				<div class="col-md-9-1 ftco-animate text-center"
-					data-scrollax=" properties: { translateY: '70%' }">
-					<p class="breadcrumbs"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"
-						style="margin-top:25%">
-						<span class="mr-2"><a href="index">Home</a></span> <span>Forum</span>
-					</p>
-					<h1 class="mb-3 bread"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Forum</h1>
-				</div>
-			</div>
-		</div>
-	</div>

@@ -4,7 +4,6 @@
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
-<%@ include file="../sm.jsp" %>
 <script>
 	function check(){
 		if (f.station_name.value == "") {

@@ -2,31 +2,26 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <style>
-	table { border-collapse: separate; }
-	.a{ border: solid 1px #c94dff; 
+	.menuContainer .bustable { border-collapse: separate; }
+	.busTable .menu{ 
+		border: solid 2px #c94dff; 
 		border-radius: 10px;
-		background-color:#F7ACFC;
 		padding:5px;
+		width:100px;
+		
 	}
-<style>
-	table { border-collapse: separate; }
-	.m3{ border: solid 1px #c94dff; 
-		border-radius: 10px;
-		background-color:#F7ACFC;
-		padding:1px; 
-	}
-	.m2{
-		border-bottom:solid 1px #000;
-	}
-</style>
-<div align="center"style="margin-top:70px">
 
-		<table>
-			<tr>
-				<td class="a"><a href="ADbus_list.do">버스리스트</a></td>
-				<td class="a"><a href="ADbus_station_list.do">터미널리스트</a></td>
-				<td class="a"><a href="ADbus_load_list.do">버스노선리스트</a></td>
-				<td class="a"><a href="ADbus_resv_list.do">버스예약리스트</a></td>
+</style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.0/css/all.min.css"/>
+
+<div align="center" class="menuContainer" style="margin-top:90px">
+
+		<table class="busTable" style="width:60%;border-collapse:separate;border-spacing:10 0px;">
+			<tr style="text-align:center">
+				<td class="menu"><a href="ADbus_list.do"><i class="fas fa-bus"></i>    Bus</a></td>
+				<td class="menu"><a href="ADbus_station_list.do"><i class="fas fa-map-signs"></i>    Terminal</a></td>
+				<td class="menu"><a href="ADbus_load_list.do"><i class="fas fa-route"></i>    Road</a></td>
+				<td class="menu"><a href="ADbus_resv_list.do"><i class="fas fa-money-check"></i>    Reservation</a></td>
 			</tr>
 		</table>
 	</div>

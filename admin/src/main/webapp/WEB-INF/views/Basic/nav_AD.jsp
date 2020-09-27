@@ -30,15 +30,15 @@
                 	%>
 	      			<li><a href="member_mypage.do" class="submenu-1-first">My Page</a></li>
 	      			<li><a href="member_wishlist.do" class="submenu-1-second">Wish List</a></li>
-                	<li><a href="loginProcess.do" class="submenu-1-third">Chat</a></li><%
+                	<li><a href="loginProcess.do" class="submenu-1-chat">Chat</a></li><%
                 	if(member.getPosition()==0){ %>
-                		<li><a href="ADsuperAD.do" class="submenu-1-second" style="color:black">Admin</a></li>
+                		<li><a href="ADsuperAD.do" class="submenu-1-admin" style="color:black">Admin</a></li>
                 	<%} %>
                 	<%if(member.getPosition()==1){ %>
-                		<li><a href="ADbus_list.do" class="submenu-1-second" style="color:black">Bus AD</a></li>
+                		<li><a href="ADbus_list.do" class="submenu-1-busAD" style="color:black">Bus AD</a></li>
                		<%} %>
                		<%if(member.getPosition()==2){ %>
-                		<li><a href="ADhotel_list.do" class="submenu-1-second" style="color:black">Hotel AD</a></li>
+                		<li><a href="ADhotel_list.do" class="submenu-1-hotelAD" style="color:black">Hotel AD</a></li>
                 	<%} 
                 }%>
       		</ul>

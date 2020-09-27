@@ -7,14 +7,21 @@
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
 
-<%@ include file="../sm.jsp" %>
 <%
 List<bus_resvDTO> list=(List)request.getAttribute("list");
 List<bus_loadDTO> llist=(List)request.getAttribute("llist");
 int temp=0;
 %>
-	<div align="center"style="margin-top:62px"  >
-		<table width="70%">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+<style>
+.listBox tr td{
+	border-bottom: 1px solid #444444;
+    padding: 10px;
+    }
+</style>
+	<div align="center" width="70%" align="center" >
+		<h4 style="font-family: 'Nanum Gothic', sans-serif;margin-top:20px">예약 리스트</h4>
+		<table style="width:60%;" class="listBox">
 			<tr><td align="right" colspan="10"><a href="#" onclick="goBack()">뒤로가기</a></tr>
 			<tr>
 				<td>예약번호</td>
@@ -30,7 +37,7 @@ int temp=0;
 			</tr> 
 			<c:if test="${empty list}">
 				<tr>
-					<td colspan="9">등록된 버스예약이 없습니다.</td>
+					<td colspan="10">등록된 버스예약이 없습니다.</td>
 				</tr>	
 			</c:if>
 			<%
@@ -56,4 +63,4 @@ int temp=0;
 			%>
 		</table>	
 	</div>
-<%@ include file="../../Basic/bottom_nav.jsp" %>
+<%-- <%@ include file="../../Basic/bottom_nav.jsp" %> --%>

@@ -22,8 +22,8 @@
 	}
 </script>
 
-<%@ include file="../sm.jsp" %>
-
+<%-- <%@ include file="../sm.jsp" %>
+ --%>
 	<div align="center">
 		<form name="f" action="ADbus_update.do" method="post">
 		<input type="hidden" name="bus_no" value="${bus.bus_no }">

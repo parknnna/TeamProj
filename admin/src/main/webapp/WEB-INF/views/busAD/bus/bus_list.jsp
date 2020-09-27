@@ -4,11 +4,16 @@
 <%@ include file="../../Basic/head.jsp" %>   
 <%@ include file="../../Basic/nav_AD.jsp" %>    
 <%@ include file="../top2.jsp" %>
-
-<%@ include file="../sm.jsp" %>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+<style>
+.listBox tr td{
+	border-bottom: 1px solid #444444;
+    padding: 10px;
+    }
+</style>
 	<div align="center" width="70%" align="center" >
-		<h3>버스리스트</h3>
-		<table width="50%" align="center">
+		<h4 style="font-family: 'Nanum Gothic', sans-serif;margin-top:20px">버스 리스트</h4>
+		<table style="width:60%;" class="listBox">
 			<tr align="right">
 				<td colspan="4">
 					<a href="ADbus_insert.do">추가</a> | 
@@ -39,4 +44,4 @@
 			</c:forEach>
 		</table>	
 	</div>
-<%@ include file="../../Basic/bottom_nav.jsp" %>
+<%-- <%@ include file="../../Basic/bottom_nav.jsp" %> --%>

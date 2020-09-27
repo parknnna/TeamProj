@@ -24,10 +24,20 @@
 %>
 <%@ include file="../Basic/head.jsp" %>   
 <%@ include file="../Basic/nav_Hotel.jsp" %>
-<div align="center"style="margin-top:62px">
-		<br>
-		<font style="font-weight:700">☆<%=hdto.getName()%> 호텔게시판☆</font>
-		<table bgcolor="white" width="80%" style="border-inline:1px solid #adadad">
+<!-- 관리자만 볼 수 있는 게시판 페이지일 경우 -->
+<!-- include file="../Basic/nav_AD.jsp 추가 -->
+
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+<div align="center" class="mainContainer" style="width: 90%;margin: 90px auto 10px auto;">
+<div class="firstbox">
+	<div class="titleContainer" style="width:100%">
+		<h6 style="font-family: 'Nanum Gothic', sans-serif;float: left;border-radius: 10px;border: 2px solid #c94dff;padding: 5px;color: #696969;"><%=hdto.getName()%> 이용 후기</h6>
+	</div>
+</div>
+
+<div class="secbox">	
+	<div class="tableContainer" style="width:100%;" align="center">
+		<table style="width:100%;font-size:16px;" class="infoTable">
 		<tr align="right">
 		<td colspan="6"><a href="hotel_board_write.do?hotel_no=<%=hdto.getHotel_no()%>">쓰기</a>
 		</td>
@@ -91,6 +101,8 @@
 			[<a href="hotel_board_list.do?hotel_no=<%=hdto.getHotel_no()%>&pageNum=${endPage+1}">다음</a>]		
 		</c:if>
 	</c:if>		
+	</div>
+	</div>
 	</div>
   </body>
 </html>

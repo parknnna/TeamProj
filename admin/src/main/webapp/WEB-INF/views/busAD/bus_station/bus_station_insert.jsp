@@ -21,7 +21,6 @@
 	}
 </script>
 
-<%@ include file="../sm.jsp" %>
 	<div align="center"style="margin-top:62px"    >
 		<form name="f" action="ADbus_station_insert.do" method="post" enctype="multipart/form-data">
 			<table width="50%">

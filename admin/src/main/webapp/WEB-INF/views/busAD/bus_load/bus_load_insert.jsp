@@ -13,8 +13,8 @@ List<bus_loadDTO> llist=(List)request.getAttribute("llist");
 boolean b=true;
 %>
 
-<%@ include file="../sm.jsp" %>
-<script>
+<%-- <%@ include file="../sm.jsp" %>
+ --%><script>
 	function check(){
 		if (f.price.value == "") {
             alert("가격를 입력하지 않았습니다.")

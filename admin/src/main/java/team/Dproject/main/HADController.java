@@ -209,7 +209,8 @@ public class HADController {
 	
 	@RequestMapping(value="/hotel_board_write.do", method=RequestMethod.GET)
 	public String writeForm(HttpServletRequest req) {
-		req.setAttribute("page_name", "Hotel Board List");
+		hotelDTO dto=hotelMapper.getHotel(req.getParameter("hotel_no"));
+		req.setAttribute("hotel_name", dto.getName());
 		return "hotel_board/writeForm";
 	}
 	

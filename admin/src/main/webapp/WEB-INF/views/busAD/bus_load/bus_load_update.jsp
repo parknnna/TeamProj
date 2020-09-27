@@ -12,8 +12,9 @@ List<bus_stationDTO> list2=(List)request.getAttribute("bus_station_list");
 bus_loadDTO LDTO = (bus_loadDTO)request.getAttribute("LDTO");
 %>
 
-<%@ include file="../sm.jsp" %>
-<script>
+<%-- <%@ include file="../sm.jsp" %>
+ --%>
+ <script>
 	function check(){
 		if (f.price.value == "") {
             alert("가격를 입력하지 않았습니다.")
