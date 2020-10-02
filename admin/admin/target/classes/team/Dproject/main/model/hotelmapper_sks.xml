@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.main.model">
+   <select id="listHotel_sks" resultType="hotelDTO_sks">
+      select * from hotel order by hotel_no desc
+   </select>
+   
+   <insert id="insertHotel_sks" parameterType="hotelDTO_sks">
+      insert into hotel values(hotel_seq.nextval,
+      #{name}, #{address}, #{hp1}, #{hp2}, #{hp3}, #{member_num}, 
+      #{hotel_info}, #{star}, #{filename}, #{filesize})
+   </insert>
+   
+   <select id="getHotel_sks" resultType="hotelDTO_sks" parameterType="int">
+      select * from hotel where hotel_no = #{hotel_no}
+   </select>
+   
+   <select id="listHotel1_sks" parameterType="String" resultType="hotelDTO_sks">
+      select * from hotel where address like '%'||#{address}||'%'
+   </select>
+   
+   <delete id="deleteHotel_sks" parameterType="String">
+       delete from hotel where hotel_no=#{no}
+    </delete>
+    
+    <update id="updateHotel_sks" parameterType="hotelDTO_sks">
+       update hotel set name=#{name},address=#{address}, hp1=#{hp1}, hp2=#{hp2}, hp3=#{hp3}, hotel_info=#{hotel_info}, star=#{star}, filename=#{filename}, filesize=#{filesize} where hotel_no=#{hotel_no}
+    </update>
+</mapper>

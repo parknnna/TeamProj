@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.adminBus.busMapper">
+	<select id="listBus_station1" resultType="bus_stationDTO">
+		select * from bus_station order by station_no
+	</select>
+	<insert id="insertBus_station1" parameterType="bus_stationDTO">
+		insert into bus_station values(bus_station_seq.nextval,#{station_name},#{filename},#{filesize},#{address})
+	</insert>
+	<delete id="deleteBus_station1" parameterType="String">
+		delete from bus_station where station_no=#{no}
+	</delete>
+	<select id="getBus_station1" parameterType="String" resultType="bus_stationDTO">
+		select * from bus_station where station_no=#{no}
+	</select>
+	<update id="updateBus_station1" parameterType="bus_stationDTO">
+		update bus_station set station_name=#{station_name}, address=#{address}, filename=#{filename}, filesize=#{filesize} where station_no=#{station_no}
+	</update>
+</mapper>

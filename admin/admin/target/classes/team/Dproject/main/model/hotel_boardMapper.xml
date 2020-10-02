@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject">
+    <select id="listHotel_board"  resultType="hotel_boardDTO" parameterType="java.util.Map">
+    	select * from (select rownum rn, A.* from (select * from hotel_board where re_level=0 and hotel_no=#{hotel_no} order by re_group desc, re_step asc)A) where rn between #{start} and #{end}
+    </select>
+    <select id="listHotel_boardup"  resultType="hotel_boardDTO" >
+    	select * from hotel_board where re_level=0 order by up desc
+    </select>
+    <select id="listHotel_board2"  resultType="hotel_boardDTO" parameterType="java.util.Map">
+    	select * from (select rownum rn, A.* from (select * from hotel_board where re_level>0 and re_group=#{re_group} order by  re_step asc)A) where rn between #{start} and #{end}
+    </select>
+    
+    
+    <insert id="insertHotel_board" parameterType="hotel_boardDTO">
+    	insert into hotel_board values(hotel_board_seq.nextval, #{member_no}, #{hotel_no}, 0, #{filename}, #{filesize},#{content}, sysdate, #{re_group}, #{re_step}, #{re_level}, #{title},0)
+    </insert> 
+    <delete id="deleteHotel_board" parameterType="String">
+    	delete from hotel_board where hotel_board_no=#{hotel_board_no}
+    </delete>
+    <delete id="deleteHotel_board2" parameterType="String">
+    	delete from hotel_board where re_group=#{re_group}
+    </delete>
+    <select id="getHotel_board" parameterType="String" resultType="hotel_boardDTO">
+    	select * from hotel_board where hotel_board_no=#{hotel_board_no}
+    </select>
+    
+    <select id="hotel_board_count" resultType="int"><!-- 행의개수 파악 -->
+		select count(*) from hotel_board where re_level=0
+	</select>
+	
+	<select id="hotel_board_count2" resultType="int"><!-- 행의개수 파악 -->
+		select count(*) from hotel_board where re_level!=0 and re_group=#{re_group}
+	</select>
+	
+	<select id="hotel_board_MAX" resultType="int">
+		select max(hotel_board_no) from hotel_board
+	</select>
+	<update id="hotel_board_re_UP" parameterType="java.util.Map">
+		update hotel_board set re_step=re_step+1 where re_step>#{re_step} and re_group = #{re_group}
+	</update>
+	<update id="read_count" parameterType="int">
+		update hotel_board set readcount = readcount + 1 where hotel_board_no = #{hotel_board_no}
+	</update>
+	
+	<update id="upUpdate" parameterType="java.util.Map">
+		update hotel_board set up=#{size} where hotel_board_no=#{hotel_board_no}
+	</update>
+   
+    <update id="updateHotel_board" parameterType="hotel_boardDTO">
+    	update hotel_board set title=#{title}, content=#{content} , filename=#{filename}, filesize=#{filesize} where hotel_board_no=#{hotel_board_no}
+    </update> 
+
+    
+</mapper>

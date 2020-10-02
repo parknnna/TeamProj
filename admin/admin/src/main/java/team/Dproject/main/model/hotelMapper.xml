@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject">
+    <select id="listHotel"  resultType="hotelDTO" parameterType="String">
+    	select * from hotel where member_num=#{mnum} order by hotel_no
+    </select>
+     <select id="starList"  resultType="hotelDTO">
+    	select * from hotel order by star desc
+    </select>
+    <select id="listHotel2"  resultType="hotelDTO" >
+    	select * from hotel order by hotel_no
+    </select>
+    <insert id="insertHotel" parameterType="hotelDTO">
+    	insert into hotel values(hotel_seq.nextval,#{name},#{address},#{hp1},#{hp2},#{hp3},#{member_num},#{hotel_info},#{star},#{filename},#{filesize})
+    </insert>
+    <delete id="deleteHotel" parameterType="String">
+    	delete from hotel where hotel_no=#{no}
+    </delete>
+    <select id="getHotel" parameterType="String" resultType="hotelDTO">
+    	select * from hotel where hotel_no=#{no}
+    </select>
+   
+    <update id="updateHotel" parameterType="hotelDTO">
+    	update hotel set name=#{name},address=#{address}, hp1=#{hp1}, hp2=#{hp2}, hp3=#{hp3}, hotel_info=#{hotel_info}, star=#{star}, filename=#{filename}, filesize=#{filesize} where hotel_no=#{hotel_no}
+    </update>
+
+    
+</mapper>

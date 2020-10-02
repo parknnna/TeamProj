@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.main.model">
+	<insert id="insertHotelResv_sks" parameterType="HotelResvDTO_sks">
+		insert into hotel_resv values(hotel_resv_seq.nextval,
+		#{member_no}, #{hotel_no}, #{room_no}, #{use_point}, #{pay}, #{save_point}, 
+		to_date(#{start_resv_date},'yyyy-mm-dd'), 
+		to_date(#{end_resv_date},'yyyy-mm-dd'), sysdate, #{total})
+	</insert>
+	<select id="getHotelResv_sks" parameterType="int" resultType="HotelResvDTO_sks">
+		select * from hotel_resv where member_no = #{member_no} and hotel_resv_no = #{hotel_resv_no}
+	</select>
+	<select id="checkResvRoomno_sks" parameterType="java.util.Map" resultType="String">
+	select room_no from hotel_resv where 
+	end_resv_date <![CDATA[>=]]> to_date(#{start_resv_date},'yyyy-mm-dd') 
+	and start_resv_date <![CDATA[<=]]> to_date(#{end_resv_date},'yyyy-mm-dd') and hotel_no=#{hotel_no}
+	</select>
+	<select id="getHotelResvNo_sks" parameterType="int" resultType="int">
+		select hotel_resv_no from hotel_resv where member_no = #{member_no}
+	</select>
+	<delete id="deleteHotelResv_sks" parameterType="java.util.Map">
+		delete from hotel_resv where member_no = #{member_no} and hotel_resv_no = #{hotel_resv_no}
+	</delete>
+</mapper>

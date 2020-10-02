@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject">
+    <select id="listRoom"  resultType="roomDTO" parameterType="int">
+    	select * from room where hotel_no=#{hnum} order by room_no
+    </select>
+    <insert id="insertRoom" parameterType="roomDTO">
+    	insert into room values(#{room_no},
+		#{hotel_no},#{name},#{roomsize}, #{sleeps}, 
+		#{item}, #{filename}, #{filesize},  #{rooms}, #{price}, #{grade})
+    </insert>
+    <delete id="deleteRoom" parameterType="String">
+    	delete from room where room_no=#{no}
+    </delete>
+    <delete id="deleteallRoom" parameterType="String">
+    	delete from room where room_no like #{no}
+    </delete>
+    <select id="getRoom" parameterType="String" resultType="roomDTO">
+    	select * from room where room_no=#{no}
+    </select>
+    <select id="getRoom2" parameterType="int" resultType="String">
+    	select MIN(price) from room where hotel_no=#{no} 
+    </select>
+    <update id="updateRoom" parameterType="roomDTO">
+    	update room set name=#{name}, roomsize=#{roomsize}, sleeps=#{sleeps}, item=#{item}, filename=#{filename}, filesize=#{filesize},grade=#{grade} where room_no=#{room_no}
+    </update>
+    
+    <insert id="seqUP" >
+    	insert into seq values(room_seq.nextval)
+    </insert>
+    <select id="seqGET" resultType="int">
+    	select MAX(seq) from seq
+    </select>
+
+    
+</mapper>

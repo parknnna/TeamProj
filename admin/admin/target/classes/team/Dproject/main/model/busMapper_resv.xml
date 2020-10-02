@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.Dproject.bus.busMapper_resv_resv">
+   <select id="listBus_resv"  resultType="BusDTO_resv">
+    	select * from bus order by bus_no
+    </select>
+    <select id="bus_count_resv" resultType="int"><!-- 행의개수 파악 -->
+		select count(*) from bus
+	</select>
+    <insert id="insertBus_resv_resv" parameterType="BusDTO_resv">
+    	insert into bus values(bus_seq.nextval,#{grade},#{seat})
+    </insert>
+    <insert id="insertBus_normal_resv" parameterType="BusDTO_resv">
+    	insert into bus values(bus_seq.nextval,'일반',30)
+    </insert>
+    <delete id="deleteBus_resv_resv" parameterType="String">
+    	delete from bus where bus_no=#{no}
+    </delete>
+    <select id="getBus_resv_resv" parameterType="String" resultType="BusDTO_resv">
+    	select * from bus where bus_no=#{no}
+    </select>
+    <update id="updateBus_resv_resv" parameterType="BusDTO_resv">
+    	update bus set grade=#{grade}, seat=#{seat} where bus_no=#{bus_no}
+    </update>
+    <select id="bus_list_count_resv" parameterType="java.util.Map" resultType="BusDTO_resv">
+    	select * from (select rownum rn,A.* from (select * from bus order by bus_no)A) where rn between #{start} and #{end} 
+    </select>
+    
+</mapper>
