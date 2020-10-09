@@ -343,7 +343,7 @@
 						</tr>
 						<%
 						boolean up=(boolean)request.getAttribute("up");
-						boolean down=(boolean)request.getAttribute("down");  
+						boolean down=(boolean)request.getAttribute("down");   
 						%> 
 						<tr align="center">
 							<td colspan="4">

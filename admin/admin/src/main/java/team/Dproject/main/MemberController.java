@@ -3,27 +3,33 @@ package team.Dproject.main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import team.Dproject.main.model.BoardDTO;
 import team.Dproject.main.model.BusStationDTO_resv;
+import team.Dproject.main.model.Email;
 import team.Dproject.main.model.MemberDTO;
 import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.model.hotelDTO_resv_ysm;
@@ -43,7 +49,6 @@ public class MemberController {
 	@Autowired
 	private MemberMapper memberMapper;
 
-	
 	@Autowired
 	private CommentMapper commentMapper;
 
@@ -51,27 +56,31 @@ public class MemberController {
 	private BoardMapper boardMapper;
 
 	@Autowired
-	private BusStaionMapper_resv busStationMapper; 
+	private BusStaionMapper_resv busStationMapper;
 	@Autowired
 	private HotelMapper hotelMapper;
 	@Autowired
 	private Hotel_boardMapper hotelboardMapper;
+
+	@Autowired
+	private EmailSender emailSender;
+
 
 	@Resource(name = "upLoadPath")
 	private String upLoadPath;
 
 	@RequestMapping(value = "/index.do")
 	public String main(HttpServletRequest req) {
-		List<BusStationDTO_resv> list=busStationMapper.listBus_station_resv();
+		List<BusStationDTO_resv> list = busStationMapper.listBus_station_resv();
 		req.setAttribute("list", list);
-		List<hotelDTO> list2=hotelMapper.listHotel2();
+		List<hotelDTO> list2 = hotelMapper.listHotel2();
 		req.setAttribute("list2", list2);
-		List<BoardDTO> list3=boardMapper.board_list2();
+		List<BoardDTO> list3 = boardMapper.board_list2();
 		req.setAttribute("list3", list3);
-		List<hotel_boardDTO> list4=hotelboardMapper.listHotel_boardup();
+		List<hotel_boardDTO> list4 = hotelboardMapper.listHotel_boardup();
 		req.setAttribute("list4", list4);
 		List<String> hotelList = new ArrayList<String>();
-		for(hotel_boardDTO dto:list4){
+		for (hotel_boardDTO dto : list4) {
 			hotelList.add(hotelMapper.getHotel(String.valueOf(dto.getHotel_no())).getName());
 		}
 		req.setAttribute("hotel", hotelList);
@@ -160,15 +169,15 @@ public class MemberController {
 		return "member/member_input";
 
 	}
-	
-	 @RequestMapping("/idcheck.do")
-	    @ResponseBody
-	    public boolean idcheck(@RequestBody String id, HttpServletRequest req) {
-	        boolean data = memberMapper.idcheck(id);
-	        req.setAttribute("idck", 1);
-	        return data;
-	        
-	    }
+
+	@RequestMapping("/idcheck.do")
+	@ResponseBody
+	public boolean idcheck(@RequestBody String id, HttpServletRequest req) {
+		boolean data = memberMapper.idcheck(id);
+		req.setAttribute("idck", 1);
+		return data;
+
+	}
 
 	@RequestMapping(value = "/member_input_ok.do")
 	public String MemberInputOk(HttpServletRequest req, MemberDTO dto, BindingResult result) {
@@ -187,15 +196,15 @@ public class MemberController {
 				}
 				filename = file.getOriginalFilename();
 				filesize = (int) file.getSize();
-			}else{
-				if(dto.getSex() == 0){
+			} else {
+				if (dto.getSex() == 0) {
 					filename = "male.jpg";
-					
-				}else{
+
+				} else {
 					filename = "female.jpg";
-					
+
 				}
-				
+
 			}
 			dto.setFilename(filename);
 			dto.setFilesize(filesize);
@@ -209,7 +218,7 @@ public class MemberController {
 				url = "index";
 
 			}
-			
+
 		} else {
 			msg = "아이디가 너무 많습니다. 로그인 해주세요.";
 			url = "member_login.do";
@@ -227,7 +236,7 @@ public class MemberController {
 		MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
 		String mode = req.getParameter("mode");
 		List<MemberDTO> list = null;
-		if(dto.getPosition() == 0){
+		if (dto.getPosition() == 0) {
 			if (mode == null) {
 				mode = "all";
 
@@ -252,12 +261,12 @@ public class MemberController {
 			req.setAttribute("memberList", list);
 			req.setAttribute("mode", mode);
 			return "member/member_list";
-			
-		}else{
+
+		} else {
 			req.setAttribute("msg", "관리자만 볼 수 있는 페이지 입니다");
 			req.setAttribute("url", "index");
 			return "message";
-			
+
 		}
 
 	}
@@ -266,11 +275,11 @@ public class MemberController {
 	public String MemberEdit(HttpServletRequest req) {
 		String id = req.getParameter("id");
 		MemberDTO dto = memberMapper.getMember(id);
-		if(dto == null){
+		if (dto == null) {
 			req.setAttribute("msg", "회원 정보가 없습니다");
 			req.setAttribute("url", "member/member_list");
 			return "message";
-			
+
 		}
 		req.setAttribute("dto", dto);
 		return "member/member_edit";
@@ -282,24 +291,25 @@ public class MemberController {
 		String msg = null, url = null, mode = req.getParameter("mode");
 		HttpSession session = req.getSession();
 		String filename = dto.getFilename();
-		int filesize =dto.getFilesize();
-		
-		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+		int filesize = dto.getFilesize();
+
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest) req;
 		MultipartFile file = mr.getFile("new_filename");
 		File target = new File(upLoadPath, file.getOriginalFilename());
-		if (file.getSize() > 0){
-			try{
+		if (file.getSize() > 0) {
+			try {
 				file.transferTo(target);
-				
-			}catch(IOException e){}
+
+			} catch (IOException e) {
+			}
 			filename = file.getOriginalFilename();
-			filesize = (int)file.getSize();
+			filesize = (int) file.getSize();
 			dto.setFilename(filename);
 			dto.setFilesize(filesize);
-		}else if(dto.getFilename() == null){
+		} else if (dto.getFilename() == null) {
 			dto.setFilename("파일없음");
 			dto.setFilesize(0);
-			
+
 		}
 		int res = memberMapper.editMember(dto);
 		if (res > 0) {
@@ -335,43 +345,45 @@ public class MemberController {
 
 	@RequestMapping(value = "/member_mypage.do")
 	public String MemberMypage(HttpServletRequest req) {
-		if((MemberDTO) req.getSession().getAttribute("sedto") == null){
+		if ((MemberDTO) req.getSession().getAttribute("sedto") == null) {
 			req.setAttribute("msg", "로그인 후 이용 가능한 페이지입니다.");
 			req.setAttribute("url", "member_login.do");
 			return "message";
-			
+
 		}
 		return "member/mypage";
 
 	}
-	
+
 	@RequestMapping(value = "/member_search.do")
 	public String MemberSearch(HttpServletRequest req) {
 		MemberDTO dto = (MemberDTO) req.getSession().getAttribute("sedto");
-		if(dto.getPosition() == 0){
+		if (dto.getPosition() == 0) {
 			String mode = req.getParameter("mode");
 			req.setAttribute("mode", mode);
 			return "member/member_search";
-			
-		}else{
+
+		} else {
 			req.setAttribute("msg", "관리자만 볼 수 있는 페이지 입니다");
 			req.setAttribute("url", "index");
 			return "message";
-			
+
 		}
 
 	}
-	
-	
+
 	@RequestMapping(value = "/member_search2.do")
 	public String MemberSearch2(HttpServletRequest req) {
-			String mode = req.getParameter("mode");
-			req.setAttribute("mode", mode);
-			return "member/member_search";
+		String mode = req.getParameter("mode");
+		req.setAttribute("mode", mode);
+		return "member/member_search";
 	}
-
+	@Autowired
+    protected JavaMailSender  mailSender;
+	
+	
 	@RequestMapping(value = "/member_search_ok.do")
-	public String MemberSearchOk(HttpServletRequest req) {
+	public String MemberSearchOk(HttpServletRequest req) throws Exception{
 		String mode = req.getParameter("mode");
 		String searchString = req.getParameter("searchString");
 		String ssn1 = req.getParameter("ssn1");
@@ -383,6 +395,34 @@ public class MemberController {
 		}
 		if (mode.equals("passwd")) {
 			list = memberMapper.searchMemberPasswd(searchString, ssn1, ssn2);
+			String id = list.get(0).getId();
+			String e_mail = list.get(0).getEmail();
+			String pw =list.get(0).getPasswd();
+
+			if (pw != null) {
+				String setfrom = "af777888999@gmail.com";
+				String tomail = e_mail; 
+				String title = id+"님의 비밀번호 찾기"; 
+				String content = id+"님의 비밀번호는 "+pw+"입니다."; 
+
+				try {
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+							true, "UTF-8");
+
+					messageHelper.setFrom(setfrom); 
+					messageHelper.setTo(tomail); 
+					messageHelper.setSubject(title); 
+					messageHelper.setText(content); 
+
+					mailSender.send(message);
+				} catch (Exception e) {
+					System.out.println(e);
+				};
+
+			} else {
+
+			}
 
 		}
 		req.setAttribute("searchList", list);
@@ -391,43 +431,46 @@ public class MemberController {
 
 	}
 
+
+	
+
 	@RequestMapping(value = "/member_delete.do")
 	public String MemberDelete(HttpServletRequest req) {
 		String mode = req.getParameter("mode");
-		if(mode == null){
+		if (mode == null) {
 			mode = "";
-			
+
 		}
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
 		int res = 0;
 		String msg = null, url = null;
-		if(mode.equals("admin")){
+		if (mode.equals("admin")) {
 			res = memberMapper.deleteMember(Integer.parseInt(req.getParameter("member_no")));
-			if(res > 0){
+			if (res > 0) {
 				msg = "회원 삭제 성공! 회원목록으로 이동합니다.";
 				url = "member_list.do";
-				
-			}else{
+
+			} else {
 				msg = "회원 삭제 실패! 회원목록으로 이동합니다.";
 				url = "member_list.do";
-				
+
 			}
-			
-		}else{
+
+		} else {
 			String passwd = req.getParameter("passwd");
-			if(passwd == null){
+			if (passwd == null) {
 				msg = "비밀번호를 입력해주세요.";
 				url = "member_mypage.do";
-				
-			}else if(passwd.equals(dto.getPasswd())){
+
+			} else if (passwd.equals(dto.getPasswd())) {
 				msg = "회원 탈퇴 성공! 메인 페이지로 이동합니다.";
 				url = "index";
-				
-			}else{
+
+			} else {
 				msg = "비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.";
 				url = "member_mypage.do";
-				
+
 			}
 			res = memberMapper.deleteMember(dto.getMember_no());
 			if (res > 0) {
@@ -440,7 +483,7 @@ public class MemberController {
 				url = "index";
 
 			}
-			
+
 		}
 		req.setAttribute("msg", msg);
 		req.setAttribute("url", url);
@@ -458,30 +501,30 @@ public class MemberController {
 		return "member/member_reserve";
 
 	}
-	
+
 	@RequestMapping(value = "/member_reserve_ok.do")
-	public String MemberReserveOk(HttpServletRequest req){
+	public String MemberReserveOk(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		MemberDTO dto = (MemberDTO) session.getAttribute("sedto");
 		String[] value = req.getParameterValues("choose");
 		List<hotelDTO_resv_ysm> hotelList = memberMapper.getHotelReserve(dto.getMember_no());
 		List<hotelDTO_resv_ysm> hList = new ArrayList<hotelDTO_resv_ysm>();
 		int total_price = 0;
-		for(int i = 0 ; i < value.length ; i ++){
-			for(hotelDTO_resv_ysm hdto : hotelList){
-				if(hdto.getHotel_resv_no() == Integer.parseInt(value[i])){
+		for (int i = 0; i < value.length; i++) {
+			for (hotelDTO_resv_ysm hdto : hotelList) {
+				if (hdto.getHotel_resv_no() == Integer.parseInt(value[i])) {
 					hList.add(hdto);
 					total_price += hdto.getPrice();
-					
+
 				}
-				
+
 			}
-			
+
 		}
 		req.setAttribute("List", hList);
 		req.setAttribute("total_price", total_price);
 		return "member/member_reserve_ok";
-		
+
 	}
 
 }

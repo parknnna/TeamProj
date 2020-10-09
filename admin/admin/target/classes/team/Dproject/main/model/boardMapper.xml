@@ -61,7 +61,5 @@
 		select count(*) from main_board where location_no=#{location_no}
 	</select>
 	
-	<!-- <select id="pre_board" parameterType="int">
-		select * from main_board where main_board_no=(select max(main_board_no) from main_board where main_board_no < ?)
-	</select> -->
+	
 </mapper>
