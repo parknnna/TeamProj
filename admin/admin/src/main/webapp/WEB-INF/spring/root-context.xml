@@ -42,12 +42,4 @@
 			</props>
 		</property>
 	</bean>
-
-
-
-	<bean id="email" class="team.Dproject.main.model.Email">
-	</bean>
-	<bean id="emailSender" class="team.Dproject.main.EmailSender">
-	</bean>
-
 </beans>

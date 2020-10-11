@@ -117,6 +117,16 @@ public class MemberMapper {
 		}
 		
 	}
+	
+	
+	public int pwup(String pw,int member_no){
+		java.util.Map<String, Object> map = new java.util.Hashtable<String, Object>();
+		map.put("pw", pw);
+		map.put("member_no", member_no);
+		
+		return sqlSession.update("pwup",map);
+	}
+	
 
 	public MemberDTO getMember(String id) {
 		return sqlSession.selectOne("getMember", id);

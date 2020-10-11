@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
@@ -17,19 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import team.Dproject.main.model.BoardDTO;
 import team.Dproject.main.model.BusStationDTO_resv;
-import team.Dproject.main.model.Email;
+
 import team.Dproject.main.model.MemberDTO;
 import team.Dproject.main.model.hotelDTO;
 import team.Dproject.main.model.hotelDTO_resv_ysm;
@@ -50,9 +47,6 @@ public class MemberController {
 	private MemberMapper memberMapper;
 
 	@Autowired
-	private CommentMapper commentMapper;
-
-	@Autowired
 	private BoardMapper boardMapper;
 
 	@Autowired
@@ -62,8 +56,6 @@ public class MemberController {
 	@Autowired
 	private Hotel_boardMapper hotelboardMapper;
 
-	@Autowired
-	private EmailSender emailSender;
 
 
 	@Resource(name = "upLoadPath")
@@ -395,20 +387,35 @@ public class MemberController {
 		}
 		if (mode.equals("passwd")) {
 			list = memberMapper.searchMemberPasswd(searchString, ssn1, ssn2);
+			if(list.size()==0){
+				req.setAttribute("msg", "등록된 정보가 없습니다");
+				req.setAttribute("url", "member_search2.do?mode="+mode);
+			
+				return "message";
+			}
 			String id = list.get(0).getId();
 			String e_mail = list.get(0).getEmail();
-			String pw =list.get(0).getPasswd();
+			
+			char ch[]={'A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0'
+					,'1','2','3','4','5','6','7','8','9'};
+			String pw="";
+			
+			for(int i=0;i<8;i++){
+				int ran=(int) (Math.random()*ch.length);
+				pw=pw+ch[ran];
+			}
 
+			memberMapper.pwup(pw, list.get(0).getMember_no());
+			
 			if (pw != null) {
 				String setfrom = "af777888999@gmail.com";
 				String tomail = e_mail; 
 				String title = id+"님의 비밀번호 찾기"; 
-				String content = id+"님의 비밀번호는 "+pw+"입니다."; 
+				String content = id+"님의 임시비밀번호는 "+pw+"입니다."; 
 
 				try {
 					MimeMessage message = mailSender.createMimeMessage();
-					MimeMessageHelper messageHelper = new MimeMessageHelper(message,
-							true, "UTF-8");
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
 					messageHelper.setFrom(setfrom); 
 					messageHelper.setTo(tomail); 
@@ -419,8 +426,6 @@ public class MemberController {
 				} catch (Exception e) {
 					System.out.println(e);
 				};
-
-			} else {
 
 			}
 

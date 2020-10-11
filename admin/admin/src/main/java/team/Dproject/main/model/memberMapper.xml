@@ -64,4 +64,8 @@
 	<delete id = "deleteResv" parameterType = "Integer">
 		delete from hotel_resv where hotel_resv_no = #{hotel_resv_no}
 	</delete>
+	
+	<update id="pwup" parameterType="String">
+		update member set passwd=#{pw} where member_no=#{member_no} 
+	</update>
 </mapper>
