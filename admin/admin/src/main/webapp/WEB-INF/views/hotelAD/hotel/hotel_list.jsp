@@ -56,7 +56,13 @@ int cnt=0;
 				<td>${dto.name}</td>
 				<td>${dto.address}</td>
 				<td>${dto.hp1} - ${dto.hp2} - ${dto.hp3}</td>
-				<td>${dto.hotel_info}</td>
+				<td><%
+					String info=dto.get(cnt).getHotel_info();
+					if(info.length()>50){
+						info=dto.get(cnt).getHotel_info().substring(0,50)+"...";
+					}
+				%><%=info %>
+				</td>
 				<td>${dto.star}</td>
 				<c:if test="${dto.filesize != 0}">
 					<td>

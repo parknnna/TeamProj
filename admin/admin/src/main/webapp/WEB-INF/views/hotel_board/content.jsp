@@ -342,8 +342,10 @@
 							<td colspan="3"><textarea rows="15" cols="92" readOnly style="resize: none;">${getBoard.content}</textarea></td>
 						</tr>
 						<%
-						boolean up=(boolean)request.getAttribute("up");
-						boolean down=(boolean)request.getAttribute("down");   
+						String Sbool=(String)request.getAttribute("up");
+						boolean up=Boolean.valueOf(Sbool);
+						Sbool=(String)request.getAttribute("down");
+						boolean down=Boolean.valueOf(Sbool); 
 						%> 
 						<tr align="center">
 							<td colspan="4">
