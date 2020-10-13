@@ -168,7 +168,40 @@ public class MemberController {
 		boolean data = memberMapper.idcheck(id);
 		req.setAttribute("idck", 1);
 		return data;
+	}
+	
+	@RequestMapping("/mailPOST.do")
+	@ResponseBody
+	public String mailPOST(@RequestBody String mail, HttpServletRequest req) {
+		char ch[]={'A','B','C','D','E','F','G','H','J','K','L','M','N','O'
+				,'P','Q','R','S','T','U','V','W','X','Y','Z','0'
+				,'1','2','3','4','5','6','7','8','9'};
+		String data="";
+		
+		for(int i=0;i<6;i++){
+			int ran=(int) (Math.random()*ch.length);
+			data=data+ch[ran];
+		}
+		String setfrom = "af777888999@gmail.com";
+		String tomail = mail; 
+		String title = "Dproject e-mail인증"; 
+		String content = "Dproject 메일 인증 번호는 <h1>"+data+"</h1> 입니다."
+				+ "<br><br>인증번호칸에 입력해주세요"; 
 
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+			messageHelper.setFrom(setfrom); 
+			messageHelper.setTo(tomail); 
+			messageHelper.setSubject(title); 
+			messageHelper.setText(content,true); 
+
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		};
+		return data;
 	}
 
 	@RequestMapping(value = "/member_input_ok.do")

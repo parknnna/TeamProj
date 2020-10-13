@@ -40,38 +40,87 @@ function checkId(){
 	}
 
 }
+var mailtemp;
+function mailPOST(){
+	var mail = document.getElementById("email").value;
+	if(email == ""){
+		alert("e-mail를 입력해 주세요");
+		f.email.focus();
+	}else{
+		$.ajax({
+			async: true,
+	        type : 'POST',
+	        data : mail,
+	        url : "mailPOST.do",
+	        dataType : "text",
+	        contentType: "application/json; charset=UTF-8",
+	        success : function(data) {
+	            if (data) {
+	                alert("해당 이메일로 인증번호가 전송 되었습니다.");
+	                f.eok.focus();
+	                document.getElementById('email').readOnly = true;
+	                mailtemp = data;
+	            }          
+	        },
+	        error:function(request,status,error){
+	            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);       
+			}
+	    });
+	}
+}
+var mailCK=0;
+function tempCK(){
+	var eok = document.getElementById("eok").value;
+	if(eok == ""){
+		alert("인증번호를 입력해 주세요");
+		f.eok.focus();
+	}else{
+		if(eok==mailtemp){
+			alert("인증되었습니다.");
+			mailCK=1;
+		}else{
+			alert("인증번호가 다릅니다.");
+		}
+		
+	}
+}
+
 function check(){
 	if(idck == 1){
-		if(f.name.value == ""){
-			alert("이름을 입력해 주세요");
-			f.name.focus();
-			return;
-			
+		if(mailCK==1){
+			if(f.name.value == ""){
+				alert("이름을 입력해 주세요");
+				f.name.focus();
+				return;
+				
+			}
+			if(f.passwd.value == ""){
+				alert("비밀번호를 입력해 주세요");
+				f.passwd.focus();
+				return
+				
+			}
+			if(f.ssn1.value == ""){
+				alert("주민등록번호를 입력해 주세요");
+				f.ssn1.focus();
+				return;
+				
+			}
+			if(f.ssn2.value == ""){
+				alert("주민등록번호를 입력해 주세요");
+				f.ssn2.focus();
+				return;
+				
+			}
+			if(f.sex.value == ""){
+				alert("성별을 선택해 주세요");
+				return;
+				
+			}
+			document.f.submit();
+		}else{
+			alert("이메일 체크를 해주세요")
 		}
-		if(f.passwd.value == ""){
-			alert("비밀번호를 입력해 주세요");
-			f.passwd.focus();
-			return
-			
-		}
-		if(f.ssn1.value == ""){
-			alert("주민등록번호를 입력해 주세요");
-			f.ssn1.focus();
-			return;
-			
-		}
-		if(f.ssn2.value == ""){
-			alert("주민등록번호를 입력해 주세요");
-			f.ssn2.focus();
-			return;
-			
-		}
-		if(f.sex.value == ""){
-			alert("성별을 선택해 주세요");
-			return;
-			
-		}
-		document.f.submit();
 				
 	}else{
 		alert("아이디 중복체크를 해주세요");
@@ -195,7 +244,13 @@ function reset(){
 						<label class="reg_form" style="float:left">Email</label>
 					</h6>
 					<div class="email">
-						<input type = "text" class="form-control" name = "email">
+						<input type = "text" style="margin-bottom:1px" class="form-control"  name = "email" id = "email">
+						<input type = "button" style="padding:3px;font-size:12px;float:right;background:#e9e9e9;border:1px solid #fff;border-radius:5px;" value = "인증번호 보내기" onClick = "javascript:mailPOST()">
+					<h6 class="category">
+						<label class="reg_form" style="float:left">Email인증번호</label>
+					</h6>	
+						<input type = "text" style="margin-bottom:1px" class="form-control"  name = "eok" id = "eok">
+						<input type = "button" style="padding:3px;font-size:12px;float:right;background:#e9e9e9;border:1px solid #fff;border-radius:5px;" value = "인증 확인" onClick = "javascript:tempCK()">
 					</div>		
 				</div>		
 				

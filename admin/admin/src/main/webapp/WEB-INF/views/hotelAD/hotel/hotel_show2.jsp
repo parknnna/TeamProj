@@ -235,6 +235,7 @@ int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
   th, td {
     border-bottom: 1px solid #444444;
     padding: 10px;
+    width:50%;
   }
 </style>
 <% hotelDTO dto = (hotelDTO)request.getAttribute("dto");

@@ -53,7 +53,7 @@ int cnt=0;
 		<c:forEach var="dto" items="${list}">
 			<tr style="text-align:center;">
 				<td>${dto.hotel_no}</td>
-				<td>${dto.name}</td>
+				<td><a href="hotel_show.do?hnum=${dto.hotel_no }">${dto.name}</a></td>
 				<td>${dto.address}</td>
 				<td>${dto.hp1} - ${dto.hp2} - ${dto.hp3}</td>
 				<td><%
